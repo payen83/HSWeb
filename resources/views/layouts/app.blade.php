@@ -100,11 +100,10 @@
                                  <li>
                                     <a href="joblist.html"><i class="si si-layers"></i><span class="sidebar-mini-hide">Job List</span></a>
                                 </li>
-                                 @if(Auth::user()->role=='SuperAdmin')
                                  <li>
                                     <a href="#user"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>
                                 </li>
-                                @endif
+                              
                                   <li>
                                     <a href="withdraw.html"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Withdraw</span></a>
                                 </li>
@@ -166,7 +165,7 @@
 
            
             <!-- Main Container -->
-           
+           @yield('content')
             <!-- END Main Container -->
 
             <!-- Footer -->
@@ -191,6 +190,19 @@
         <script src="assets/js/core/jquery.placeholder.min.js"></script>
         <script src="assets/js/core/js.cookie.min.js"></script>
         <script src="assets/js/app.js"></script>
+
+         <!-- Page JS Plugins -->
+        <script src="{{'assets/js/plugins/datatables/jquery.dataTables.min.js'}}"></script>
+
+        <!-- Page JS Code -->
+        <script src="{{'assets/js/pages/base_tables_datatables.js'}}"></script>
+
+        <!-- Page Plugins -->
+        <script src="{{'assets/js/plugins/jquery-raty/jquery.raty.min.js'}}"></script>
+
+        <!-- Page JS Code -->
+        <script src="{{'assets/js/pages/base_comp_rating.js'}}"></script>
+
 
        
     </body>

@@ -14,7 +14,7 @@
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
-        if (Auth::user()->role == 'SuperAdmin')
+        if (Auth::user()->role == 'Super Admin')
             return view('layouts.app');
         elseif (Auth::user()->role == 'Admin')
             return redirect('admin');

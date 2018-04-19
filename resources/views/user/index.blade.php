@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
  <!-- Main Container -->
             <main id="main-container">
                 
@@ -36,12 +39,13 @@
                                             <td class="hidden-xs hidden-sm">{{$user->email}}</td>
                                             <td class="hidden-xs hidden-sm">{{$user->role}}</td>
                                             <td align="center">
-                                            <td><div class="js-rating" data-score="3"></div></td>
                                             {!!$user->status?"<i  style='color:green' class='glyphicon glyphicon-ok'></i>":"<i style='color: red'class='glyphicon glyphicon-remove'></i>"!!}
                                             </td>
+                                             <td><div class="js-rating" data-score="3"></div></td>
                                             <td class="text-center">
-                                            <a href="{{route('viewEditUser',['id'=>$user->id])}}">edit<i class="splashy-document_letter_edit" data-toggle="tooltip" data-placement="top" data-title="Update"></i></a>
-                                            <a href="#delete{{$user->id}}" data-toggle="modal"><i class="splashy-document_letter_remove" data-toggle="tooltip"data-placement="bottom" data-title="Remove"></i>delete</a></td>
+                                            <a href="{{route('viewEditUser',['id'=>$user->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
+                                                 
+                                            <a href="#delete{{$user->id}}" data-toggle="modal"><button class="btn btn-xs btn-danger push-5-r push-10" type="button" onclick="return myFunction()"><i class="fa fa-times"></i> Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -91,15 +95,6 @@
          }
         </script>
 
-        <!-- Page JS Plugins -->
-        <script src="assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
-
-        <!-- Page JS Code -->
-        <script src="assets/js/pages/base_tables_datatables.js"></script>
-
-        <!-- Page Plugins -->
-        <script src="assets/js/plugins/jquery-raty/jquery.raty.min.js"></script>
-
-        <!-- Page JS Code -->
-        <script src="assets/js/pages/base_comp_rating.js"></script>
+      
+@endsection 
  
