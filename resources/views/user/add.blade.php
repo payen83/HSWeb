@@ -7,9 +7,7 @@
                 <div class="content bg-gray-lighter">
                     <div class="row items-push">
                         <div class="col-sm-7">
-                            <h1 class="page-heading">
-                                User Management
-                            </h1>
+                            
                         </div>
                         <div class="col-sm-5 text-right hidden-xs">
                             <ol class="breadcrumb push-10-t">
@@ -75,7 +73,7 @@
                                             <label class="col-md-4 control-label" for="val-password">Password <span class="text-danger">*</span></label>
                                             <div class="col-md-7">
                                                 <!--<input class="form-control" type="password" id="val-password" name="val-password" placeholder="Choose a good pasword">-->
-                                                {{Form ::text('password',null,['class'=>'form-control','rows'=>'6'])}}
+                                                 {!! Form::password("password",null,["class"=>"form-control",'rows'=>'6']) !!}
                                             </div>
                                         </div>
                                       
@@ -119,5 +117,4 @@
                 <!-- END Page Content -->
             </main>
             <!-- END Main Container -->
-
 @endsection 

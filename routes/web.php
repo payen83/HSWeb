@@ -14,10 +14,9 @@
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
-        if (Auth::user()->role == 'Super Admin')
+        if (Auth::user()->role == 'Super Admin' or 'Admin')
             return view('layouts.app');
-        elseif (Auth::user()->role == 'Admin')
-            return redirect('admin');
+      
         else
             return redirect('error');
     });
@@ -27,8 +26,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'user'], function () {
         Route::get('/', 'UserController@index');
+        Route::delete('delete/{id}', 'UserController@delete');
        
   });
+
 
      Route::get('/user', [
         'as' => 'viewUser',

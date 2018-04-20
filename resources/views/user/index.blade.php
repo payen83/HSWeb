@@ -3,6 +3,21 @@
 @section('content')
  <!-- Main Container -->
             <main id="main-container">
+                <!-- Page Header -->
+                <div class="content bg-gray-lighter">
+                    <div class="row items-push">
+                        <div class="col-sm-7">
+                            
+                        </div>
+                        <div class="col-sm-5 text-right hidden-xs">
+                            <ol class="breadcrumb push-10-t">
+                                <li>User Management</li>
+                                <li><a class="link-effect" href="#">User Details</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Page Header -->
                 
                 <!-- Page Content -->
                 <div class="content">
@@ -12,7 +27,7 @@
                             <ul class="block-options">
                             <a href="{{route('viewAddUser')}}"<button class="btn btn-success push-5-r push-10" type="button"><i class="fa fa-plus"></i> Add User</button></a>
                             </ul>
-                            <h3 class="block-title">User Management</h3>
+                            <h3 class="block-title">User Details</h3>
                         </div>
                         <div class="block-content">
                             <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
@@ -31,23 +46,26 @@
                                 </thead>
                                 <tbody>
                                      <?php $i = 1;?>
-                                        @foreach($users as $key=>$user)
+                                        @foreach($users as $key=>$data)
                                         
                                         <tr>
                                             <td align="center">{{$i++}}</td>
-                                            <td class="">{{$user->name}}</td>
-                                            <td class="hidden-xs hidden-sm">{{$user->email}}</td>
-                                            <td class="hidden-xs hidden-sm">{{$user->role}}</td>
+                                            <td class="">{{$data->name}}</td>
+                                            <td class="hidden-xs hidden-sm">{{$data->email}}</td>
+                                            <td class="hidden-xs hidden-sm">{{$data->role}}</td>
                                             <td align="center">
-                                            {!!$user->status?"<i  style='color:green' class='glyphicon glyphicon-ok'></i>":"<i style='color: red'class='glyphicon glyphicon-remove'></i>"!!}
+                                            {!!$data->status?"<i  style='color:green' class='glyphicon glyphicon-ok'></i>":"<i style='color: red'class='glyphicon glyphicon-remove'></i>"!!}
                                             </td>
                                              <td><div class="js-rating" data-score="3"></div></td>
                                             <td class="text-center">
-                                            <a href="{{route('viewEditUser',['id'=>$user->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
+                                            <a href="{{route('viewEditUser',['id'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
                                                  
-                                            <a href="#delete{{$user->id}}" data-toggle="modal"><button class="btn btn-xs btn-danger push-5-r push-10" type="button" onclick="return myFunction()"><i class="fa fa-times"></i> Delete</button>
+                                            <a href="javascript:if(confirm('Are you sure want to delete?')) ajaxDelete('user/delete/{{$data->id}}','{{csrf_token()}}')"><button class="btn btn-xs btn-danger push-5-r push-10" type="button"><i class="fa fa-times"></i> Delete</button>
                                             </td>
                                         </tr>
+                                        {{Form::open(['route'=>['editUser','id'=>$data->id],'method'=>'post'])}}
+                                        @include('notification.delete-modal')
+                                        {{Form::close()}}
                                         @endforeach
                                 </tbody>
                             </table>
@@ -58,15 +76,7 @@
                     </div>
                     <!-- END My Block -->
                 </div>
-                 <!-- Footer -->
-            <footer id="page-footer" class="content-mini content-mini-full font-s12 bg-gray-lighter clearfix">
-                <div class="pull-right">
-                    ElyzianInteractive@2018
-                </div>
-               
-            </footer>
-            <!-- END Footer -->
-                <!-- END Page Content -->
+        
             </main>
             <!-- END Main Container -->
 
@@ -80,20 +90,6 @@
         <script src="assets/js/core/jquery.placeholder.min.js"></script>
         <script src="assets/js/core/js.cookie.min.js"></script>
         <script src="assets/js/app.js"></script>
-
-          <script>
-        function myFunction() {
-        var r = confirm('Are you sure want to delete record ?');
-        
-        if (r == true){
-            document.frmdelete.submit();
-            return true;
-        }
-        
-        else
-            return false;
-         }
-        </script>
 
       
 @endsection 

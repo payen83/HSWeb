@@ -14,7 +14,7 @@ class UserController extends Controller
 {
 	public function viewUser()
     {
-        $users = User::getList();
+        $users = User::all();
         return view('user.index', compact('users'));
     }
 
@@ -24,11 +24,21 @@ class UserController extends Controller
         return view('user.add');
     }
 
-    public function addUser(Request $request)
+    public function addUser()
     {
-         $input = $request->all();
-         $data = User::create($input);
+     
+         $user = new User;
+
+         $user->name = Input::get('name');
+         $user->email = Input::get('email');
+         $user->password = bcrypt(Input::get('password'));
+         $user->role = Input::get('role');
+         $user->status = Input::get('status') ? 1 : 0;
+         $user->save();
          return redirect()->route('viewUser');
+
+    
+      
     }
 
     public function viewEditUser($id)
@@ -40,16 +50,32 @@ class UserController extends Controller
         
     }
 
-    public function editUser(Request $request, $id)
-    {
-        $input = $request->all();
+   public function editUser(Request $request, $id) {
 
+        if ($request->isMethod('get'))
+        return view('user.edit', ['user' => User::find($id)]);
+       
+        $user = User::find($id);
         if (isset($input['delete'])) {
-            $input['status'] = '0';
-        }
+            $input['status'] == '0';
 
-        $update = User::find($id);
-        $update->update($input);
-         return redirect()->route('viewUser');
+        }
+       
+        $user->name = Input::get('name');
+        $user->email = Input::get('email');
+        if (Input::get('password') != '')
+            $user->password = bcrypt(Input::get('password'));
+        $user->role = Input::get('role');
+        $user->status = Input::get('status') ? 1 : 0;
+        $user->save();
+        return redirect()->route('viewUser');
     }
+
+      public function delete($id)
+    {
+        User::destroy($id);
+        return redirect()->route('viewUser');
+    }
+
+    
 }
