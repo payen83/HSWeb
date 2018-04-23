@@ -95,13 +95,13 @@
                                     <a class="active" href="homepage.html"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
                                 </li>
                                 <li>
-                                    <a href="product.html"><i class="si si-handbag"></i><span class="sidebar-mini-hide">Product</span></a>
+                                    <a href="{{route('viewProduct')}}"><i class="si si-handbag"></i><span class="sidebar-mini-hide">Product</span></a>
                                 </li>
                                  <li>
                                     <a href="joblist.html"><i class="si si-layers"></i><span class="sidebar-mini-hide">Job List</span></a>
                                 </li>
                                  <li>
-                                    <a href="#user"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>
+                                    <a href="{{route('viewUser')}}"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>
                                 </li>
                               
                                   <li>

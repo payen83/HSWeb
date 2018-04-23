@@ -56,11 +56,7 @@ class UserController extends Controller
         return view('user.edit', ['user' => User::find($id)]);
        
         $user = User::find($id);
-        if (isset($input['delete'])) {
-            $input['status'] == '0';
-
-        }
-       
+        
         $user->name = Input::get('name');
         $user->email = Input::get('email');
         if (Input::get('password') != '')
