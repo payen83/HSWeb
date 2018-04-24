@@ -85,7 +85,7 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-select2">Active</label>
                                             <div class="col-md-7">
-                                                   {!! Form::checkbox("status",$data->status,["style"=>"width:25px;height:25px"]) !!}
+                                                    {!! Form::checkbox("status",$data->status,1,null,["style"=>"width:25px;height:25px"]) !!}
                                                 
                                             </div>
                                        </div>

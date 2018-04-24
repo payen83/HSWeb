@@ -98,7 +98,7 @@
                                     <a href="{{route('viewProduct')}}"><i class="si si-handbag"></i><span class="sidebar-mini-hide">Product</span></a>
                                 </li>
                                  <li>
-                                    <a href="joblist.html"><i class="si si-layers"></i><span class="sidebar-mini-hide">Job List</span></a>
+                                    <a href="{{route('viewJoblist')}}"><i class="si si-layers"></i><span class="sidebar-mini-hide">Job List</span></a>
                                 </li>
                                  <li>
                                     <a href="{{route('viewUser')}}"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>

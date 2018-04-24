@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'user'], function () {
         Route::get('/', 'UserController@index');
-        Route::delete('delete/{id}', 'UserController@delete');
+        //Route::delete('delete/{id}', 'UserController@delete');
        
   });
 
@@ -52,6 +52,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/user/edit/{id}', [
         'uses' => 'UserController@editUser',
         'as' => 'editUser'
+    ]);
+
+    Route::post('/user/delete/{id}', [
+      'uses' => 'UserController@delete',
+      'as' => 'delete'
     ]);
 
     Route::patch('/user/update/{id}', [
@@ -104,6 +109,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/Inventory/ed-inventory/{id}', [
         'uses' => 'ProductController@editInventoryProduct',
         'as' => 'editInventoryProduct'
+    ]);
+
+
+     Route::get('/joblist', [
+        'as' => 'viewJoblist',
+        'uses' => 'JoblistController@viewJoblist'
     ]);
 
 });

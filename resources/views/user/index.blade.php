@@ -40,7 +40,6 @@
                                         <th class="hidden-xs">Email</th>
                                         <th class="hidden-xs" style="width: 15%;">Role</th>
                                         <th class="hidden-xs" style="width: 15%;">Status</th>
-                                        <th class="hidden-xs" style="width: 15%;">Ratings</th>
                                         <th class="text-center" style="width: 20%;">Actions</th>
                                     </tr>
                                 </thead>
@@ -56,16 +55,15 @@
                                             <td align="center">
                                             {!!$data->status?"<i  style='color:green' class='glyphicon glyphicon-ok'></i>":"<i style='color: red'class='glyphicon glyphicon-remove'></i>"!!}
                                             </td>
-                                             <td><div class="js-rating" data-score="3"></div></td>
                                             <td class="text-center">
                                             <a href="{{route('viewEditUser',['id'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
                                                  
-                                            <a href="javascript:if(confirm('Are you sure want to delete?')) ajaxDelete('user/delete/{{$data->id}}','{{csrf_token()}}')"><button class="btn btn-xs btn-danger push-5-r push-10" type="button"><i class="fa fa-times"></i> Delete</button>
+                                            <a href="javascript:if(confirm('Are you sure want to delete?')) ajaxDelete('{{route('delete',['id'=>$data->id])}}','{{csrf_token()}}')"><button class="btn btn-xs btn-danger push-5-r push-10" type="button"><i class="fa fa-times"></i> Delete</button>
                                             </td>
                                         </tr>
-                                        {{Form::open(['route'=>['editUser','id'=>$data->id],'method'=>'post'])}}
+                                        <!--{{Form::open(['route'=>['editUser','id'=>$data->id],'method'=>'post'])}}
                                         @include('notification.delete-modal')
-                                        {{Form::close()}}
+                                        {{Form::close()}}-->
                                         @endforeach
                                 </tbody>
                             </table>

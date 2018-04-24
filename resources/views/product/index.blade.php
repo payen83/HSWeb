@@ -40,11 +40,13 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center"></th>
-                                        <th class="hidden-xs">Product Name</th>
+                                        <th class="text-center">Product Name</th>
                                         <th class="hidden-xs">Description</th>
-                                        <th class="hidden-xs" style="width: 15%;">Price</th>
-                                        <th class="hidden-xs" style="width: 15%;">Image</th>
-                                        <th class="text-center" style="width: 27%;">Action</th>
+                                        <th class="hidden-xs" >Price</th>
+                                        <th class="hidden-xs" >Image</th>
+                                        <th class="text-center" >Quant/Pack</th>
+                                        <th class="text-center" >Discount (%)</th>
+                                        <th class="text-center" style="width: 35%;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,6 +58,8 @@
                                         <td class="hidden-xs" width="350" height="30">{{$data->Description}}</td>
                                         <td class="hidden-xs">{{$data->Price}}</td>
                                         <td class="hidden-xs"><img src="http://localhost:90/HealthShopper/public/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></td>
+                                         <td class="hidden-xs">{{$data->QuantityPerPackage}}</td>
+                                          <td class="hidden-xs">{{$data->Discount*100}}</td>
                                         <td class="text-center">
                                             <div class="btn-group">
                                                 <a href="{{route('viewEditProduct',['id'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>

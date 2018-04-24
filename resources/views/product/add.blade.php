@@ -94,15 +94,35 @@
                                             <br>
                                        </div>
                                        
+                                </div>
+                            </div>
+                            <!-- Bootstrap Forms Validation -->
+                        </div>
+                    </div>
+                    <!-- END My Block -->
+                </div>
+                <!-- END Page Content -->
 
-
+                   <!-- Page Content -->
+                <div class="content">
+                    <!-- My Block -->
+                    <div class="block">
+                        <div class="block-header">
+                            
+                            <h3 class="block-title">Agent Package Details</h3>
+                        </div>
+                        <div class="block-content">
+                           <!-- Page Content -->
+                <div class="content content-narrow">
+                    <!-- Forms Row -->
+                    <div class="row">
+                        <div class="col-lg-15">
+                            <div class="block">
+                                
+                                <div class="block-content block-content-narrow">
+                                   
                                         <div class="form-group">
-                                            <h3 class="block-title">DETAILS PRODUCT PACKAGE</h3>  
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-price">Quantity/Package</label>
+                                            <label class="col-md-4 control-label" for="val-price">Quantity Per Package</label>
                                           
                                             <div class="col-md-7">
                                                 {{Form ::text('QuantityPerPackage',null,['class'=>'form-control','rows'=>'6'])}}
@@ -112,11 +132,11 @@
 
 
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-price">Discount</label>
+                                            <label class="col-md-4 control-label" for="val-price">Discount (%)</label>
                                            <br>
                                             <div class="col-md-7">
                                                 {{Form ::text('Discount',null,['class'=>'form-control','rows'=>'6'])}}
-                                                <span class="text-danger">Example : 0.30 for 30%</span>
+                                               
                                             </div>
                                             <br>
                                         </div>
@@ -138,7 +158,6 @@
                     </div>
                     <!-- END My Block -->
                 </div>
-                <!-- END Page Content -->
             </main>
             <!-- END Main Container -->
 @endsection 

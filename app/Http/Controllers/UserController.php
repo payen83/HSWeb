@@ -52,25 +52,37 @@ class UserController extends Controller
 
    public function editUser(Request $request, $id) {
 
+         if (isset($request['delete'])) {
+            User::destroy($id);
+        }
+
+
         if ($request->isMethod('get'))
         return view('user.edit', ['user' => User::find($id)]);
-       
-        $user = User::find($id);
         
+        $user = User::find($id);
         $user->name = Input::get('name');
         $user->email = Input::get('email');
         if (Input::get('password') != '')
             $user->password = bcrypt(Input::get('password'));
         $user->role = Input::get('role');
-        $user->status = Input::get('status') ? 1 : 0;
+        $user->status = Input::get('status')? 1 : 0;
         $user->save();
         return redirect()->route('viewUser');
     }
 
-      public function delete($id)
+     // public function deleteUser($id)
+    //{
+        //User::destroy($id);
+        //DB::table('users')->where('id', $id)->delete();
+        //return redirect()->route('viewUser');
+
+    //}
+
+     public function delete($id)
     {
         User::destroy($id);
-        return redirect()->route('viewUser');
+        return redirect('user');
     }
 
     

@@ -40,7 +40,7 @@ class ProductController extends Controller
          $product->Description = Input::get('Description');
          $product->ImageURL = $filename;
          $product->QuantityPerPackage = Input::get('QuantityPerPackage');
-         $product->Discount = Input::get('Discount');
+         $product->Discount = Input::get('Discount')/100;
          $product->save();
          return redirect()->route('viewProduct')->with('status', 'Product Uploaded');
 
@@ -76,12 +76,18 @@ class ProductController extends Controller
         //delete oldpicture
         Storage::disk('public')->delete("upload/images/$oldFilename.jpg");
         }
+
+        else{
+            $filename=$product->ImageURL;
+        }
         
         $product->id = Input::get('id');
         $product->Name = Input::get('Name');
         $product->Description = Input::get('Description');
         $product->Price = Input::get('Price');
         $product->ImageURL = $filename;
+        $product->QuantityPerPackage = Input::get('QuantityPerPackage');
+        $product->Discount = Input::get('Discount')/100;
         $product->save();
          //$product->save($request->all());
          return redirect()->route('viewProduct');
