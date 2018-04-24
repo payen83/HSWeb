@@ -54,11 +54,10 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'editUser'
     ]);
 
-    Route::post('/user/delete/{id}', [
+    Route::delete('/user/delete/{id}', [
       'uses' => 'UserController@delete',
       'as' => 'delete'
     ]);
-
     Route::patch('/user/update/{id}', [
         'as' => 'updateUser',
         'uses' => 'UserController@updateUser'
@@ -88,6 +87,12 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'editProduct'
     ]);
 
+
+    Route::delete('/product/delete/{id}', [
+      'uses' => 'ProductController@delete',
+      'as' => 'delete'
+    ]);
+
     Route::get('/product/assign/{id}', [
         'uses' => 'ProductController@viewAssignProduct',
         'as' => 'viewAssignProduct'
@@ -109,6 +114,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/Inventory/ed-inventory/{id}', [
         'uses' => 'ProductController@editInventoryProduct',
         'as' => 'editInventoryProduct'
+    ]);
+
+    Route::delete('/Inventory/delete/{id}', [
+      'uses' => 'ProductController@deleteInventory',
+      'as' => 'deleteInventory'
     ]);
 
 

@@ -93,6 +93,12 @@ class ProductController extends Controller
          return redirect()->route('viewProduct');
     }
 
+      public function delete($id)
+    {
+        Product::destroy($id);
+        return redirect('product');
+    }
+
      public function viewAssignProduct($id)
     {
         
@@ -149,6 +155,12 @@ class ProductController extends Controller
         //$update = Inventory::find($id);
         //$update->update($input);
         return redirect()->route('viewInventory');
+    }
+
+      public function deleteInventory($id)
+    {
+        Inventory::destroy($id);
+        return redirect('Inventory');
     }
 
   

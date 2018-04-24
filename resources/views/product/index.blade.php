@@ -63,7 +63,7 @@
                                         <td class="text-center">
                                             <div class="btn-group">
                                                 <a href="{{route('viewEditProduct',['id'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
-                                                <button class="btn btn-xs btn-danger push-5-r push-10" type="button" onclick="return myFunction()"><i class="fa fa-times"></i> Delete</button>
+                                               
                                                 <a href="{{route('viewAssignProduct',['id'=>$data->id])}}" <button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-list-ul"></i> Assign</button></a>
                                             </div>
                                         </td>
@@ -84,4 +84,5 @@
          
         </div>
         <!-- END Page Container -->
+
 @endsection 

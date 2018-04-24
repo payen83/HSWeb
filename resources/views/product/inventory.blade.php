@@ -55,7 +55,11 @@
                                         <td class="text-center">
                                             <div class="btn-group">
                                                 <a href="{{route('viewEditInvProduct',['id'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
-                                                <button class="btn btn-xs btn-danger push-5-r push-10" type="button" onclick="return myFunction()"><i class="fa fa-times"></i> Delete</button>
+                                                <form name ="frmdelete" action="{{route('deleteInventory',['id'=>$data->id])}}" method="POST">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <button type="submit" class="btn btn-xs btn-danger push-5-r push-10" onclick="return myFunction()"><i class="fa fa-times"></i> Delete</button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -80,4 +84,18 @@
                 <!-- END Page Content -->
             </main>
             <!-- END Main Container -->
+
+        <script>
+        function myFunction() {
+        var r = confirm('Are you sure want to delete record ?');
+        
+        if (r == true){
+            document.frmdelete.submit();
+            return true;
+        }
+        
+        else
+            return false;
+         }
+        </script>
 @endsection 

@@ -40,7 +40,7 @@
                                         <th class="hidden-xs">Email</th>
                                         <th class="hidden-xs" style="width: 15%;">Role</th>
                                         <th class="hidden-xs" style="width: 15%;">Status</th>
-                                        <th class="text-center" style="width: 20%;">Actions</th>
+                                        <th class="text-center" style="width: 15%;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,7 +58,11 @@
                                             <td class="text-center">
                                             <a href="{{route('viewEditUser',['id'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
                                                  
-                                            <a href="javascript:if(confirm('Are you sure want to delete?')) ajaxDelete('{{route('delete',['id'=>$data->id])}}','{{csrf_token()}}')"><button class="btn btn-xs btn-danger push-5-r push-10" type="button"><i class="fa fa-times"></i> Delete</button>
+                                            <form name ="frmdelete" action="{{route('delete',['id'=>$data->id])}}" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <button type="submit" class="btn btn-xs btn-danger push-5-r push-10" onclick="return myFunction()"><i class="fa fa-times"></i> Delete</button>
+                                            </form>
                                             </td>
                                         </tr>
                                         <!--{{Form::open(['route'=>['editUser','id'=>$data->id],'method'=>'post'])}}
@@ -88,6 +92,20 @@
         <script src="assets/js/core/jquery.placeholder.min.js"></script>
         <script src="assets/js/core/js.cookie.min.js"></script>
         <script src="assets/js/app.js"></script>
+
+        <script>
+        function myFunction() {
+        var r = confirm('Are you sure want to delete record ?');
+        
+        if (r == true){
+            document.frmdelete.submit();
+            return true;
+        }
+        
+        else
+            return false;
+         }
+        </script>
 
       
 @endsection 

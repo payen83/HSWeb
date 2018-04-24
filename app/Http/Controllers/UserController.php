@@ -52,7 +52,7 @@ class UserController extends Controller
 
    public function editUser(Request $request, $id) {
 
-         if (isset($request['delete'])) {
+        if (isset($request['delete'])) {
             User::destroy($id);
         }
 

@@ -1,4 +1,4 @@
-<div class="modal fade" id="delete{{$data->id}}" >
+<div class="modal fade" id="delete{{$data->id}} " >
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-body text-center">

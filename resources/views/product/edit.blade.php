@@ -26,23 +26,7 @@
                     <!-- My Block -->
                     <div class="block">
                         <div class="block-header">
-                            <ul class="block-options">
-                                <li>
-                                    <button type="button"><i class="si si-settings"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="close"><i class="si si-close"></i></button>
-                                </li>
-                            </ul>
+                            
                             <h3 class="block-title">EDIT PRODUCT DETAILS</h3>
                         </div>
                         <div class="block-content">
@@ -52,6 +36,13 @@
                     <div class="row">
                         <div class="col-lg-15">
                             <div class="block">
+                                <ul class="block-options">
+                                 <form name ="frmdelete" action="{{route('delete',['id'=>$data->id])}}" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <button type="submit" class="btn btn-xs btn-danger push-5-r push-10" onclick="return myFunction()"><i class="fa fa-times"></i> DELETE PRODUCT</button>
+                                 </form>
+                                 </ul>
                                 
                                 <div class="block-content block-content-narrow">
                                     <!-- jQuery Validation (.js-validation-bootstrap class is initialized in js/pages/base_forms_validation.js) -->
@@ -160,4 +151,18 @@
                 <!-- END Page Content -->
             </main>
             <!-- END Main Container -->
+
+        <script>
+        function myFunction() {
+        var r = confirm('Are you sure want to delete record ?');
+        
+        if (r == true){
+            document.frmdelete.submit();
+            return true;
+        }
+        
+        else
+            return false;
+         }
+        </script>
 @endsection 
