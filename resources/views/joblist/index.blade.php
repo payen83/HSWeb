@@ -58,7 +58,7 @@
                                         <th class="text-center" style="width: 100px;">Agent Email</th>
                                         <th class="visible-lg">Order Number</th>
                                         <th>Status</th>
-                                        <th class="hidden-xs text-center">Date</th>
+                                        <th class="hidden-xs text-center">Date/Time</th>
                                         <th class="hidden-xs text-right">Total Price</th>
                                         <th class="text-center" style="width: 23%;">Action</th>
                                     </tr>
@@ -73,13 +73,13 @@
                                             </a>
                                         </td>
                                         <td class="hidden-xs text-center">{{$data->agent_email}}</td>
-                                         <td class="hidden-xs text-center">ORD1234</td>
+                                         <td class="hidden-xs text-center">{{$data->OrderID}}</td>
                                         <td>
-                                            <span class="label label-success">Delivered</span>
+                                            <span class="label label-success">{{$data->job_status}}</span>
                                         </td>
-                                        <td class="hidden-xs text-center">02/02/2018</td>
+                                        <td class="hidden-xs text-center">{{$data->created_at}}</td>
                                         <td class="text-right hidden-xs">
-                                            <strong>{{$data->total_price}}</strong>
+                                            <strong>RM {{$data->total_price}}</strong>
                                         </td>
                                          <td class="text-center">
                                             <div class="btn-group">
