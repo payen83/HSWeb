@@ -56,18 +56,17 @@
                                             {!!$data->status?"<i  style='color:green' class='glyphicon glyphicon-ok'></i>":"<i style='color: red'class='glyphicon glyphicon-remove'></i>"!!}
                                             </td>
                                             <td class="text-center">
-                                            <a href="{{route('viewEditUser',['id'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
-                                                 
+                                           
+                                            
                                             <form name ="frmdelete" action="{{route('delete',['id'=>$data->id])}}" method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                             <a href="{{route('viewEditUser',['id'=>$data->id])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i> View</button></a>    
                                             <button type="submit" class="btn btn-xs btn-danger push-5-r push-10" onclick="return myFunction()"><i class="fa fa-times"></i> Delete</button>
                                             </form>
                                             </td>
                                         </tr>
-                                        <!--{{Form::open(['route'=>['editUser','id'=>$data->id],'method'=>'post'])}}
-                                        @include('notification.delete-modal')
-                                        {{Form::close()}}-->
+                                       
                                         @endforeach
                                 </tbody>
                             </table>

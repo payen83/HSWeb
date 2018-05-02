@@ -1,33 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>HealthShoppe Website Login</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->  
-    <link rel="icon" type="image/png" href="{{'loginterface/images/icons/favicon.ico'}}"/>
-<!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="{{'loginterface/vendor/bootstrap/css/bootstrap.min.css'}}">
-<!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="{{'loginterface/fonts/font-awesome-4.7.0/css/font-awesome.min.css'}}">
-<!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="{{'loginterface/vendor/animate/animate.css'}}">
-<!--===============================================================================================-->  
-    <link rel="stylesheet" type="text/css" href="{{'loginterface/vendor/css-hamburgers/hamburgers.min.css'}}">
-<!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="{{'loginterface/vendor/select2/select2.min.css'}}">
-<!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="{{'loginterface/css/util.css'}}">
-    <link rel="stylesheet" type="text/css" href="{{'loginterface/css/main.css'}}">
-<!--===============================================================================================-->
-</head>
-<body>
-    
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100">
+@extends('layouts.base')
+
+@section('basecontent')
+
+ <div class="wrap-login100">
                 <div class="login100-pic js-tilt" data-tilt>
-                    <img src="loginterface/images/logo.png" alt="IMG">
+                    <img src="{{ asset('loginterface/images/logo.png') }}" alt="IMG">
                 </div>
 
                 <form class="login100-form validate-form" method="POST" action="{{ route('login') }}">
@@ -76,29 +53,5 @@
                         </a>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-    
-    
-
-    
-<!--===============================================================================================-->  
-    <script src="{{ 'loginterface/vendor/jquery/jquery-3.2.1.min.js'}}"></script>
-<!--===============================================================================================-->
-    <script src="{{ 'loginterface/vendor/bootstrap/js/popper.js' }}"></script>
-    <script src="{{ 'loginterface/vendor/bootstrap/js/bootstrap.min.js' }}"></script>
-<!--===============================================================================================-->
-    <script src="{{ 'loginterface/vendor/select2/select2.min.js' }}"></script>
-<!--===============================================================================================-->
-    <script src="{{ 'loginterface/vendor/tilt/tilt.jquery.min.js' }}"></script>
-    <script >
-        $('.js-tilt').tilt({
-            scale: 1.1
-        })
-    </script>
-<!--===============================================================================================-->
-    <script src="{{ 'loginterface/js/main.js' }}"></script>
-
-</body>
-</html>
+             </div>
+  @endsection

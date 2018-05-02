@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.base')
 
-@section('content')
+@section('basecontent')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -33,7 +33,8 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <a href="{{route('login')}}" <button class="btn btn-sm btn-danger" type="submit">Back</button></a>
+                                <button type="submit" class="btn btn-sm btn-primary">
                                     {{ __('Send Password Reset Link') }}
                                 </button>
                             </div>

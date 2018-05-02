@@ -7,8 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Orders extends Model
 {
      protected $fillable = [
-        'OrderID', 'productID', 'product_quantity',  'total_price', 'created_at', 'update_at',  'job_rating',
+        'OrderID', 'customer_email', 'created_at', 'update_at',  
     ];
 
     public $timestamps = false;
+
+     public static function getSingleData($OrderID) {
+        return Orders::where('orders.OrderID',$OrderID)->first();
+    }
+
+
+    
 }

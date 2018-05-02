@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'user'], function () {
         Route::get('/', 'UserController@index');
-        //Route::delete('delete/{id}', 'UserController@delete');
+        
        
   });
 
@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'addUser',
         'uses' => 'UserController@addUser'
     ]);
+    
     Route::get('/user/edit/{id}', [
         'uses' => 'UserController@viewEditUser',
         'as' => 'viewEditUser'
@@ -58,10 +59,12 @@ Route::group(['middleware' => 'auth'], function () {
       'uses' => 'UserController@delete',
       'as' => 'delete'
     ]);
-    Route::patch('/user/update/{id}', [
-        'as' => 'updateUser',
-        'uses' => 'UserController@updateUser'
-    ]);
+
+   
+    //Route::patch('/user/update/{id}', [
+     //   'as' => 'updateUser',
+     //   'uses' => 'UserController@updateUser'
+    //]);
 
 
      Route::get('/product', [
@@ -122,9 +125,30 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 
 
-     Route::get('/joblist', [
+    Route::get('/joblist', [
         'as' => 'viewJoblist',
         'uses' => 'JoblistController@viewJoblist'
+    ]);
+
+     Route::get('/joblist/viewOrder', [
+        'uses' => 'OrderController@ViewOrderList',
+        'as' => 'ViewOrderList'
+    ]);
+
+    Route::get('/joblist/order/{OrderID}', [
+        'uses' => 'OrderController@ViewOrderDetails',
+        'as' => 'ViewOrderDetails'
+    ]);
+
+     
+    Route::get('/sales', [
+        'as' => 'viewSales',
+        'uses' => 'SalesController@viewSales'
+    ]);
+
+    Route::get('/withdraw', [
+        'as' => 'viewWithdraw',
+        'uses' => 'WithdrawController@viewWithdraw'
     ]);
 
 });

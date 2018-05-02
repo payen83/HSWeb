@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -28,7 +29,19 @@ class ProductController extends Controller
 
     public function addProduct(Request $request)
     {
-         
+
+         $validator = Validator::make(Input::all(), [
+                'Discount' => 'min:0|max:100'
+                
+            ]);
+            if ($validator->fails()) {
+                return array(
+                    'fail' => true,
+                    'errors' => ["Discount" => "Discount must be less than 100%. Please try again!"]
+                );
+            }
+
+
          $file = $request->file('ImageURL');
          $filename = $file->getClientOriginalName();
 
@@ -42,7 +55,9 @@ class ProductController extends Controller
          $product->QuantityPerPackage = Input::get('QuantityPerPackage');
          $product->Discount = Input::get('Discount')/100;
          $product->save();
+         Session::put('msg_status', true);
          return redirect()->route('viewProduct')->with('status', 'Product Uploaded');
+
 
     
       

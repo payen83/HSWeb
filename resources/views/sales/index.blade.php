@@ -45,10 +45,8 @@
                     <!-- All Orders -->
                     <div class="block">
                         <div class="block-header bg-gray-lighter">
-                            <ul class="block-options">
-                            <a href="{{route('ViewOrderList')}}"<button class="btn btn-primary push-5-r push-10" type="button"><i class="si si-basket-loaded"></i> Order Details</button></a>
-                            </ul>
-                            <h3 class="block-title">All Job List</h3>
+                            
+                            <h3 class="block-title">Sales Tracking</h3>
                         </div>
                         <div class="block-content">
                             <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
@@ -56,40 +54,38 @@
                             <table class="table table-bordered table-striped js-dataTable-full">
                                 <thead>
                                     <tr>
-                                        <th class="text-center" style="width: 100px;">Job ID</th>
-                                        <th class="text-center" style="width: 100px;">Agent Email</th>
-                                        <th class="visible-lg">Order Number</th>
-                                        <th>Status</th>
-                                        <th class="hidden-xs text-center">Date/Time</th>
-                                        <th class="hidden-xs text-right">Total Price</th>
-                                        <th class="hidden-xs text-center">Action</th>
+                                        <th class="text-center" style="width: 100px;">Order Number</th>
+                                        <th class="text-center" style="width: 100px;">Customer Email</th>
+                                        <th class="visible-lg">Product ID</th>
                                        
+                                        <th class="hidden-xs text-center">Product Quantity</th>
+                                        <th class="hidden-xs text-right">Total Price</th>
+                                        <th class="text-center" style="width: 23%;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $i = 1;?>
-                                    @foreach($joblists as $key=>$data)
+                                    @foreach($orders as $key=>$data)
                                     <tr>
                                         <td class="text-center">
                                             <a class="font-">
-                                                <strong>{{$data->JobID}}</strong>
+                                                <strong>{{$data->OrderID}}</strong>
                                             </a>
                                         </td>
-                                        <td class="hidden-xs text-center">{{$data->agent_email}}</td>
-                                         <td class="hidden-xs text-center">{{$data->OrderID}}</td>
-                                        <td>
-                                            <span class="label label-success">{{$data->job_status}}</span>  
-                                        </td>
-                                        <td class="hidden-xs text-center">{{$data->created_at}}</td>
+                                        <td class="hidden-xs text-center">{{$data->customer_email}}</td>
+                                         <td class="hidden-xs text-center">{{$data->ProductID}}</td>
+                                        <td class="hidden-xs text-center">{{$data->ProductQuantity}}</td>
                                         <td class="text-right hidden-xs">
-                                            <strong>$ {{$data->total_price}}</strong>
+                                            <strong>RM {{$data->total_price}}</strong>
                                         </td>
                                          <td class="text-center">
                                             <div class="btn-group">
-                                                 <a href="editorder.html"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
+                                               
+                                                <a href="viewjoblist.html"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i> View</button></a>
+                                                
                                             </div>
                                         </td>
-                                        
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>

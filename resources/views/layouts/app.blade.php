@@ -83,7 +83,7 @@
                             </button>
                             
                             <a class="h5 text-white" href="homepage.html">
-                               <img src="{{ asset('assets/img/logo.png') }}" width="50" height="30"><span class="h4 font-w600 sidebar-mini-hide">HealthShoppe</span>
+                               <img src="{{ asset('assets/img/logo.png') }}" width="60" height="50"><span class="h4 font-w600 sidebar-mini-hide">HealthShoppe</span>
                             </a>
                         </div>
                         <!-- END Side Header -->`
@@ -100,12 +100,15 @@
                                  <li>
                                     <a href="{{route('viewJoblist')}}"><i class="si si-layers"></i><span class="sidebar-mini-hide">Job List</span></a>
                                 </li>
-                                 <li>
+                                <li>
                                     <a href="{{route('viewUser')}}"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>
                                 </li>
                               
-                                  <li>
-                                    <a href="withdraw.html"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Withdraw</span></a>
+                                <li>
+                                    <a href="{{route('viewSales')}}"><i class="fa fa-bar-chart"></i><span class="sidebar-mini-hide">Sales Tracking</span></a>
+                                </li>
+                                <li>
+                                    <a href="{{route('viewWithdraw')}}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Withdraw</span></a>
                                 </li>
                                  <li>
                                     <a href="{{url('/logout')}}" onclick="event.preventDefault();
@@ -189,7 +192,7 @@
         <script src="{{ asset('assets/js/core/jquery.countTo.min.js') }}"></script>
         <script src="{{ asset('assets/js/core/jquery.placeholder.min.js') }}"></script>
         <script src="{{ asset('assets/js/core/js.cookie.min.js') }}"></script>
-        <script src="{{ asset('ssets/js/app.js') }}"></script>
+        <script src="{{ asset('assets/js/app.js') }}"></script>
 
          <!-- Page JS Plugins -->
         <script src="{{'assets/js/plugins/datatables/jquery.dataTables.min.js'}}"></script>

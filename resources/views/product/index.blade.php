@@ -46,7 +46,7 @@
                                         <th class="hidden-xs" >Image</th>
                                         <th class="text-center" >Quant/Pack</th>
                                         <th class="text-center" >Discount (%)</th>
-                                        <th class="text-center" style="width: 35%;">Action</th>
+                                        <th class="text-center" style="width: 15%;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,15 +56,15 @@
                                         <td class="text-center">{{$i++}}</td>
                                         <td class="hidden-xs">{{$data->Name}}</td>
                                         <td class="hidden-xs" width="350" height="30">{{$data->Description}}</td>
-                                        <td class="hidden-xs">{{$data->Price}}</td>
+                                        <td class="hidden-xs">${{$data->Price}}</td>
                                         <td class="hidden-xs"><img src="http://localhost:90/HealthShopper/public/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></td>
                                          <td class="hidden-xs">{{$data->QuantityPerPackage}}</td>
                                           <td class="hidden-xs">{{$data->Discount*100}}</td>
                                         <td class="text-center">
                                             <div class="btn-group">
-                                                <a href="{{route('viewEditProduct',['id'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
+                                                <a href="{{route('viewEditProduct',['ProductID'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
                                                
-                                                <a href="{{route('viewAssignProduct',['id'=>$data->id])}}" <button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-list-ul"></i> Assign</button></a>
+                                                <a href="{{route('viewAssignProduct',['ProductID'=>$data->id])}}" <button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-list-ul"></i> Assign</button></a>
                                             </div>
                                         </td>
                                     </tr>

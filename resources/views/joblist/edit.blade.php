@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-            <!-- Main Container -->
+
+ <!-- Main Container -->
             <main id="main-container">
                 <!-- Page Header -->
                 <div class="content bg-gray-lighter">
@@ -11,8 +12,8 @@
                         </div>
                         <div class="col-sm-5 text-right hidden-xs">
                             <ol class="breadcrumb push-10-t">
-                                <li>User Management</li>
-                                <li><a class="link-effect" href="#">Add User</a></li>
+                                <li>Job List</li>
+                                <li><a class="link-effect" href="adduser.html">Edit Order Details</a></li>
                             </ol>
                         </div>
                     </div>
@@ -41,7 +42,7 @@
                                     <button type="button" data-toggle="block-option" data-action="close"><i class="si si-close"></i></button>
                                 </li>
                             </ul>
-                            <h3 class="block-title">Add User Details</h3>
+                            <h3 class="block-title">Edit Order Details</h3>
                         </div>
                         <div class="block-content">
                            <!-- Page Content -->
@@ -54,60 +55,46 @@
                                 <div class="block-content block-content-narrow">
                                     <!-- jQuery Validation (.js-validation-bootstrap class is initialized in js/pages/base_forms_validation.js) -->
                                     <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
-                                    {{Form::open(array('route' => 'addUser','method'=>'POST'))}}
+                                    {{Form::open(['route' => ['editJoblist','id'=>$data->id],'method'=>'POST'])}}
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-username">Name <span class="text-danger">*</span></label>
+                                            <label class="col-md-4 control-label" for="val-username">Job ID</label>
                                             <div class="col-md-7">
-                                                <!--<input class="form-control" type="text" id="val-username" name="val-username" placeholder="Enter your name">-->
-                                                {{Form ::text('name',null,['placeholder'=>'Name','class'=>'form-control','rows'=>'6'])}}
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-email">Email <span class="text-danger">*</span></label>
-                                            <div class="col-md-7">
-                                                <!--<input class="form-control" type="text" id="val-email" name="val-email" placeholder="Enter your valid email">-->
-                                                {{Form ::text('email',null,['placeholder'=>'abc@gmail.com','class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::text('JobID',$data->JobID,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-password">Password <span class="text-danger">*</span></label>
+                                            <label class="col-md-4 control-label" for="val-ag-email">Agent Email</label>
                                             <div class="col-md-7">
-                                                <!--<input class="form-control" type="password" id="val-password" name="val-password" placeholder="Choose a good pasword">-->
-                                                 {{ Form::password('password', array('placeholder'=>'Password', 'class'=>'form-control' ) ) }}
+                                                {{Form ::text('agent_email',$data->agent_email,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
-                                      
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-select2">Role</label>
+                                            <label class="col-md-4 control-label" for="val-ag-email">Order Number</label>
                                             <div class="col-md-7">
-                                                <!--<select class="js-select2 form-control" id="role" name="val-select2" style="width: 100%;" data-placeholder="Choose a role">
-                                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin 
-                                                    <option value="1">1-Admin</option>
-                                                    <option value="2">2-Agent</option>
-                                                    <option value="3">3-Customer</option>
-                                                    
-                                                </select>-->
-                                                 {!! Form::select("role",['Admin'=>'Admin','Agent'=>'Agent','Customer'=>'Customer'],null,["class"=>"form-control"]) !!}
+                                                {{Form ::text('OrderID',$data->OrderID,['class'=>'form-control','rows'=>'6'])}}
+                                            </div>
+                                        </div>
+
+                                         <div class="form-group">
+                                            <label class="col-md-4 control-label" for="val-status">Status</label>
+                                            <div class="col-md-7">
+                                               {!! Form::select("role",['Processing'=>'Processing','On Delivery'=>'On Delivery','Completed'=>'Completed'],null,["class"=>"form-control",'rows'=>'6']) !!}
                                             </div>
                                        </div>
-
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-select2">Active</label>
+                                            <label class="col-md-4 control-label" for="val-custname">Total Price</label>
                                             <div class="col-md-7">
-                                                   {!! Form::checkbox("status",1,null,["style"=>"width:25px;height:25px"]) !!}
-                                                
+                                                {{Form ::text('total_price',$data->total_price,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
-                                       </div>
-
+                                        </div>
 
                                         <div class="form-group">
                                             <div class="col-md-8 col-md-offset-4">
-                                                <a href="{{route('viewUser')}}"<button class="btn btn-sm btn-danger" type="submit">Back</button></a>
-                                                <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+                                                <a href="{{route('viewJoblist')}}"<button class="btn btn-sm btn-danger" type="submit">Back</button></a>
+                                                <button class="btn btn-sm btn-primary" type="submit">Submit</button></a>
                                             </div>
                                         </div>
-                                  {{Form::close()}}
+                                    </form>
                                 </div>
                             </div>
                             <!-- Bootstrap Forms Validation -->
@@ -118,4 +105,4 @@
                 <!-- END Page Content -->
             </main>
             <!-- END Main Container -->
-@endsection 
+@endsection
