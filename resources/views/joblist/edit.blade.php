@@ -55,7 +55,7 @@
                                 <div class="block-content block-content-narrow">
                                     <!-- jQuery Validation (.js-validation-bootstrap class is initialized in js/pages/base_forms_validation.js) -->
                                     <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
-                                    {{Form::open(['route' => ['editJoblist','id'=>$data->id],'method'=>'POST'])}}
+                                    {{Form::open(['route' => ['editJoblist,'JobID'=>$data->JobID],'method'=>'POST'])}}
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-username">Job ID</label>
                                             <div class="col-md-7">

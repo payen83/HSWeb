@@ -58,7 +58,7 @@
                                     <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
                                     {{Form::open(['route' => ['assignProduct','id'=>$data->id],'method'=>'POST'])}}
                                     <div class="form-group">
-                                        <center><img src="http://localhost:90/HealthShopper/public/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></center>
+                                        <center><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></center>
                                     </div>
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-productid">Product ID</label>

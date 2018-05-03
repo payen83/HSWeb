@@ -86,7 +86,7 @@
                                         </td>
                                          <td class="text-center">
                                             <div class="btn-group">
-                                                 <a href="editorder.html"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
+                                                 <a href="{{route('viewEditJoblist',['JobID'=>$data->JobID])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
                                             </div>
                                         </td>
                                         
@@ -101,4 +101,5 @@
                 <!-- END Page Content -->
             </main>
             <!-- END Main Container -->
+             <!-- Page JS Code -->
 @endsection 

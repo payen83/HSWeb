@@ -15,7 +15,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
         if (Auth::user()->role == 'Super Admin' or 'Admin')
-            return view('layouts.app');
+            return view('dashboard');
       
         else
             return redirect('error');
@@ -30,10 +30,14 @@ Route::group(['middleware' => 'auth'], function () {
        
   });
 
-
      Route::get('/user', [
         'as' => 'viewUser',
         'uses' => 'UserController@viewUser'
+    ]);
+
+    Route::get('/dashboard', [
+        'as' => 'viewDashboard',
+        'uses' => 'HomeController@viewDashboard'
     ]);
 
 
@@ -128,6 +132,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/joblist', [
         'as' => 'viewJoblist',
         'uses' => 'JoblistController@viewJoblist'
+    ]);
+
+    Route::get('/joblist/edit/{JobID}', [
+        'uses' => 'JoblistController@viewEditJoblist',
+        'as' => 'viewEditJoblist'
     ]);
 
      Route::get('/joblist/viewOrder', [

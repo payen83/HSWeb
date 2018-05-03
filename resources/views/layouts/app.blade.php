@@ -92,7 +92,7 @@
                         <div class="side-content side-content-full">
                             <ul class="nav-main">
                                 <li>
-                                    <a class="active" href="homepage.html"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
+                                    <a class="active" href="{{route('viewDashboard')}}"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
                                 </li>
                                 <li>
                                     <a href="{{route('viewProduct')}}"><i class="si si-handbag"></i><span class="sidebar-mini-hide">Product</span></a>
@@ -195,16 +195,28 @@
         <script src="{{ asset('assets/js/app.js') }}"></script>
 
          <!-- Page JS Plugins -->
-        <script src="{{'assets/js/plugins/datatables/jquery.dataTables.min.js'}}"></script>
+        <script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 
         <!-- Page JS Code -->
-        <script src="{{'assets/js/pages/base_tables_datatables.js'}}"></script>
+        <script src="{{ asset('assets/js/pages/base_tables_datatables.js') }}"></script>
 
         <!-- Page Plugins -->
-        <script src="{{'assets/js/plugins/jquery-raty/jquery.raty.min.js'}}"></script>
+        <script src="{{ asset('assets/js/plugins/jquery-raty/jquery.raty.min.js') }}"></script>
 
         <!-- Page JS Code -->
-        <script src="{{'assets/js/pages/base_comp_rating.js'}}"></script>
+        <script src="{{ asset('assets/js/pages/base_comp_rating.js') }}"></script>
+
+        <!-- Page JS Plugins -->
+        <script src="{{ asset('assets/js/plugins/chartjs/Chart.min.js') }}></script>
+
+        <!-- Page JS Code -->
+        <script src="{{ asset('assets/js/pages/base_pages_ecom_dashboard.js') }}"></script>
+        <script>
+            jQuery(function () {
+                // Init page helpers (Appear + CountTo plugins)
+                App.initHelpers(['appear', 'appear-countTo']);
+            });
+        </script>
 
 
        

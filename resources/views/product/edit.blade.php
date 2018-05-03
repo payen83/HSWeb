@@ -51,7 +51,7 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-productid">Product ID</label>
                                             <div class="col-md-7">
-                                                {{Form ::text('id',$data->id,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::label('id',$data->id,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -79,7 +79,7 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-picture">Image</label>
                                             <div class="col-md-7">
-                                            <img src="http://localhost:90/HealthShopper/public/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100">
+                                            <img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100">
                                             {{Form ::file('ImageURL',null,['class'=>'form-control','rows'=>'6'])}}
                                
                                             </div>

@@ -40,10 +40,9 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center"></th>
-                                        <th class="text-center">Product Name</th>
-                                        <th class="hidden-xs">Description</th>
+                                        <th class="hidden-xs"  style="width: 15%;">Image</th>
+                                        <th>Product Name</th>
                                         <th class="hidden-xs" >Price</th>
-                                        <th class="hidden-xs" >Image</th>
                                         <th class="text-center" >Quant/Pack</th>
                                         <th class="text-center" >Discount (%)</th>
                                         <th class="text-center" style="width: 15%;">Action</th>
@@ -54,10 +53,9 @@
                                     @foreach($products as $key=>$data)
                                     <tr>
                                         <td class="text-center">{{$i++}}</td>
+                                        <td class="hidden-xs"><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></td>
                                         <td class="hidden-xs">{{$data->Name}}</td>
-                                        <td class="hidden-xs" width="350" height="30">{{$data->Description}}</td>
                                         <td class="hidden-xs">${{$data->Price}}</td>
-                                        <td class="hidden-xs"><img src="http://localhost:90/HealthShopper/public/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></td>
                                          <td class="hidden-xs">{{$data->QuantityPerPackage}}</td>
                                           <td class="hidden-xs">{{$data->Discount*100}}</td>
                                         <td class="text-center">
