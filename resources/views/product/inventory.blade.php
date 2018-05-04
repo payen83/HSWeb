@@ -35,11 +35,11 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center" style="width: 5%;"></th>
-                                        <th class="hidden-xs" style="width: 10%;">Product ID</th>
-                                        <!--<th class="hidden-xs">Product Name</th>-->
-                                        <th class="hidden-xs" style="width: 15%;">Agent Email</th>
-                                        <th class="text-center" style="width: 5%;">Quantity</th>
-                                        <th class="text-center" style="width: 10%;">Actions</th>
+                                        <th class="hidden-xs"  style="width: 15%;">Image</th>
+                                        <th class="hidden-xs">Product Name</th>
+                                        <th class="hidden-xs">Agent Details</th>
+                                        <th class="text-center">Quantity</th>
+                                        <th class="text-center" style="width: 15%;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,9 +47,9 @@
                                 @foreach($inventories as $key=>$data)
                                     <tr>
                                         <td class="text-center">{{$i++}}</td>
-                                        <td class="font-w600">{{$data->product_id}}</td>
-                                        <!--<td class="font-w600">{{$data->product_name}}</td>-->
-                                        <td class="font-w600">{{$data->agent_email}}</td>
+                                        <td class="hidden-xs"><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></td>
+                                        <td class="font-w600">{{$data->Name}}</td>
+                                        <td class="font-w600">{{$data->name}}({{$data->agent_email}})</td>
                                         <td class="hidden-xs">{{$data->quantity}}</td>
                                       
                                         <td class="text-center" >

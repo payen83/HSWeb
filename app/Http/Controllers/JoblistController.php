@@ -30,18 +30,16 @@ class JoblistController extends Controller
                   -> join ('jobstatus', 'joblists.JobID', '=', 'jobstatus.JobID')
                   -> select ('joblists.JobID', 'joblists.agent_email', 'orders.OrderID', 'joblists.total_price', 'jobstatus.job_status' , 'jobstatus.created_at')
                   -> where ('joblists.JobID', $JobID)
-                  -> get();
+                  -> first();
         return view('joblist.edit', compact('joblists'));
         
         
     }
 
-    public function editJoblist(Request $request, $JobID) {
+    public function editJoblist(Request $request, $JobStatusID) {
 
-
-        
-        $joblists = Jobstatus::find($JobID);
-        $joblists->role = Input::get('jobstatus');
+        $joblists = Jobstatus::find($JobStatusID);
+        $joblists->role = Input::get('job_status');
         $joblists->save();
         return redirect()->route('viewEditJoblist');
     }

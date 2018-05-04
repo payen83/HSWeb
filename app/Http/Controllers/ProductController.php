@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use App\Inventory;
-//use Storage;
+use App\User;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -118,21 +119,14 @@ class ProductController extends Controller
     {
         
         $data = Product::getSingleData($id);
-        return view('product.assign', compact('data'));
+        $select_email_user = User::getListSelect2();
+        return view('product.assign', compact('data', 'select_email_user'));
         
         
     }
 
    public function assignProduct(Request $request)
- //   {
-
-    //    $inventories = new Inventory;
-  //      $inventories->prouduct_id = Input::get('product_id');
-    //    $inventories->agent_email = Input::get('agent_email');
-    //    $inventories->quantity = Input::get('quantity');
-    //    $inventories->save();
-    //    return redirect()->route('viewProduct');
-   // }
+ 
    {
          $input = $request->all();
          $inventories = Inventory::create($input);
@@ -141,15 +135,22 @@ class ProductController extends Controller
 
   public function viewInventory()
     {
-       
-        $inventories = Inventory::all();
+        $inventories = DB:: table('inventories')
+                  -> join ('products', 'products.id', '=', 'inventories.product_id')
+                  -> join ('users', 'users.email', '=', 'inventories.agent_email')
+                  -> select ('inventories.id','products.Name', 'products.ImageURL', 'users.name', 'inventories.agent_email', 'inventories.quantity')
+                  -> get();
         return view('product.inventory', compact('inventories'));
     }
 
      public function viewEditInvProduct($id)
     {
         
-        $data = Inventory::getSingleData($id);
+        $data = DB:: table('inventories')
+                  -> join ('products', 'products.id', '=', 'inventories.product_id')
+                  -> select ('inventories.id','products.Name', 'products.ImageURL', 'inventories.agent_email', 'inventories.quantity')
+                  -> where ('inventories.id', $id)
+                  -> first();
         return view('product.ed-inventory', compact('data'));
         
         
@@ -161,14 +162,9 @@ class ProductController extends Controller
         return view('product.ed-inventory', ['inventories' => Inventory::find($id)]);
        
         $inventories = Inventory::find($id);
-        
         $inventories->agent_email = Input::get('agent_email');
         $inventories->quantity = Input::get('quantity');
         $inventories->save();
-
-        //$input = $request->all();
-        //$update = Inventory::find($id);
-        //$update->update($input);
         return redirect()->route('viewInventory');
     }
 

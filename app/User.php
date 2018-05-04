@@ -39,4 +39,8 @@ class User extends Authenticatable
     public static function getListSelect() {
         return User::where('users.status', '=', '1')->pluck('name','id');
     }
+
+     public static function getListSelect2() {
+        return User::where('users.role', '=', 'Agent')->pluck('email','id');
+    }
 }

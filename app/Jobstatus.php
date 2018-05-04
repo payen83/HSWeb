@@ -11,4 +11,8 @@ class Jobstatus extends Model
         ]; 
 
     public $timestamps = false;
+
+    public static function getSingleData($JobStatusID) {
+        return Jobstatus::where('jobstatus.JobStatusID',$JobStatusID)->first();
+    }
 }

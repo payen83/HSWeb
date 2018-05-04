@@ -62,17 +62,11 @@
                                     </div>
                                        
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-productid">Product ID</label>
-                                            <div class="col-md-7">
-                                                {{Form ::text('product_id',$data->product_id,['class'=>'form-control','rows'=>'6'])}}
-                                            </div>
-                                        </div>
-                                        <!--<div class="form-group">
                                             <label class="col-md-4 control-label" for="productname">Product Name</label>
                                             <div class="col-md-7">
-                                                <label class="col-md-5 control-label" >Milk Thistle (Silymarin)</label>
+                                                {{Form ::label('Name',$data->Name,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
-                                        </div>-->
+                                        </div>
 
 
                                         <div class="form-group">
