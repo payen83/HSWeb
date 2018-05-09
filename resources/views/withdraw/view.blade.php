@@ -51,10 +51,10 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                
+                                                <th class="hidden-xs" style="width: 10%;">ID</th>
                                                 <th>Name</th>
                                                 <th class="hidden-xs" style="width: 15%;">Email</th>
-                                                <th class="text-center" style="width: 100px;">Date</th>
+                                                <th>Date/Time</th>
                                                 <th>Amount</th>
                                                  <th>Bank Details</th>
                                                  <th> Action </th>
@@ -62,19 +62,19 @@
                                         </thead>
                                         <tbody>
                                             <?php $i = 1;?>
-                                              @foreach($withdraw as $key=>$data->$id)
+                                              @foreach($withdraw as $key=>$data)
                                             <tr>
-                                               
-                                                <td>Linda Moore</td>
+                                                <td>{{$data->withdrawID}}</td>
+                                                <td>{{$data->name}}</td>
                                                 <td class="hidden-xs">
-                                                    {{$data->agent_email}}
+                                                    {{$data->email}}
                                                 </td>
                                                 <td>{{$data->created_at}}</td>
                                                 <td>{{$data->amount}}</td>
-                                                <td>Maybank Bhd : 1520-334-6789 (Linda Moore)</td>
+                                                <td>{{$data->u_bankname}} : {{$data->u_accnumber}}</td>
                                                 <td class="text-center">
                                                 <div class="btn-group">
-                                               <a href="app-wd.html"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Approve</button></a>
+                                               <a href="{{route('viewApproveWithdraw',['withdrawID'=>$data->withdrawID])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Approve</button></a>
                                                 <a href="reject-wd.html"<button class="btn btn-xs btn-danger push-5-r push-10" type="button"><i class="fa fa-times"></i> Reject</button></a>
                                             </div>
                                         </td>

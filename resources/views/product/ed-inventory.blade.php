@@ -58,7 +58,7 @@
                                     <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
                                     {{Form::open(['route' => ['editInventoryProduct','id'=>$data->id],'method'=>'POST'])}}
                                     <div class="form-group">
-                                        <center><img src="assets/img/product/product4.png" width="70" height="100"></center>
+                                        <center><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></center>
                                     </div>
                                        
                                         <div class="form-group">
@@ -72,7 +72,8 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-price">Agent Email</label>
                                             <div class="col-md-7">
-                                                 {{Form ::text('agent_email',$data->agent_email,['class'=>'form-control','rows'=>'6'])}}
+                                                 {{Form ::text('user_id',$data->user_id,['class'=>'form-control','rows'=>'6'])}}
+
                                             </div>
 
                                         </div>

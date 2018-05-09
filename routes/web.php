@@ -160,4 +160,19 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'WithdrawController@viewWithdraw'
     ]);
 
+    Route::get('/withdraw/viewAppWithdraw/{withdrawID}', [
+        'as' => 'viewWithdrawDetails',
+        'uses' => 'WithdrawController@viewWithdrawDetails'
+    ]);
+
+    Route::get('/withdraw/viewAppWithdrawDetails/{withdrawID}', [
+        'as' => 'viewApproveWithdraw',
+        'uses' => 'WithdrawController@viewApproveWithdraw'
+    ]);
+
+    Route::post('/withdraw/edit/{withdrawID}', [
+        'uses' => 'WithdrawController@saveWithdrawDetails',
+        'as' => 'saveWithdrawDetails'
+    ]);
+
 });

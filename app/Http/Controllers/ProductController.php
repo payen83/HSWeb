@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+//use App\Notifications\AgendamentoPendente;
 
 class ProductController extends Controller
 {
@@ -20,6 +21,7 @@ class ProductController extends Controller
        
         $products = Product::all();
         return view('product.index', compact('products'));
+        return response() -> json(['data' => $products], 200);
     }
 
       public function viewAddProduct()
@@ -128,8 +130,15 @@ class ProductController extends Controller
    public function assignProduct(Request $request)
  
    {
-         $input = $request->all();
-         $inventories = Inventory::create($input);
+        //$input = $request->all();
+        // dd(Input::all());
+        //$inventories = Inventory::create($input);
+         $inventories = new Inventory;
+         $inventories->product_id = Input::get('product_id');
+         $inventories->quantity = Input::get('quantity');
+         $inventories ->user_id = Input::get('user_id');
+         $inventories->save();
+         //Alert::message('Product has been assign to the Agent!');
          return redirect()->route('viewInventory');
     }
 
@@ -137,8 +146,8 @@ class ProductController extends Controller
     {
         $inventories = DB:: table('inventories')
                   -> join ('products', 'products.id', '=', 'inventories.product_id')
-                  -> join ('users', 'users.email', '=', 'inventories.agent_email')
-                  -> select ('inventories.id','products.Name', 'products.ImageURL', 'users.name', 'inventories.agent_email', 'inventories.quantity')
+                  -> join ('users', 'users.id', '=', 'inventories.user_id')
+                  -> select ('inventories.id','products.Name', 'products.ImageURL', 'users.name', 'users.email', 'inventories.quantity')
                   -> get();
         return view('product.inventory', compact('inventories'));
     }
@@ -148,10 +157,12 @@ class ProductController extends Controller
         
         $data = DB:: table('inventories')
                   -> join ('products', 'products.id', '=', 'inventories.product_id')
-                  -> select ('inventories.id','products.Name', 'products.ImageURL', 'inventories.agent_email', 'inventories.quantity')
+                  -> join ('users', 'users.id', '=', 'inventories.user_id')
+                  -> select ('inventories.id','products.Name', 'products.ImageURL', 'users.email', 'inventories.user_id','inventories.quantity')
                   -> where ('inventories.id', $id)
                   -> first();
-        return view('product.ed-inventory', compact('data'));
+        $select_email_user = User::getListSelect2();
+        return view('product.ed-inventory', compact('data', 'select_email_user'));
         
         
     }
@@ -162,8 +173,9 @@ class ProductController extends Controller
         return view('product.ed-inventory', ['inventories' => Inventory::find($id)]);
        
         $inventories = Inventory::find($id);
-        $inventories->agent_email = Input::get('agent_email');
-        $inventories->quantity = Input::get('quantity');
+        $currentquantity = $inventories->quantity;
+        $inventories->user_id = Input::get('user_id');
+        $inventories->quantity = $currentquantity + Input::get('quantity');
         $inventories->save();
         return redirect()->route('viewInventory');
     }

@@ -37,7 +37,7 @@
                                     <tr>
                                         <th class="text-center"></th>
                                         <th>Date</th>
-                                        <th class="hidden-xs">Agent Name</th>
+                                        <th class="hidden-xs">Agent Details</th>
                                         <th class="hidden-xs" style="width: 15%;">Amount</th>
                                         <th class="text-center" style="width: 15%;">Actions</th>
                                     </tr>
@@ -48,12 +48,12 @@
                                     <tr>
                                         <td class="text-center">{{$i++}}</td>
                                         <td class="hidden-xs">{{$data->created_at}}</td>
-                                        <td class="hidden-xs">{{$data->agent_email}}</td>
+                                        <td class="hidden-xs">{{$data->name}}({{$data->email}})</td>
                                         <td class="hidden-xs">{{$data->amount}}</td>
                                       
                                         <td class="text-center">
                                             <div class="btn-group">
-                                                <a href="appwithdraw.html"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-eye"></i> View</button></a>
+                                                <a href="{{route('viewWithdrawDetails',['withdrawID'=>$data->withdrawID])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-eye"></i> View</button></a>
                                               
                                         </td>
                                     </tr>

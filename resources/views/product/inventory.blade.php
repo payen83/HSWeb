@@ -49,7 +49,7 @@
                                         <td class="text-center">{{$i++}}</td>
                                         <td class="hidden-xs"><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></td>
                                         <td class="font-w600">{{$data->Name}}</td>
-                                        <td class="font-w600">{{$data->name}}({{$data->agent_email}})</td>
+                                        <td class="font-w600">{{$data->name}}({{$data->email}})</td>
                                         <td class="hidden-xs">{{$data->quantity}}</td>
                                       
                                         <td class="text-center" >

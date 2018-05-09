@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Inventory extends Model
 {
      protected $fillable = [
-         'id', 'product_id', 'agent_email', 'quantity'
+         'id', 'product_id', 'agent_email', 'quantity','user_id'
     ];
 
     public $timestamps = false;

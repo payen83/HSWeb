@@ -69,13 +69,13 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="productname">Product Name</label>
                                             <div class="col-md-7">
-                                                {{Form ::text('Name',$data->Name,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::label('Name',$data->Name,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
 
 
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-price">Agent Email</label>
+                                            <label class="col-md-4 control-label" for="val-agent_email">Agent Email</label>
                                             <div class="col-md-7">
                                                 {{Form ::select('user_id', $select_email_user, null,['class'=>'form-control','rows'=>'6', 'placeholder' => 'Please Choose'])}}
                                             </div>

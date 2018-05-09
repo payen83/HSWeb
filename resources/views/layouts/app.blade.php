@@ -35,8 +35,7 @@
         <!-- Stylesheets -->
         <!-- Web fonts -->
         <link rel="stylesheet" href="{{ URL::asset('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700') }}">
-         <link href="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.css') }}" rel="stylesheet" />
-
+        
         <!-- Page JS Plugins CSS go here -->
 
         <!-- Bootstrap and OneUI CSS framework -->
@@ -194,7 +193,7 @@
         <script src="{{ asset('assets/js/core/jquery.countTo.min.js') }}"></script>
         <script src="{{ asset('assets/js/core/jquery.placeholder.min.js') }}"></script>
         <script src="{{ asset('assets/js/core/js.cookie.min.js') }}"></script>
-        <!--<script src="{{ asset('assets/js/app.js') }}"></script>-->
+        <script src="{{ asset('assets/js/app.js') }}"></script>
 
          <!-- Page JS Plugins -->
         <script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
@@ -213,6 +212,7 @@
 
         <!-- Page JS Code -->
         <script src="{{ asset('assets/js/pages/base_pages_ecom_dashboard.js') }}"></script>
+        
         <script>
             jQuery(function () {
                 // Init page helpers (Appear + CountTo plugins)
@@ -220,21 +220,5 @@
             });
         </script>
         
-        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-        <script src="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js') }}"></script>
-        <script src="{{ URL::asset('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js') }}"></script>
-
-        <script type="text/javascript">
-
-       $( document ).ready(function() 
-        {
-         $("#user_id").select2();
-        }
-      </script>
-
-
-
-
-       
     </body>
 </html>
