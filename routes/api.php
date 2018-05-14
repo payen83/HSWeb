@@ -13,5 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
+    Route::get('Products', 'APIProductController@Products');
 
-Route::get('viewProduct', 'ProductController@viewProduct');
+
+

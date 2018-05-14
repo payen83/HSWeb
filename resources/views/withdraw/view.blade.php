@@ -75,7 +75,7 @@
                                                 <td class="text-center">
                                                 <div class="btn-group">
                                                <a href="{{route('viewApproveWithdraw',['withdrawID'=>$data->withdrawID])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Approve</button></a>
-                                                <a href="reject-wd.html"<button class="btn btn-xs btn-danger push-5-r push-10" type="button"><i class="fa fa-times"></i> Reject</button></a>
+                                                <a href="{{route('viewRejectWithdraw',['withdrawID'=>$data->withdrawID])}}"<button class="btn btn-xs btn-danger push-5-r push-10" type="button"><i class="fa fa-times"></i> Reject</button></a>
                                             </div>
                                         </td>
                                                  

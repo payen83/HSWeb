@@ -139,6 +139,11 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'viewEditJoblist'
     ]);
 
+    Route::post('/joblist/edit/{JobID}', [
+        'uses' => 'JoblistController@editJoblist',
+        'as' => 'editJoblist'
+    ]);
+
      Route::get('/joblist/viewOrder', [
         'uses' => 'OrderController@ViewOrderList',
         'as' => 'ViewOrderList'
@@ -173,6 +178,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/withdraw/edit/{withdrawID}', [
         'uses' => 'WithdrawController@saveWithdrawDetails',
         'as' => 'saveWithdrawDetails'
+    ]);
+
+    Route::get('/withdraw/viewRejectWithdraw/{withdrawID}', [
+        'as' => 'viewRejectWithdraw',
+        'uses' => 'WithdrawController@viewRejectWithdraw'
+    ]);
+
+    Route::post('/withdraw/reject/{withdrawID}', [
+        'uses' => 'WithdrawController@saveRejectWdDetails',
+        'as' => 'saveRejectWdDetails'
     ]);
 
 });

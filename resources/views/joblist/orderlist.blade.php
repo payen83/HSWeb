@@ -26,7 +26,9 @@
                     <!-- My Block -->
                     <div class="block">
                         <div class="block-header">
-                           
+                            <ul class="block-options">
+                            <a href="{{route('viewAddUser')}}"<button class="btn btn-success push-5-r push-10" type="button"><i class="fa fa-plus"></i> Add Orders</button></a>
+                            </ul>
                             <h3 class="block-title">Order List</h3>
                         </div>
                         <div class="block-content">
@@ -48,12 +50,11 @@
                                     <tr>
                                         <td class="hidden-xs text-center">{{$i++}}</td>
                                          <td class="hidden-xs text-center">{{$data->OrderID}}</td>
-                                         <td class="hidden-xs text-center">{{$data->customer_email}}</td>
+                                         <td class="hidden-xs text-center">{{$data->email}}</td>
                                         <td class="hidden-xs text-center">{{$data->created_at}}</td>
                 
                                          <td class="text-center">
                                             <div class="btn-group">
-                                                 <a href="editorder.html"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
                                                 <a href="{{route('ViewOrderDetails',['OrderID'=>$data->OrderID])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i> View</button></a>
                                                 <button class="btn btn-xs btn-danger push-5-r push-10" type="button" onclick="return myFunction()"><i class="fa fa-times"></i> Delete</button>
                                             </div>

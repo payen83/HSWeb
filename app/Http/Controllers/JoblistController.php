@@ -7,6 +7,11 @@ use App\Orders;
 use App\Jobstatus;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class JoblistController extends Controller
 {
@@ -15,8 +20,9 @@ class JoblistController extends Controller
 
         $joblists = DB:: table('joblists')
                   -> join ('orders', 'joblists.OrderID', '=', 'orders.OrderID')
-                  -> join ('jobstatus', 'joblists.JobID', '=', 'jobstatus.JobID')
-                  -> select ('joblists.JobID', 'joblists.agent_email', 'orders.OrderID', 'joblists.total_price', 'jobstatus.job_status' , 'jobstatus.created_at')
+                  -> join ('jobstatuses', 'joblists.JobID', '=', 'jobstatuses.JobID')
+                  -> join ('users', 'users.id', '=', 'joblists.user_id')
+                  -> select ('joblists.JobID', 'users.email', 'orders.OrderID', 'joblists.total_price', 'jobstatuses.job_status' , 'jobstatuses.created_at')
                   -> get();
         return view('joblist.index', compact('joblists'));
     }
@@ -25,23 +31,25 @@ class JoblistController extends Controller
     public function viewEditJoblist($JobID)
     {
         
-        $joblists = DB:: table('joblists')
+        $data = DB:: table('joblists')
                   -> join ('orders', 'joblists.OrderID', '=', 'orders.OrderID')
-                  -> join ('jobstatus', 'joblists.JobID', '=', 'jobstatus.JobID')
-                  -> select ('joblists.JobID', 'joblists.agent_email', 'orders.OrderID', 'joblists.total_price', 'jobstatus.job_status' , 'jobstatus.created_at')
+                  -> join ('jobstatuses', 'joblists.JobID', '=', 'jobstatuses.JobID')
+                  -> join ('users', 'users.id', '=', 'joblists.user_id')
+                  -> select ('joblists.JobID', 'users.email', 'orders.OrderID', 'joblists.total_price', 'jobstatuses.job_status' , 'jobstatuses.created_at')
                   -> where ('joblists.JobID', $JobID)
                   -> first();
-        return view('joblist.edit', compact('joblists'));
+        return view('joblist.edit', compact('data'));
         
         
     }
 
-    public function editJoblist(Request $request, $JobStatusID) {
+    public function editJoblist(Request $request) {
 
-        $joblists = Jobstatus::find($JobStatusID);
-        $joblists->role = Input::get('job_status');
-        $joblists->save();
-        return redirect()->route('viewEditJoblist');
+        $jobstatus = new Jobstatus;
+        $jobstatus->JobID = Input::get('JobID');
+        $jobstatus->job_status = Input::get('job_status');
+        $jobstatus->save();
+        return redirect()->route('viewJoblist');
     }
 
     

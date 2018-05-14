@@ -75,7 +75,7 @@
                                                 <strong>{{$data->JobID}}</strong>
                                             </a>
                                         </td>
-                                        <td class="hidden-xs text-center">{{$data->agent_email}}</td>
+                                        <td class="hidden-xs text-center">{{$data->email}}</td>
                                          <td class="hidden-xs text-center">{{$data->OrderID}}</td>
                                         <td>
                                             <span class="label label-success">{{$data->job_status}}</span>  

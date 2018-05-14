@@ -13,8 +13,11 @@ class OrderController extends Controller
 {
     public function viewOrderList()
     {
-       
-        $orders = Orders::all();
+  
+        $orders = DB:: table('orders')
+                  -> join ('users', 'users.id', '=', 'orders.user_id')
+                  -> select ('orders.OrderID', 'users.email', 'orders.created_at')
+                  -> get();
         return view('joblist.orderlist', compact('orders'));
     }
 

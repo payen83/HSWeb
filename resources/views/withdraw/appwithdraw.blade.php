@@ -89,7 +89,7 @@
                                        
                                         <div class="form-group">
                                             <div class="col-md-8 col-md-offset-4">
-                                                <a href="appwithdraw.html"<button class="btn btn-sm btn-danger" type="submit">Back</button></a>
+                                                <a href="{{route('viewWithdrawDetails',['withdrawID'=>$data->withdrawID])}}"<button class="btn btn-sm btn-danger" type="submit">Back</button></a>
                                                 <button class="btn btn-sm btn-primary" type="submit">Submit</button></a>
                                             </div>
                                         </div>

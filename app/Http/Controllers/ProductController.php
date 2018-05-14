@@ -21,8 +21,10 @@ class ProductController extends Controller
        
         $products = Product::all();
         return view('product.index', compact('products'));
-        return response() -> json(['data' => $products], 200);
+        
+        
     }
+
 
       public function viewAddProduct()
     {

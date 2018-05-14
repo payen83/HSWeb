@@ -71,5 +71,30 @@ class WithdrawController extends Controller
 
     }
 
+    public function viewRejectWithdraw($withdrawID)
+    {
+        
+        $data = DB:: table('withdraw')
+                  -> join ('users', 'users.id', '=', 'withdraw.user_id')
+                  -> select ('withdraw.withdrawID', 'users.name','users.email', 'users.u_bankname','users.u_accnumber','withdraw.created_at', 'withdraw.amount')
+                  -> where ('withdraw.withdrawID', $withdrawID)
+                  -> first();
+        return view('withdraw.reject', compact('data'));
+        
+        
+    }
+
+     public function saveRejectWdDetails(Request $request) {
+
+        
+         $storewithdraw = new StoreWithdraw;
+         $storewithdraw->withdrawID = Input::get('withdrawID');
+         $storewithdraw->ReasonReject = Input::get('ReasonReject');
+         $storewithdraw->amount = Input::get('amount');
+         $storewithdraw->save();
+         return redirect()->route('viewWithdraw');
+
+    }
+
 
 }

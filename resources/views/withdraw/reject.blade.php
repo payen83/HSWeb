@@ -2,7 +2,7 @@
 
 @section('content')
 
- <!-- Main Container -->
+<!-- Main Container -->
             <main id="main-container">
                 <!-- Page Header -->
                 <div class="content bg-gray-lighter">
@@ -12,8 +12,8 @@
                         </div>
                         <div class="col-sm-5 text-right hidden-xs">
                             <ol class="breadcrumb push-10-t">
-                                <li>Job List</li>
-                                <li><a class="link-effect" href="adduser.html">Edit Order Details</a></li>
+                                <li>Withdraw</li>
+                                <li><a class="link-effect" href="">Reject Withdraw Transaction </a></li>
                             </ol>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                                     <button type="button" data-toggle="block-option" data-action="close"><i class="si si-close"></i></button>
                                 </li>
                             </ul>
-                            <h3 class="block-title">Edit Order Details</h3>
+                            <h3 class="block-title">Reject Withdraw Transaction</h3>
                         </div>
                         <div class="block-content">
                            <!-- Page Content -->
@@ -55,47 +55,37 @@
                                 <div class="block-content block-content-narrow">
                                     <!-- jQuery Validation (.js-validation-bootstrap class is initialized in js/pages/base_forms_validation.js) -->
                                     <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
-                                    {{Form::open(['route' => ['editJoblist','JobID'=>$data->JobID],'method'=>'POST'])}}
-                                   
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-username">Job ID</label>
-                                            <div class="col-md-7">
-                                                {{Form ::text('JobID',$data->JobID,['class'=>'form-control','rows'=>'6'])}}
-                                            </div>
-                                        </div>
+                                    {{Form::open(['route' => ['saveRejectWdDetails','withdrawID'=>$data->withdrawID]])}}
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-ag-email">Agent Email</label>
                                             <div class="col-md-7">
-                                                {{Form ::text('agent_email',$data->email,['class'=>'form-control','rows'=>'6'])}}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-ag-email">Order Number</label>
-                                            <div class="col-md-7">
-                                                {{Form ::text('OrderID',$data->OrderID,['class'=>'form-control','rows'=>'6'])}}
+                                                 {{Form ::label('email',$data->email,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
 
-                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-status">Status</label>
-                                            <div class="col-md-7">
-                                               {!! Form::select('job_status',['Processing'=>'Processing','On Delivery'=>'On Delivery','Completed'=>'Completed'],null,["class"=>"form-control",'rows'=>'6']) !!}
-                                            </div>
-                                       </div>
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-custname">Total Price</label>
+                                            <label class="col-md-4 control-label" for="val-amt">Amount Withdraw</label>
                                             <div class="col-md-7">
-                                                {{Form ::text('total_price',$data->total_price,['class'=>'form-control','rows'=>'6'])}}
+                                                 {{Form ::text('amount',$data->amount,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
 
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="val-quantity">Rejection Reason</label>
+                                            <div class="col-md-7">
+                                                  <div class="col-md-7">
+                                                {{Form ::textarea('RejectReason',null,['class'=>'form-control','rows'=>'6'])}}
+                                            </div>
+                                            </div>
+                                        </div>
+                                       
                                         <div class="form-group">
                                             <div class="col-md-8 col-md-offset-4">
-                                                <a href="{{route('viewJoblist')}}"<button class="btn btn-sm btn-danger" type="submit">Back</button></a>
+                                                <a href="{{route('viewWithdrawDetails',['withdrawID'=>$data->withdrawID])}}"<button class="btn btn-sm btn-danger" type="submit">Back</button></a>
                                                 <button class="btn btn-sm btn-primary" type="submit">Submit</button></a>
                                             </div>
                                         </div>
-                                    </form>
+                                    {{Form::close()}}
                                 </div>
                             </div>
                             <!-- Bootstrap Forms Validation -->
