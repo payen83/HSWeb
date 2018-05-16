@@ -28,7 +28,6 @@ class UserController extends Controller
     {
      
          $user = new User;
-
          $user->name = Input::get('name');
          $user->email = Input::get('email');
          $user->password = bcrypt(Input::get('password'));

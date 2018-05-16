@@ -144,6 +144,11 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'editJoblist'
     ]);
 
+    Route::get('/joblist/ProductOrder', [
+        'uses' => 'ProductController@OrderProduct',
+        'as' => 'OrderProduct'
+    ]);
+
      Route::get('/joblist/viewOrder', [
         'uses' => 'OrderController@ViewOrderList',
         'as' => 'ViewOrderList'

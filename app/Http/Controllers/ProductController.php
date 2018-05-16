@@ -188,5 +188,14 @@ class ProductController extends Controller
         return redirect('Inventory');
     }
 
+        public function OrderProduct()
+    {
+       
+        $products = Product::all();
+        return view('joblist.viewproductorders', compact('products'));
+        
+        
+    }
+
   
 }

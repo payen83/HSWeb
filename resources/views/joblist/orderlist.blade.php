@@ -27,7 +27,7 @@
                     <div class="block">
                         <div class="block-header">
                             <ul class="block-options">
-                            <a href="{{route('viewAddUser')}}"<button class="btn btn-success push-5-r push-10" type="button"><i class="fa fa-plus"></i> Add Orders</button></a>
+                            <a href="{{route('OrderProduct')}}"<button class="btn btn-success push-5-r push-10" type="button"><i class="fa fa-plus"></i> Add Orders</button></a>
                             </ul>
                             <h3 class="block-title">Order List</h3>
                         </div>
