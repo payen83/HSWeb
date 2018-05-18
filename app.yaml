@@ -12,7 +12,7 @@ env_variables:
  # Put production environment variables here.
  APP_ENV: local   # or production
  APP_DEBUG : true # or false 
- APP_KEY: base64:IvmhYNXmzGYs6EtikS/yzoV9pqO6m7zOWTvLbjNFAaI=
+ APP_KEY: base64:HRb93M+D7BHO2GX5U1/4xmCO6xMvAGp5k56B+GoquW8=
 #go to generate app key paragraf in this tutorial
 
  CACHE_DRIVER: database 
