@@ -9,44 +9,25 @@ skip_files:
  - .env #we want to skip this to make sure we don’t mess stuff up on the server
 
 env_variables:
+  DB_CONNECTION: mysql
+  DB_HOST: 35.193.17.141
+  DB_PORT: 3306
+  DB_DATABASE: healthshopper
+  DB_USERNAME: root
+  DB_PASSWORD: root
+  DB_SOCKET: /cloudsql/healthshopper-204407:us-central1:healthshopper
+  
  # Put production environment variables here.
- APP_ENV: local   # or production
- APP_DEBUG : true # or false 
- APP_KEY: base64:HRb93M+D7BHO2GX5U1/4xmCO6xMvAGp5k56B+GoquW8=
+  APP_LOG: errorlog
+  APP_KEY: base64:HRb93M+D7BHO2GX5U1/4xmCO6xMvAGp5k56B+GoquW8=
+  STORAGE_DIR: /database
 #go to generate app key paragraf in this tutorial
 
- CACHE_DRIVER: database 
- 
- # instead of putting the cache in the database I recommend using redis
- SESSION_DRIVER: database #or file since both work
 
- APP_LOG: daily
- APP_TIMEZONE: UTC #your timezone of choice
-
-
-# follow the part of the tutorial on setting up your SQL database
- DB_CONNECTION: mysql
- DB_HOST: localhost
- DB_PORT: 3306
- DB_DATABASE: healthshopper	
- DB_USERNAME: root
- DB_PASSWORD: root
- DB_SOCKET: /cloudsql/healthshopper-204407:us-central1:healthshopper
-
- QUEUE_DRIVER: database #in case you execute queued jobs
-
- MAIL_DRIVER: smtp
- MAIL_HOST: smtp.sparkpostmail.com
- MAIL_PORT: 587
- MAIL_USERNAME: sparkpost_username
- MAIL_PASSWORD: ****************
-
- LOG_DELETE:  true # this is a parameter added by us in the project .env file. You can add here any setting you would add to your .env file
-
- GOOGLE_VISION_PROJECT_ID : project_id
-
-#we need this for the flex environment
 beta_settings:
    # for Cloud SQL, set this value to the Cloud SQL connection name,
    # e.g. "project:region:cloudsql-instance"
    cloud_sql_instances: healthshopper-204407:us-central1:healthshopper
+   
+   
+   

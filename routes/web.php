@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/dashboard', [
         'as' => 'viewDashboard',
-        'uses' => 'HomeController@viewDashboard'
+        'uses' => 'DashboardController@viewDashboard'
     ]);
 
 
