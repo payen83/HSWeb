@@ -63,6 +63,13 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
+		
+		'google' => [ 
+				'driver' => 's3', 
+				'key' => 'xxx', 
+				'secret' => 'xxx', 
+				'bucket' => 'qrnotesfiles', 
+				'base_url'=>'https://storage.googleapis.com' ]
 
     ],
 

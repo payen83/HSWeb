@@ -14,8 +14,11 @@ class CreateWithrawTable extends Migration
     public function up()
     {
         Schema::create('withdraw', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+            $table->increments('withdrawID');
+			$table->integer('walletID');
+			$table->integer('user_id');
+			$table->datetime('created_at');
+			$table->datetime('updated_at');
         });
     }
 

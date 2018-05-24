@@ -14,8 +14,18 @@ class CreateJoblistsTable extends Migration
     public function up()
     {
         Schema::create('joblists', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+            $table->increments('JobID');
+			$table->int('OrderID');
+			$table->int('user_id');
+			$table->double('total_price');
+			$table->integer('cancelcounr');
+			$table->datetime('created_at');
+			$table->datetime('update_at');
+			$table->string('location_address');
+			$table->string('LatLng');
+			$table->string('currency');
+			$table->integer('job_rating');
+            
         });
     }
 

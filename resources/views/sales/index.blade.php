@@ -72,7 +72,7 @@
                                                 <strong>{{$data->OrderID}}</strong>
                                             </a>
                                         </td>
-                                        <td class="hidden-xs text-center">{{$data->customer_email}}</td>
+                                        <td class="hidden-xs text-center">{{$data->email}}</td>
                                          <td class="hidden-xs text-center">{{$data->ProductID}}</td>
                                         <td class="hidden-xs text-center">{{$data->ProductQuantity}}</td>
                                         <td class="text-right hidden-xs">

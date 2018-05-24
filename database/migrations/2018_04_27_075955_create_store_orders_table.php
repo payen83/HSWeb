@@ -14,8 +14,13 @@ class CreateStoreOrdersTable extends Migration
     public function up()
     {
         Schema::create('store_orders', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+            $table->increments('StoreOrderID');
+            $table->integer('ProductID');
+			$table->integer('OrderID');
+			$table->integer('ProductQuantity');
+			$table->decimal('Total_amount');
+			$table->datetime('Created_at');
+			$table->datetime('Updated_at');
         });
     }
 

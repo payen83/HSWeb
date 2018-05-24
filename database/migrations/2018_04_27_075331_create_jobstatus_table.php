@@ -13,9 +13,13 @@ class CreateJobstatusTable extends Migration
      */
     public function up()
     {
-        Schema::create('jobstatus', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+        Schema::create('jobstatuses', function (Blueprint $table) {
+            $table->increments('JobStatusID');
+			$table->integer('JobID');
+			$table->string('job_status');
+			$table->datetime('created_at');
+			$table->datetime('updated_at');
+            
         });
     }
 

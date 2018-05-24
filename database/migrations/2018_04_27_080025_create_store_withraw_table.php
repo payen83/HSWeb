@@ -14,8 +14,15 @@ class CreateStoreWithrawTable extends Migration
     public function up()
     {
         Schema::create('store_withdraw', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+            $table->increments('ID');
+            $table->integer('withdrawID');
+			$table->string('status');
+			$table->string('ReferenceNumber');
+			$table->integer('RejectReason');
+			$table->datetime('TransactionDate');
+			$table->string('ProofURL');
+			$table->decimal('amount');
+			$table->datetime('updated_at');
         });
     }
 
