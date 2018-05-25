@@ -7,6 +7,9 @@ use App\Joblist;
 use App\Product;
 use App\StoreOrders;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use DB;
 
 class OrderController extends Controller

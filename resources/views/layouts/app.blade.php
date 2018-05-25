@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
 
-        <title>Health Shoppe - Homepage</title>
+        <title>{{config('app.name')}}</title>
 
         <meta name="description" content="OneUI - Admin Dashboard Template & UI Framework created by pixelcave and published on Themeforest">
         <meta name="author" content="pixelcave">
