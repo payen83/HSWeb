@@ -24,12 +24,6 @@ Route::group(['middleware' => 'auth'], function () {
         return "Sorry, you are unauthorized to access this page.";
     });
 
-    Route::group(['prefix' => 'user'], function () {
-        Route::get('/', 'UserController@index');
-        
-       
-  });
-
      Route::get('/user', [
         'as' => 'viewUser',
         'uses' => 'UserController@viewUser'

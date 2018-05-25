@@ -57,6 +57,7 @@
                                     <!-- jQuery Validation (.js-validation-bootstrap class is initialized in js/pages/base_forms_validation.js) -->
                                     <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
                                     {{Form::open(['route' => ['assignProduct','id'=>$data->id],'method'=>'POST'])}}
+                                    @csrf
                                     <div class="form-group">
                                         <center><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></center>
                                     </div>

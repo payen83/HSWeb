@@ -13,6 +13,7 @@
                             </ul>
 
                     {{Form::open(['route' => ['editUserPrivacy','id'=>$data->id],'method'=>'POST'])}}
+                      @csrf
                             <div class="block-content tab-content">
                                
                                  <!-- Privacy Tab -->

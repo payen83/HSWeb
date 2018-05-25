@@ -56,6 +56,7 @@
                                     <!-- jQuery Validation (.js-validation-bootstrap class is initialized in js/pages/base_forms_validation.js) -->
                                     <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
                                     {{Form::open(['route' => ['saveRejectWdDetails','withdrawID'=>$data->withdrawID]])}}
+                                      @csrf
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-ag-email">Agent Email</label>
                                             <div class="col-md-7">

@@ -56,6 +56,7 @@
 
                     <!-- Main Content -->
                         {{Form::open(['route' => ['editUser','id'=>$data->id],'method'=>'POST'])}}
+                        @csrf
                         <div class="block">
                             <ul class="nav nav-tabs nav-justified push-20" data-toggle="tabs">
                                 <li class="active">
