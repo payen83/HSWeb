@@ -34,6 +34,8 @@ class ProductController extends Controller
 
     public function addProduct(Request $request)
     {
+        $input = $request->all();
+        dd(Input::all());
 
          $validator = Validator::make(Input::all(), [
                 'Discount' => 'min:0|max:100'
