@@ -18,6 +18,11 @@ Route::middleware('auth:api')
         return $request->user();
     });
 
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
 //Authentication 
     Route::post('auth/register', 'Auth\RegisterController@create');
     Route::post('auth/login', 'Auth\LoginController@logs');
