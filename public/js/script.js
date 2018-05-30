@@ -6,7 +6,7 @@ function ajaxLoad(filename, content) {
         url: filename,
         contentType: false,
         success: function (data) {
-            $("#" + content).html(data);
+            $("" + content).html(data);
             $('.loading').hide();
         },
         error: function (xhr, status, error) {
@@ -38,9 +38,9 @@ $(document).on('click', '.pagination a', function (event) {
 
 routie('*', function () {
     var url = window.location.href;
-    var p = url.indexOf('#');
+    var p = url.indexOf('');
     if (p > -1) {
-        var controllerAction = url.substr(url.indexOf('#') + 1);
+        var controllerAction = url.substr(url.indexOf('') + 1);
         var pos = controllerAction.indexOf('*');
         var menu = controllerAction;
         if (pos > -1)

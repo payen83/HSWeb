@@ -65,13 +65,22 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
+    
     protected function create(Request $request)
     {
+
+      if ($request->role =='Agent' or $request->role =='Customer')
+      {
         return User::create([
+        'role' => $request->role,
         'name' => $request->name,
         'email' => $request->email,
         'password' => bcrypt($request->password),
         ]);
+       }
+
+       else
+         echo "You are not allowed to register";
     }
 
 

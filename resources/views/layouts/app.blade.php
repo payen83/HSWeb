@@ -35,12 +35,14 @@
         <!-- Stylesheets -->
         <!-- Web fonts -->
         <link rel="stylesheet" href="{{ URL::asset('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700') }}">
+         
         
         <!-- Page JS Plugins CSS go here -->
 
         <!-- Bootstrap and OneUI CSS framework -->
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
         <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/oneui.min.css') }}">
+      
 
 
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
@@ -194,6 +196,7 @@
         <script src="{{ asset('assets/js/core/jquery.placeholder.min.js') }}"></script>
         <script src="{{ asset('assets/js/core/js.cookie.min.js') }}"></script>
         <script src="{{ asset('assets/js/app.js') }}"></script>
+       
 
          <!-- Page JS Plugins -->
         <script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
