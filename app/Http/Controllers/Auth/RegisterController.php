@@ -71,16 +71,19 @@ class RegisterController extends Controller
 
       if ($request->role =='Agent' or $request->role =='Customer')
       {
-        return User::create([
+        User::create([
         'role' => $request->role,
         'name' => $request->name,
         'email' => $request->email,
         'password' => bcrypt($request->password),
         ]);
+
+        return response()->json(['message' => 'Successfully Register', 'status' => true], 201);
        }
 
        else
-         echo "You are not allowed to register";
+         return response()->json(['message' => 'You are not allowed to register', 'status' => false], 401);
+        
     }
 
 

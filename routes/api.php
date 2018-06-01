@@ -13,33 +13,58 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')
-    ->get('/user', function (Request $request) {
-        return $request->user();
-    });
+Route::group([
 
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function ($router) {
+    
+    Route::post('register', 'Auth\RegisterController@create');
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-
-//Authentication 
-    Route::post('auth/register', 'Auth\RegisterController@create');
-    Route::post('auth/login', 'Auth\LoginController@logs');
-    Route::post('auth/logout', 'Auth\LoginController@out');
     Route::post('forgot/password', 'Auth\ForgotPasswordController');
 
+});
 
-//Product
-    Route::get('ProductCustomer', 'APIProductController@ProductCustomer');
-    Route::get('ProductAgent', 'APIProductController@ProductAgent');
-    Route::get('ProductInventory', 'APIProductController@ProductInventory');
+Route::group([
 
+    'middleware' => 'api',
+    'prefix' => 'products'
 
-//Profile
+], function ($router) {
+
+    Route::get('productcustomer', 'APIProductController@ProductCustomer');
+    Route::get('productagent', 'APIProductController@ProductAgent');
+    Route::get('productinventory', 'APIProductController@ProductInventory');
+
+});
+
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'users'
+
+], function ($router) {
+
     Route::get('viewProfile/{id}', 'APIUserController@viewProfile');
     Route::post('UpdateProfile/{id}', 'APIUserController@UpdateProfile');
     
+});
 
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'purchase'
+
+], function ($router) {
+
+    Route::post('checkout', 'APIPurchaseController@checkout');
+    Route::post('reconfirmorder', 'APIPurchaseController@reconfirmorder');
+    Route::post('payment', 'APIPurchaseController@payment');
+   
+});
 
 

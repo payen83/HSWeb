@@ -17,12 +17,12 @@ class APIProductController extends Controller
 {
         public function ProductCustomer()
     	{
-       
+          
         	$products = DB:: table('products')
                   -> select ('products.id','products.Name', 'products.Price','products.ImageURL', 'products.Description')
                   -> where('products.status',1)
                   -> get();
-        	return response() -> json(['products' => $products], 200);
+        	return response() -> json(['products' => $products],  200);
         
    		}
 

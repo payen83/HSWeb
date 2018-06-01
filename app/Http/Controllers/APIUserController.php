@@ -25,8 +25,8 @@ class APIUserController extends Controller
     }
 
     public function UpdateProfile(Request $request, $id) {
-
-
+    
+         
          $user = User::find($id);
         //upload new images
         if ($request->hasFile('url_image'))
