@@ -61,10 +61,22 @@ Route::group([
 
 ], function ($router) {
 
-    Route::post('checkout', 'APIPurchaseController@checkout');
-    Route::post('reconfirmorder', 'APIPurchaseController@reconfirmorder');
-    Route::post('payment', 'APIPurchaseController@payment');
-   
+    Route::post('orders', 'APIPurchaseController@orders');
+
+});
+
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'job'
+
+], function ($router) {
+
+    Route::get('PendingJob', 'APIJobController@PendingJob');
+    Route::get('ActiveJob', 'APIJobController@ActiveJob');
+    Route::post('UpdateJob/{JobID}', 'APIJobController@UpdateJob');
+    Route::get('ViewOrderStatus/{user_id}', 'APIJobController@ViewOrderStatus');
+
 });
 
 

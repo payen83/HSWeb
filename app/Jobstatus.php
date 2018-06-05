@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Joblist;
 use Illuminate\Database\Eloquent\Model;
 
 class Jobstatus extends Model
@@ -14,5 +15,13 @@ class Jobstatus extends Model
 
     public static function getSingleData($JobStatusID) {
         return Jobstatus::where('jobstatus.JobStatusID',$JobStatusID)->first();
+    }
+
+    public static function CreateStatusJob(){
+    	   $lastjob = Joblist::orderBy('created_at', 'desc')->first();
+           $jobstatus = new Jobstatus;
+           $jobstatus->job_status = "Pending";
+           $jobstatus->JobID =$lastjob->JobID;
+           $jobstatus->save();
     }
 }

@@ -164,6 +164,9 @@ return [
         
         //JWT Auth Provider
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        
+        //PDF Provider
+        Barryvdh\DomPDF\ServiceProvider::class,
 
 
     ],
@@ -218,6 +221,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
 
 

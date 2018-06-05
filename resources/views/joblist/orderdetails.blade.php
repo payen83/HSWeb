@@ -63,6 +63,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php
+                                        $totalprice=0;
+                                        ?>
                                        
                                         @foreach($orders as $key=> $data)
 
@@ -73,15 +76,15 @@
                                             <td class="text-center">{{$data->ProductQuantity}}</td>
                                             <td class="text-right">${{$data->Price}}</td>
                                             <td class="text-right">${{$data->Total_Amount}}</td>
-                                            
-                                            
-                                          
+                                            <?php
+                                            $totalprice += $data->Total_Amount;
+                                            ?>
                                         </tr>
                                        
                                     @endforeach
                                      <tr class="success">
                                             <td colspan="5" class="text-right text-uppercase"><strong>Total Price:</strong></td>
-                                            <td class="text-right">${{$data->total_price}}</td>
+                                            <td class="text-right">${{$totalprice}}</td>
                                     </tr>
                                     </tbody>
                                 </table>

@@ -29,9 +29,8 @@ class OrderController extends Controller
         
         $orders = DB:: table('orders')
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
-                  -> join ('joblists', 'joblists.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
-                  -> select ('orders.OrderID', 'store_orders.ProductID', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('orders.*,(store_orders.ProductQuantity*products.Price) as Total_Amount'), 'joblists.total_price')
+                  -> select ('orders.OrderID', 'store_orders.ProductID', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('orders.*,(store_orders.ProductQuantity*products.Price) as Total_Amount'))
                   -> where ('orders.OrderID', $OrderID)
                   -> get();
         return view('joblist.orderdetails', compact('orders'));
