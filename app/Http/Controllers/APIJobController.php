@@ -58,8 +58,24 @@ class APIJobController extends Controller
         else if($request->job_status == 'Active'){
            return response()->json(['message' => 'Job has been accepted by other agent', 'status' => false], 401);
         }
-
       }
+
+        public function UpdateJob (Request $request, $JobID){
+           if($request->job_status == 'Completed'){
+              $jobstatuses = new Jobstatus;
+              $jobstatuses->JobID= $JobID;
+              $jobstatuses->job_status= 'Completed';
+              $jobstatuses->save();
+              $joblists = Joblist::find($JobID);
+              $joblists->status_job=2;
+              $joblists->save();
+
+              return response()->json(['JobID'=> $JobID,'message' => 'Job has been Completed', 'status' => true], 201);
+
+              }
+        }
+
+      
 
       public function ViewOrderStatus($user_id){
          $orders = DB:: table('orders')

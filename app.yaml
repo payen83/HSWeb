@@ -29,5 +29,3 @@ beta_settings:
    # e.g. "project:region:cloudsql-instance"
    cloud_sql_instances: healthshopper-204407:us-central1:healthshopper
    
-   
-   

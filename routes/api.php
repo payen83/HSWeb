@@ -79,6 +79,7 @@ Route::group([
     Route::get('PendingJob', 'APIJobController@PendingJob');
     Route::get('ActiveJob', 'APIJobController@ActiveJob');
     Route::post('AcceptJob/{JobID}', 'APIJobController@AcceptJob');
+    Route::post('UpdateJob/{JobID}', 'APIJobController@UpdateJob');
     Route::get('ViewOrderStatus/{user_id}', 'APIJobController@ViewOrderStatus');
 
 });

@@ -46,14 +46,24 @@ class APIPurchaseController extends Controller
         $orders->total_price = Input::get('total_price');
         $orders->save();
        
-        $store_orders = new StoreOrders;
-        $store_orders ->OrderID = $order_no;
-        $store_orders ->ProductID = Input::get('ProductID');
-        $store_orders ->ProductQuantity = Input::get('ProductQuantity');
-        $store_orders ->Discount = Input::get('Discount')/100;
-        $store_orders->save();
+        // validated input request
+            $this->validate($request, [
+                            'ProductID' => 'required',
+                            ]);
 
-        
+        // create new task
+            $rows = $request->input('rows');
+            foreach ($rows as $row)
+                    {
+                    $store_orders[] = [
+                    'OrderID'=>$row[$order_no],
+                    'ProductID'=>$row['ProductID'],
+                    'ProductQuantity'=>$row['ProductQuantity'],
+                    'Discount'=>$row['Discount'/100],
+
+                      ];
+           }
+            StoreOrders::insert($store_orders);
 
         $payment = new Payment;
         $payment ->OrderID = $order_no;
@@ -65,7 +75,7 @@ class APIPurchaseController extends Controller
         
         $email=User::where('users.id', '=', $id)->pluck('email','id');
         Mail::to($email)->send(new Invoice($email));
-        return response()->json(['OrderID'=> $order_no,'message' => 'Successfull Order', 'status' => true], 201);
+        return response()->json(['OrderID'=> $order_no,'message' => 'Successful Order', 'status' => true], 201);
 
     }
 }
