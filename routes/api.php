@@ -50,7 +50,11 @@ Route::group([
 ], function ($router) {
 
     Route::get('viewProfile/{id}', 'APIUserController@viewProfile');
-    Route::post('UpdateProfile/{id}', 'APIUserController@UpdateProfile');
+    Route::post('UserProfile/{id}', 'APIUserController@UserProfile');
+    Route::post('UserProfile/{id}', 'APIUserController@UserProfile');
+    Route::post('ChangePassword/{id}', 'APIUserController@ChangePassword');
+    Route::post('UserImage/{id}', 'APIUserController@UserImage');
+    Route::post('BankDetails/{id}', 'APIUserController@BankDetails');
     
 });
 
@@ -74,7 +78,7 @@ Route::group([
 
     Route::get('PendingJob', 'APIJobController@PendingJob');
     Route::get('ActiveJob', 'APIJobController@ActiveJob');
-    Route::post('UpdateJob/{JobID}', 'APIJobController@UpdateJob');
+    Route::post('AcceptJob/{JobID}', 'APIJobController@AcceptJob');
     Route::get('ViewOrderStatus/{user_id}', 'APIJobController@ViewOrderStatus');
 
 });

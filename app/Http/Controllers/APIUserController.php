@@ -24,10 +24,26 @@ class APIUserController extends Controller
         
     }
 
-    public function UpdateProfile(Request $request, $id) {
-    
+    public function UserProfile(Request $request, $id) {
          
-         $user = User::find($id);
+        $input = $request->all();
+        $update = User::find($id);
+        $update->update($input);
+        return response()->json(['message' => 'Your Profile has been update', 'status' => true], 201);
+    }
+
+    public function ChangePassword(Request $request, $id){
+        $user = User::find($id);
+         if (Input::get('password') != '')
+            $user->password = bcrypt(Input::get('password'));
+            $user->save();
+            return response()->json(['message' => 'Password has been change', 'status' => true], 201);
+    }
+
+    public function UserImage (Request $request, $id){
+
+        if($request != ''){
+        $user = User::find($id);
         //upload new images
         if ($request->hasFile('url_image'))
         {
@@ -44,20 +60,23 @@ class APIUserController extends Controller
         else{
             $filename=$user->url_image;
         }
-        if (Input::get('password') != '')
-            $user->password = bcrypt(Input::get('password'));
-        $user->role = Input::get('role');
-        $user->status = Input::get('status')? 1 : 0;
-        $user->name = Input::get('name');
-        $user->email = Input::get('email');
-        $user->icnumber = Input::get('icnumber');
-        $user->u_address = Input::get('u_address');
-        $user->u_phone = Input::get('u_phone');
-        $user->u_bankname = Input::get('u_bankname');
-        $user->u_accnumber = Input::get('u_accnumber');
+
         $user->url_image = $filename;
         $user->save();
-        return response() -> json(['users' => $user], 200);
+        return response()->json(['message' => 'Image has been update', 'status' => true], 201);
+        }
+
+        else
+          return response()->json(['message' => 'Failed to update Image', 'status' => false], 401);
+
+    }
+
+    public function BankDetails (Request $request, $id){
+        $user = User::find($id);
+        $user->u_bankname = Input::get('u_bankname');
+        $user->u_accnumber = Input::get('u_accnumber');
+        $user->save();
+        return response()->json(['message' => 'Bank Details has been update', 'status' => true], 201);
     }
 
 }

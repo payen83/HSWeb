@@ -38,7 +38,7 @@ class APIJobController extends Controller
         
       }
 
-      public function UpdateJob(Request $request, $JobID){
+      public function AcceptJob(Request $request, $JobID){
 
         if($request->job_status == 'Pending'){
           $jobstatuses = new Jobstatus;
