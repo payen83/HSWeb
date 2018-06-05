@@ -1,4 +1,32 @@
-runtime: php  # language of the app
+runtime: php55
+api_version: 1
+threadsafe: true
+
+automatic_scaling:
+  target_cpu_utilization: 0.65
+  min_instances: 5
+  max_instances: 100
+  min_pending_latency: 30ms  # default value
+  max_pending_latency: automatic
+
+handlers:
+# Serve images as static resources.
+- url: /(.+\.(gif|png|jpg))$
+  static_files: \1
+  upload: .+\.(gif|png|jpg)$
+  application_readable: true
+
+# Serve php scripts.
+- url: /(.+\.php)$
+  script: \1
+
+- url: /images
+  static_dir: static/images
+  http_headers:
+    Access-Control-Allow-Origin: *
+
+
+
 env: flex     # let app engine know we use flexible environment
 
 runtime_config:
