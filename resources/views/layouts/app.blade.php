@@ -91,30 +91,47 @@
                         </div>
                         <!-- END Side Header -->`
 
+                        <?php
+                         if (!function_exists('classActivePath')) {
+                                function classActivePath($path)
+                                {
+                                    $path = explode('.', $path);
+                                    $segment = 1;
+                                    foreach($path as $p) {
+                                            if((request()->segment($segment) == $p) == false) {
+                                            return '';
+                                }
+                                    $segment++;
+                                }
+                                return ' active';
+                                }
+                        }
+                        ?>
+
                         <!-- Side Content -->
                         <div class="side-content side-content-full">
                             <ul class="nav-main">
                                 <li>
-                                    <a class="active" href="{{route('viewDashboard')}}"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
+                                    <a class="{!! classActivePath('dashboard') !!}" href="{{route('viewDashboard')}}"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
                                 </li>
                                 <li>
-                                    <a href="{{route('viewProduct')}}"><i class="si si-handbag"></i><span class="sidebar-mini-hide">Product</span></a>
+                                    <a class="{!! classActivePath('product') !!}" href="{{route('viewProduct')}}"><i class="si si-handbag"></i><span class="sidebar-mini-hide">Product</span></a>
                                 </li>
                                  <li>
-                                    <a href="{{route('viewJoblist')}}"><i class="si si-layers"></i><span class="sidebar-mini-hide">Job List</span></a>
+                                    <a class="{!! classActivePath('joblist') !!}" href="{{route('viewJoblist')}}"><i class="si si-layers"></i><span class="sidebar-mini-hide">Job List</span></a>
                                 </li>
                                 <li>
-                                    <a href="{{route('viewUser')}}"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>
+                                    <a class="{!! classActivePath('user') !!}" href="{{route('viewUser')}}"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>
                                 </li>
                               
                                 <li>
-                                    <a href="{{route('viewSales')}}"><i class="fa fa-bar-chart"></i><span class="sidebar-mini-hide">Sales Tracking</span></a>
+                                    <a class="{!! classActivePath('sales') !!}" href="{{route('viewSales')}}"><i class="fa fa-bar-chart"></i><span class="sidebar-mini-hide">Sales Tracking</span></a>
                                 </li>
                                 <li>
-                                    <a href="{{route('viewWithdraw')}}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Withdraw</span></a>
+                                    <a class="{!! classActivePath('withdraw') !!}" href="{{route('viewWithdraw')}}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Withdraw</span></a>
                                 </li>
                                  <li>
-                                    <a href="{{url('/logout')}}" onclick="event.preventDefault();
+                                    <a class="{!! classActivePath('logout') !!}" href="{{url('/logout')}}" onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();"><i class="si si-logout"></i><span class="sidebar-mini-hide">Logout</span></a>
                                       <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                       style="display: none;">

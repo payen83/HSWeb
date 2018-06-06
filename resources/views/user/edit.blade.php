@@ -13,11 +13,11 @@
                         <div class="bg-image" style="background-image: url('{{ asset('assets/img/photos/photo3@2x.jpg') }}');">
                             <div class="block-content bg-primary-op text-center overflow-hidden">
                                 <div class="push-30-t push animated fadeInDown">
-                                    <img class="img-avatar img-avatar96 img-avatar-thumb" src="'{{ asset('assets/img/avatars/avatar10.jpg') }}" alt="">
+                                    <img class="img-avatar img-avatar96 img-avatar-thumb" src="{{ asset('assets/img/avatars/avatar10.jpg') }}" alt="">
                                 </div>
                                 <div class="push-30 animated fadeInUp">
-                                    <h2 class="h4 font-w600 text-white push-5">Jeremy Fuller</h2>
-                                    <h3 class="h5 text-white-op">Web Designer</h3>
+                                    <h2 class="h4 font-w600 text-white push-5">{{$data->name}}</h2>
+                                    <h3 class="h5 text-white-op">{{$data->role}}</h3>
                                 </div>
                             </div>
                         </div>
