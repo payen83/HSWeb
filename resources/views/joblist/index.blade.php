@@ -5,42 +5,7 @@
             <main id="main-container">
                 <!-- Page Content -->
                 <div class="content content-boxed">
-                    <!-- Header Tiles -->
-                    <div class="row">
-                        <div class="col-sm-6 col-md-3">
-                            <a class="block block-link-hover3 text-center" href="javascript:void(0)">
-                                <div class="block-content block-content-full">
-                                    <div class="h1 font-w700 text-primary" data-toggle="countTo" data-to="35"></div>
-                                </div>
-                                <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">Pending</div>
-                            </a>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <a class="block block-link-hover3 text-center" href="javascript:void(0)">
-                                <div class="block-content block-content-full">
-                                    <div class="h1 font-w700" data-toggle="countTo" data-to="120"></div>
-                                </div>
-                                <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">Today</div>
-                            </a>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <a class="block block-link-hover3 text-center" href="javascript:void(0)">
-                                <div class="block-content block-content-full">
-                                    <div class="h1 font-w700" data-toggle="countTo" data-to="260"></div>
-                                </div>
-                                <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">Yesterday</div>
-                            </a>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <a class="block block-link-hover3 text-center" href="javascript:void(0)">
-                                <div class="block-content block-content-full">
-                                    <div class="h1 font-w700" data-toggle="countTo" data-to="57890"></div>
-                                </div>
-                                <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">This Month</div>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- END Header Tiles -->
+                   
 
                     <!-- All Orders -->
                     <div class="block">
@@ -61,7 +26,6 @@
                                         <th class="visible-lg">Order Number</th>
                                         <th>Status</th>
                                         <th class="hidden-xs text-center">Date/Time</th>
-                                        <th class="hidden-xs text-right">Total Price</th>
                                         <th class="hidden-xs text-center">Action</th>
                                        
                                     </tr>
@@ -81,9 +45,7 @@
                                             <span class="label label-success">{{$data->job_status}}</span>  
                                         </td>
                                         <td class="hidden-xs text-center">{{$data->created_at}}</td>
-                                        <td class="text-right hidden-xs">
-                                            <strong>$ {{$data->total_price}}</strong>
-                                        </td>
+                                        
                                          <td class="text-center">
                                             <div class="btn-group">
                                                  <a href="{{route('viewEditJoblist',['JobID'=>$data->JobID])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
@@ -102,4 +64,5 @@
             </main>
             <!-- END Main Container -->
              <!-- Page JS Code -->
+
 @endsection 

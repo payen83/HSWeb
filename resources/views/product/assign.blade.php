@@ -78,9 +78,10 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-agent_email">Agent Email</label>
                                             <div class="col-md-7">
-                                                {{Form ::select('user_id', $select_email_user, null,['class'=>'form-control','rows'=>'6', 'placeholder' => 'Please Choose'])}}
+                                                {{Form ::select('user_id', $select_email_user, null,['class'=>'js-select2 form-control','rows'=>'6', 'placeholder' => 'Please Choose'])}}
                                             </div>
                                         </div>
+                    
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-product-quantity">Quantity</label>
                                             <div class="col-md-7">

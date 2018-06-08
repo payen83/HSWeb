@@ -38,6 +38,18 @@
          
         
         <!-- Page JS Plugins CSS go here -->
+        <link rel="stylesheet" href="{{ asset('assets/js/plugins/bootstrap-datepicker/bootstrap-datepicker3.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/js/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/js/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/js/plugins/select2/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/js/plugins/select2/select2-bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/js/plugins/jquery-auto-complete/jquery.auto-complete.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.skinHTML5.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/js/plugins/dropzonejs/dropzone.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/js/plugins/jquery-tags-input/jquery.tagsinput.min.css') }}">
+
+        
 
         <!-- Bootstrap and OneUI CSS framework -->
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
@@ -80,12 +92,9 @@
                     <div class="sidebar-content">
                         <!-- Side Header -->
                         <div class="side-header side-content bg-white-op">
-                            <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
-                            <button class="btn btn-link text-gray pull-right hidden-md hidden-lg" type="button" data-toggle="layout" data-action="sidebar_close">
-                                <i class="fa fa-times"></i>
-                            </button>
                             
-                            <a class="h5 text-white" href="homepage.html">
+                            
+                            <a class="h5 text-white">
                                <img src="{{ asset('assets/img/logo.png') }}" width="60" height="50"><span class="h4 font-w600 sidebar-mini-hide">HealthShoppe</span>
                             </a>
                         </div>
@@ -131,7 +140,7 @@
                                     <a class="{!! classActivePath('withdraw') !!}" href="{{route('viewWithdraw')}}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Withdraw</span></a>
                                 </li>
                                  <li>
-                                    <a class="{!! classActivePath('logout') !!}" href="{{url('/logout')}}" onclick="event.preventDefault();
+                                    <a href="{{url('/logout')}}" onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();"><i class="si si-logout"></i><span class="sidebar-mini-hide">Logout</span></a>
                                       <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                       style="display: none;">
@@ -167,20 +176,7 @@
                             <i class="fa fa-ellipsis-v"></i>
                         </button>
                     </li>
-                    <li class="visible-xs">
-                        <!-- Toggle class helper (for .js-header-search below), functionality initialized in App() -> uiToggleClass() -->
-                        <button class="btn btn-default" data-toggle="class-toggle" data-target=".js-header-search" data-class="header-search-xs-visible" type="button">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </li>
-                    <li class="js-header-search header-search">
-                        <form class="form-horizontal" action="start_backend.html" method="post">
-                            <div class="form-material form-material-primary input-group remove-margin-t remove-margin-b">
-                                <input class="form-control" type="text" id="base-material-text" name="base-material-text" placeholder="Search..">
-                                <span class="input-group-addon"><i class="si si-magnifier"></i></span>
-                            </div>
-                        </form>
-                    </li>
+                    
                 </ul>
                 <!-- END Header Navigation Left -->
             </header>
@@ -238,6 +234,29 @@
                 // Init page helpers (Appear + CountTo plugins)
                 App.initHelpers(['appear', 'appear-countTo']);
             });
+        </script>
+
+        <!-- Page JS Plugins -->
+        <script src="{{ asset('assets/js/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/bootstrap-datetimepicker/moment.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/bootstrap-colorpicker/bootstrap-colorpicker.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/select2/select2.full.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/masked-inputs/jquery.maskedinput.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/jquery-auto-complete/jquery.auto-complete.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/dropzonejs/dropzone.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/jquery-tags-input/jquery.tagsinput.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/autonumeric/autoNumeric.min.js') }}"></script>
+
+        <!-- Page JS Code -->
+        <script src="{{ asset('assets/js/pages/base_forms_pickers_more.js') }}"></script>
+        <script>
+                                        jQuery(function () {
+                                            // Init page helpers (BS Datepicker + BS Datetimepicker + BS Colorpicker + BS Maxlength + Select2 + Masked Input + Range Sliders + Tags Inputs + AutoNumeric plugins)
+                                            App.initHelpers(['datepicker', 'datetimepicker', 'colorpicker', 'maxlength', 'select2', 'masked-inputs', 'rangeslider', 'tags-inputs', 'autonumeric']);
+                                        });
         </script>
         
     </body>

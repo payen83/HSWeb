@@ -12,46 +12,73 @@
 
             <!-- Main Container -->
             <main id="main-container">
-                <!-- Page Content -->
-                <div class="content content-boxed">
-
-                    <!-- All Orders -->
-                    <div class="block">
-                        <div class="block-header bg-gray-lighter">
-                            
-                            <h3 class="block-title">Sales Tracking</h3>
-                        </div>
-
                         <!-- Page Content -->
                 <div class="content">
                     <!-- My Block -->
                     <div class="block">
                         <div class="block-header">
+                              <h3 class="block-title">Sales Tracking</h3>
+                              <br>
+                              <br>
                             <div class="col-sm-3 form-group">
-                                    <div class='input-group date' data-provide="datapicker">
+                                    <div class="input-daterange input-group" data-date-format="dd/mm/yyyy">
                                             <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                             </span>
-                                                <input type='date' class="form-control" name="form_date" id="from_date" placeholder="From Date"/>
+                                                <input class="form-control datepicker" type='text' class="form-control" name="form_date" id="from_date" placeholder="From Date"/>
                                     </div>
                             </div>
                             <div class="col-sm-3 form-group">
-                                    <div class='input-group date'>
+                                    <div class="input-daterange input-group" data-date-format="dd/mm/yyyy">
                                             <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                             </span>
-                                                <input type='date' class="form-control" name="to_date" id="to_date" placeholder="To Date"/> 
+                                                <input class="form-control datepicker" type='text' class="form-control" name="to_date" id="to_date" placeholder="To Date"/> 
                                      </div>
                             </div>
+                            <script>
+                                jQuery(document).ready(function($) {
+                                     $.datepicker.setDefaults({
+                                        dateFormat: "dd-mm-yy"
+                                     });
+                                     $(function() {
+                                        $('#from_date').datepicker();
+                                        $('#to_date').datepicker();
+                                     })
+                                     $('#filter').click(function(){
+                                       var from_date = $('#from_date').val();
+                                       var to_date = $('#to_date').val();
+                                       if(from_date !='' && to_date !='')
+                                       {
+                                           $.ajax({
+                                             url:"SalesController.php",
+                                             method:"POST",
+                                             data:{from_date:from_date, to_date:to_date},
+                                             success: function (data) 
+                                             {
+                                                $('#sale_table').html(data);
+                                             }
+
+
+                                           });
+                                       }
+
+                                       else
+                                        {
+                                            alert("Please Select Date");
+                                        }
+                                      });
+                            });
+                            </script>
                             
-                            <a href="javascript:ajaxLoad(viewSales?report_from='+$('report_from').val()+'&report_to='+$('report_to').val())"<button class="btn btn-primary push-5-r push-10" type="submit"><i class="si si-magnifier"></i>Submit</button></a>
+                         <button class="btn btn-primary push-5-r push-10" name="filter" id="filter" type="submit"><i class="si si-magnifier"></i>Submit</button>
                             
                             
                         </div>
                         <div class="block-content">
                             <!-- Select Date To View Sales Tracking -->
                             <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
-                            
+                            <div id="sale_table">
                             <table class="table table-bordered table-striped js-dataTable-full">
                                 <thead>
                                     <tr>
@@ -74,8 +101,8 @@
                                         <td class="hidden-xs text-center">{{$data->ProductID}}</td>
                                         <td class="hidden-xs text-center">{{$data->Name}}</td>
                                         <td class="hidden-xs text-center">{{$data->ProductQuantity}}</td>
-                                        <td class="hidden-xs text-center">{{$data->Price}}</td>
-                                        <td class="hidden-xs text-center">{{$data->Total_Amount}}</td>
+                                        <td class="hidden-xs text-center">${{$data->Price}}</td>
+                                        <td class="hidden-xs text-center">${{$data->Total_Amount}}</td>
                                         <?php $totalprice += $data->Total_Amount; ?>
                                     </tr>
                                     @endforeach
@@ -103,22 +130,10 @@
                             </div>
                            </div>
                         </div>
-                    </div>
-                    </div>
-
-                    <!-- END All Orders -->
                 </div>
+            </div>
                 <!-- END Page Content -->
                 </html> 
-
-                <script >
-                $(document).ready(function(){   
-                    $(function(){  
-                        $("#from_date").datepicker();  
-                        $("#to_date").datepicker();  
-                    });  
-                 }); 
-                </script>
                 
             <!-- END Main Container -->
 @endsection 

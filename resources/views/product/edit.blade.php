@@ -52,7 +52,7 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-productid">Product ID</label>
                                             <div class="col-md-7">
-                                                {{Form ::label('id',$data->id,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::text('id',$data->id,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">

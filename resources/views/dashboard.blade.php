@@ -130,7 +130,8 @@
                                     </table>
                                 </div>
                             </div>
-            </div>
+                        </div>
+                    </div>
                             <!-- END Latest Orders -->
             
                     <!-- Top Products and Latest Orders -->
@@ -206,6 +207,7 @@
                                     </table>
                                 </div>
                             </div>
+
                             <!-- END Top Products -->
                         </div>
                         <div class="col-lg-6">

@@ -34,26 +34,20 @@ class ProductController extends Controller
 
     public function addProduct(Request $request)
     {
-        $input = $request->all();
-        dd(Input::all());
+        
+         //upload new images
+        if ($request->hasFile('ImageURL'))
+        {
+        $file = $request->file('ImageURL');
+        $filename = $file->getClientOriginalName();
+        $path = 'upload/images';
+        $file->move($path, $filename);
+        }
 
-         $validator = Validator::make(Input::all(), [
-                'Discount' => 'min:0|max:100'
-                
-            ]);
-            if ($validator->fails()) {
-                return array(
-                    'fail' => true,
-                    'errors' => ["Discount" => "Discount must be less than 100%. Please try again!"]
-                );
-            }
+        else{
+            $filename="NULL";
+        }
 
-
-         $file = $request->file('ImageURL');
-         $filename = $file->getClientOriginalName();
-
-         $path = 'upload/images';
-         $file->move($path, $filename);
          $product = new Product;
          $product->Name = Input::get('Name');
          $product->Price = Input::get('Price');
