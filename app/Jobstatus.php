@@ -18,9 +18,17 @@ class Jobstatus extends Model
     }
 
     public static function CreateStatusJob(){
-    	   $lastjob = Joblist::orderBy('created_at', 'desc')->first();
+    	     $lastjob = Joblist::orderBy('created_at', 'desc')->first();
            $jobstatus = new Jobstatus;
            $jobstatus->job_status = "Pending";
+           $jobstatus->JobID =$lastjob->JobID;
+           $jobstatus->save();
+    }
+
+    public static function CreateStatusJobHQ(){
+           $lastjob = Joblist::orderBy('created_at', 'desc')->first();
+           $jobstatus = new Jobstatus;
+           $jobstatus->job_status = "HQ Delivery";
            $jobstatus->JobID =$lastjob->JobID;
            $jobstatus->save();
     }

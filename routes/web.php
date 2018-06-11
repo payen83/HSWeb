@@ -28,6 +28,10 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'viewUser',
         'uses' => 'UserController@viewUser'
     ]);
+    Route::get('/logout', function(){
+    Auth::logout();
+    return Redirect::to('login');
+    });
 
     Route::get('/dashboard', [
         'as' => 'viewDashboard',

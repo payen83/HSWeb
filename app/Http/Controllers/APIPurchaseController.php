@@ -51,17 +51,15 @@ class APIPurchaseController extends Controller
                             'ProductID' => 'required',
                             ]);
 
-        // create new task
-            $rows = $request->input('rows');
+        // store product
+            $rows = $request->input('data');
             foreach ($rows as $row)
                     {
                     $store_orders[] = [
-                    'OrderID'=>$row[$order_no],
                     'ProductID'=>$row['ProductID'],
                     'ProductQuantity'=>$row['ProductQuantity'],
                     'Discount'=>$row['Discount'/100],
-
-                      ];
+                    ];
            }
             StoreOrders::insert($store_orders);
 

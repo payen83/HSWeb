@@ -80,6 +80,8 @@ Route::group([
     Route::get('ActiveJob', 'APIJobController@ActiveJob');
     Route::post('AcceptJob/{JobID}', 'APIJobController@AcceptJob');
     Route::post('UpdateJob/{JobID}', 'APIJobController@UpdateJob');
+    Route::post('CancelJob/{JobID}', 'APIJobController@CancelJob');
+    Route::post('AcceptDelivery/{JobID}', 'APIJobController@AcceptDelivery');
     Route::get('ViewOrderStatus/{user_id}', 'APIJobController@ViewOrderStatus');
 
 });
