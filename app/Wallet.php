@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wallet extends Model
 {
+	  protected $primaryKey = 'walletID';
       protected $fillable = [
-        'WalletID', 'agent_email',  'amount', 'created_at', 'update_at', 
+        'walletID', 'agent_email',  'amount', 'created_at', 'update_at', 
     ];
 
     public $timestamps = false;

@@ -21,21 +21,21 @@ class WithdrawController extends Controller
         //$joblists = Joblist::all();
         //return view('joblist.index', compact('joblists'));
 
-        $withdraw = DB:: table('withdraw')
-                  -> join ('wallet', 'wallet.walletID', '=', 'withdraw.walletID')
-                  -> join ('users', 'users.id', '=', 'withdraw.user_id')
-                  -> select ('withdraw.withdrawID','withdraw.created_at', 'users.name','users.email', 'withdraw.amount')
+        $withdraw = DB:: table('withdraws')
+                  -> join ('wallets', 'wallets.walletID', '=', 'withdraws.walletID')
+                  -> join ('users', 'users.id', '=', 'withdraws.user_id')
+                  -> select ('withdraws.withdrawID','withdraws.created_at', 'users.name','users.email', 'withdraws.amount')
                   -> get();
         return view('withdraw.index', compact('withdraw'));
     }
 
       public function viewWithdrawDetails($withdrawID)
     {
-        $withdraw = DB:: table('withdraw')
-                  -> join ('wallet', 'wallet.walletID', '=', 'withdraw.walletID')
-                  -> join ('users', 'users.id', '=', 'withdraw.user_id')
-                  -> select ('withdraw.withdrawID', 'users.name','users.email', 'users.u_bankname','users.u_accnumber','withdraw.created_at', 'withdraw.amount')
-                  -> where ('withdraw.withdrawID', $withdrawID)
+        $withdraw = DB:: table('withdraws')
+                  -> join ('wallets', 'wallets.walletID', '=', 'withdraws.walletID')
+                  -> join ('users', 'users.id', '=', 'withdraws.user_id')
+                  -> select ('withdraws.withdrawID', 'users.name','users.email', 'users.u_bankname','users.u_accnumber','withdraws.created_at', 'withdraws.amount')
+                  -> where ('withdraws.withdrawID', $withdrawID)
                   -> get();
         return view('withdraw.view', compact('withdraw'));
     }
@@ -43,10 +43,10 @@ class WithdrawController extends Controller
     public function viewApproveWithdraw($withdrawID)
     {
         
-        $data = DB:: table('withdraw')
-                  -> join ('users', 'users.id', '=', 'withdraw.user_id')
-                  -> select ('withdraw.withdrawID', 'users.name','users.email', 'users.u_bankname','users.u_accnumber','withdraw.created_at', 'withdraw.amount')
-                  -> where ('withdraw.withdrawID', $withdrawID)
+        $data = DB:: table('withdraws')
+                  -> join ('users', 'users.id', '=', 'withdraws.user_id')
+                  -> select ('withdraws.withdrawID', 'users.name','users.email', 'users.u_bankname','users.u_accnumber','withdraws.created_at', 'withdraws.amount')
+                  -> where ('withdraws.withdrawID', $withdrawID)
                   -> first();
         return view('withdraw.appwithdraw', compact('data'));
         
@@ -54,7 +54,14 @@ class WithdrawController extends Controller
     }
 
    public function saveWithdrawDetails(Request $request) {
-
+         
+         $withdrawID = $request->withdrawID;
+         $userid = DB::table('withdraws')->where('withdrawID', '=', $withdrawID)->value('user_id');
+         $wallet_amount = DB::table('wallets')->where('user_id', '=', $userid)->value('amount');
+         $walletID = DB::table('wallets')->where('user_id', '=', $userid)->value('walletID');
+         $withdraw_amount = DB::table('withdraws')->where('withdrawID', '=', $withdrawID)->value('amount');
+         
+         $newamount= $wallet_amount - $withdraw_amount;
          $file = $request->file('ProofURL');
          $filename = $file->getClientOriginalName();
 
@@ -66,7 +73,12 @@ class WithdrawController extends Controller
          $storewithdraw->TransactionDate = Input::get('TransactionDate');
          $storewithdraw->amount = Input::get('amount');
          $storewithdraw->ProofURL = $filename;
+         $storewithdraw->status = 'Approve';
          $storewithdraw->save();
+
+         $wallet = Wallet::find($walletID);
+         $wallet->amount = $newamount;
+         $wallet->save();
          return redirect()->route('viewWithdraw');
 
     }
@@ -74,10 +86,10 @@ class WithdrawController extends Controller
     public function viewRejectWithdraw($withdrawID)
     {
         
-        $data = DB:: table('withdraw')
-                  -> join ('users', 'users.id', '=', 'withdraw.user_id')
-                  -> select ('withdraw.withdrawID', 'users.name','users.email', 'users.u_bankname','users.u_accnumber','withdraw.created_at', 'withdraw.amount')
-                  -> where ('withdraw.withdrawID', $withdrawID)
+        $data = DB:: table('withdraws')
+                  -> join ('users', 'users.id', '=', 'withdraws.user_id')
+                  -> select ('withdraws.withdrawID', 'users.name','users.email', 'users.u_bankname','users.u_accnumber','withdraws.created_at', 'withdraws.amount')
+                  -> where ('withdraws.withdrawID', $withdrawID)
                   -> first();
         return view('withdraw.reject', compact('data'));
         
@@ -91,6 +103,7 @@ class WithdrawController extends Controller
          $storewithdraw->withdrawID = Input::get('withdrawID');
          $storewithdraw->ReasonReject = Input::get('ReasonReject');
          $storewithdraw->amount = Input::get('amount');
+         $storewithdraw->status = 'Reject';
          $storewithdraw->save();
          return redirect()->route('viewWithdraw');
 

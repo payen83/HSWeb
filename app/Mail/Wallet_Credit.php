@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class WCredit extends Mailable
+class Wallet_Credit extends Mailable
 {
     use Queueable, SerializesModels;
 

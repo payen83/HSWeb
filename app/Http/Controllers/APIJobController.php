@@ -6,7 +6,8 @@ use App\Jobstatus;
 use App\Joblist;
 use App\Wallet;
 use App\Payment;
-use App\Mail\WCredit;
+use App\Mail\Wallet_Credit;
+use App\Mail\Reject_Delivery;
 use Mail;
 use DB;
 use Illuminate\Http\Request;
@@ -144,9 +145,33 @@ class APIJobController extends Controller
           $wallet->save();
 
           $email=DB::table('users')->where('users.id', '=', $userid)->value('email');
-          Mail::to($email)->send(new WCredit($email));
+          Mail::to($email)->send(new Wallet_Credit($email));
           
-           return response()->json(['JobID'=> $JobID,'message' => 'Job has Accepted and Amount has been creadit in your wallet, Check email for more details', 'status' => true], 201);
+           return response()->json(['JobID'=> $JobID,'message' => 'Job has Accepted and Amount has been credited in your wallet, Check email for more details', 'status' => true], 201);
+
+        }
+      }
+
+      public function RejectDelivery (Request $request, $JobID){
+        if($request->job_status=='Reject' or $request->job_status=='reject')
+        {
+          $jobstatuses = new Jobstatus;
+          $jobstatuses->JobID = $JobID;
+          $jobstatuses->job_status = 'Reject';
+          $jobstatuses->message = Input::get('message');
+          $jobstatuses->save();
+
+          $joblists = Joblist::find($JobID);
+          $joblists->status_job=2;
+          $joblists->save();
+          
+          $userid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');
+         
+
+          $email=DB::table('users')->where('users.id', '=', $userid)->value('email');
+          Mail::to($email)->send(new Reject_Delivery($email));
+          
+           return response()->json(['JobID'=> $JobID,'message' => 'Delivery has been rejected by customer', 'status' => true], 201);
 
         }
       }

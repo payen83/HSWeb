@@ -82,7 +82,19 @@ Route::group([
     Route::post('UpdateJob/{JobID}', 'APIJobController@UpdateJob');
     Route::post('CancelJob/{JobID}', 'APIJobController@CancelJob');
     Route::post('AcceptDelivery/{JobID}', 'APIJobController@AcceptDelivery');
+    Route::post('RejectDelivery/{JobID}', 'APIJobController@RejectDelivery');
     Route::get('ViewOrderStatus/{user_id}', 'APIJobController@ViewOrderStatus');
+
+});
+
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'withdraw'
+
+], function ($router) {
+
+    Route::post('WithdrawRequest/{user_id}', 'APIWithdrawController@WithdrawRequest');
 
 });
 
