@@ -69,15 +69,6 @@
                                             </div>
                                         </div>
 
-
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-price">Agent Email</label>
-                                            <div class="col-md-7">
-                                                 {{Form ::text('user_id',$data->user_id,['class'=>'form-control','rows'=>'6'])}}
-
-                                            </div>
-
-                                        </div>
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-product-quantity">Quantity</label>
                                             <div class="col-md-7">

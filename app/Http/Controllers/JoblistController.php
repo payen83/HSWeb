@@ -19,12 +19,23 @@ class JoblistController extends Controller
     {
 
         $joblists = DB:: table('joblists')
-                  -> join ('orders', 'joblists.OrderID', '=', 'orders.OrderID')
-                  -> join ('jobstatuses', 'joblists.JobID', '=', 'jobstatuses.JobID')
                   -> join ('users', 'users.id', '=', 'joblists.user_id')
-                  -> select ('joblists.JobID', 'users.email', 'orders.OrderID', 'joblists.total_price', 'jobstatuses.job_status' , 'jobstatuses.created_at')
+                  -> select ('joblists.JobID', 'users.name', 'joblists.OrderID', 'joblists.status_job' , 'joblists.update_at')
                   -> get();
         return view('joblist.index', compact('joblists'));
+    }
+
+     public function viewJobDetails($JobID)
+    {
+        
+        $job = DB:: table('joblists')
+                  -> join ('jobstatuses' , 'jobstatuses.JobID', '=', 'joblists.JobID')
+                  -> select ('jobstatuses.JobID','jobstatuses.job_status' , 'jobstatuses.created_at' , 'joblists.OrderID')
+                  -> where ('jobstatuses.JobID', $JobID)
+                  -> get();
+        return view('joblist.viewjob', compact('job'));
+        
+        
     }
 
 

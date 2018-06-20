@@ -21,10 +21,10 @@
                             <table class="table table-bordered table-striped js-dataTable-full">
                                 <thead>
                                     <tr>
-                                        <th class="text-center" style="width: 100px;">Job ID</th>
-                                        <th class="text-center" style="width: 100px;">Agent Email</th>
-                                        <th class="visible-lg">Order Number</th>
-                                        <th>Status</th>
+                                        <th class="text-center" >Job ID</th>
+                                        <th class="text-center">Agent Name</th>
+                                        <th class="text-center">Order Number</th>
+                                        <th  style="width: 100px;">Status</th>
                                         <th class="hidden-xs text-center">Date/Time</th>
                                         <th class="hidden-xs text-center">Action</th>
                                        
@@ -39,15 +39,16 @@
                                                 <strong>{{$data->JobID}}</strong>
                                             </a>
                                         </td>
-                                        <td class="hidden-xs text-center">{{$data->email}}</td>
+                                        <td class="hidden-xs text-center">{{$data->name}}</td>
                                          <td class="hidden-xs text-center">{{$data->OrderID}}</td>
                                         <td>
-                                            <span class="label label-success">{{$data->job_status}}</span>  
+                                            <span class="label label-success">{{$data->status_job}}</span>  
                                         </td>
-                                        <td class="hidden-xs text-center">{{$data->created_at}}</td>
+                                        <td class="hidden-xs text-center">{{$data->update_at}}</td>
                                         
                                          <td class="text-center">
                                             <div class="btn-group">
+                                                <a href="{{route('viewJobDetails',['JobID'=>$data->JobID])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i> View</button></a>
                                                  <a href="{{route('viewEditJoblist',['JobID'=>$data->JobID])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
                                             </div>
                                         </td>

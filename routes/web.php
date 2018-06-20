@@ -12,13 +12,16 @@
 */
 
 Auth::routes();
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth']], function () {
     Route::get('/', function () {
-        if (Auth::user()->role == 'Super Admin' or 'Admin')
+        if (Auth::User()->role == 'Admin' or Auth::User()->role == 'SuperAdmin')
+            {
             return view('dashboard');
+            }
       
-        else
+        else{
             return redirect('error');
+        }
     });
     Route::get('error', function () {
         return "Sorry, you are unauthorized to access this page.";
@@ -130,6 +133,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/joblist', [
         'as' => 'viewJoblist',
         'uses' => 'JoblistController@viewJoblist'
+    ]);
+
+     Route::get('/joblist/view/{JobID}', [
+        'uses' => 'JoblistController@viewJobDetails',
+        'as' => 'viewJobDetails'
     ]);
 
     Route::get('/joblist/edit/{JobID}', [

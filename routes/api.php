@@ -98,4 +98,27 @@ Route::group([
 
 });
 
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'transaction'
+
+], function ($router) {
+
+    Route::post('History/{user_id}', 'APIWithdrawController@History');
+
+});
+
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'wallet'
+
+], function ($router) {
+
+    Route::post('balance/{user_id}', 'APIWithdrawController@balance');
+
+});
+
+
 

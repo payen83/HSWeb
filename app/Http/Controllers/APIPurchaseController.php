@@ -52,10 +52,12 @@ class APIPurchaseController extends Controller
                             ]);
 
         // store product
-            $rows = $request->input('data');
+            $data->data = Input::get('data');
+            $rows = json_decode($data);
             foreach ($rows as $row)
                     {
                     $store_orders[] = [
+                    'OrderID' => $order_no,
                     'ProductID'=>$row['ProductID'],
                     'ProductQuantity'=>$row['ProductQuantity'],
                     'Discount'=>$row['Discount'/100],

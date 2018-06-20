@@ -61,12 +61,8 @@
                                     <div class="form-group">
                                         <center><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></center>
                                     </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-productid">Product ID</label>
-                                            <div class="col-md-7">
-                                               {{Form ::text('product_id',$data->id,['class'=>'form-control','rows'=>'6'])}}
-                                            </div>
-                                        </div>
+                                               {{Form ::hidden('product_id',$data->id,['class'=>'form-control','rows'=>'6'])}}
+                                       
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="productname">Product Name</label>
                                             <div class="col-md-7">

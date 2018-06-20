@@ -79,6 +79,12 @@ class WithdrawController extends Controller
          $wallet = Wallet::find($walletID);
          $wallet->amount = $newamount;
          $wallet->save();
+
+         $transactions = new Transaction;
+         $transactions->walletID = $walletID;
+         $transactions->user_id = $userid;
+         $transactions->status = 'Withdraw';
+         $transactions->amount = $withdraw_amount;
          return redirect()->route('viewWithdraw');
 
     }

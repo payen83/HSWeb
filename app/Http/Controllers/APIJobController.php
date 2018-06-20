@@ -6,6 +6,7 @@ use App\Jobstatus;
 use App\Joblist;
 use App\Wallet;
 use App\Payment;
+use App\Transaction;
 use App\Mail\Wallet_Credit;
 use App\Mail\Reject_Delivery;
 use Mail;
@@ -52,7 +53,7 @@ class APIJobController extends Controller
           $jobstatuses->save();
           $joblists = Joblist::find($JobID);
           $joblists->user_id = Input::get('user_id');
-          $joblists->status_job=1;
+          $joblists->status_job='Active';
           $joblists->save();
 
           return response()->json(['JobID'=> $JobID,'message' => 'Successful Accept Job', 'status' => true], 201);
@@ -72,7 +73,7 @@ class APIJobController extends Controller
               $jobstatuses->job_status= 'Completed';
               $jobstatuses->save();
               $joblists = Joblist::find($JobID);
-              $joblists->status_job=0;
+              $joblists->status_job='Completed';
               $joblists->save();
 
               return response()->json(['JobID'=> $JobID,'message' => 'Job has been Completed', 'status' => true], 201);
@@ -107,13 +108,13 @@ class APIJobController extends Controller
           
           $cancelcount=0;
           $joblists = Joblist::find($JobID);
-          $joblists->status_job=0;
+          $joblists->status_job='Cancel';
           $joblists->cancelcount = $cancelcount+1;
           $joblists->save();
 
-          $ordernumber=Joblist::where('JobID', '=', $JobID)->pluck('OrderID');
+          $ordernumber=Joblist::where('JobID', '=', $JobID)->value('OrderID');
           $joblist = new Joblist;
-          $joblist->status_job = 0;
+          $joblist->status_job = 'Cancel';
           $joblist->OrderID = $ordernumber;
           $joblist->save();
           Jobstatus::CreateStatusJobHQ();
@@ -131,18 +132,45 @@ class APIJobController extends Controller
           $jobstatuses->save();
 
           $joblists = Joblist::find($JobID);
-          $joblists->status_job=0;
+          $joblists->status_job='Completed';
           $joblists->save();
           
 
           $ordernumber = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID');
           $userid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');
+          $walletID= DB::table('wallets')->where('user_id', '=', $userid)->value('walletID');
+          $wallet_amount = DB::table('wallets')->where('walletID', '=', $walletID)->value('amount');
           $amount=DB::table('payments')->where('OrderID', '=', $ordernumber)->value('amount');
-         
-          $wallet = new Wallet;
-          $wallet->user_id = $userid;
-          $wallet->amount = $amount;
-          $wallet->save();
+
+           if(!$walletID == null){
+              $wallet = Wallet::find($walletID);
+              $wallet->amount = $wallet_amount+$amount;
+              $wallet->save();
+
+              $transaction = new Transaction;
+              $transaction->walletID = $walletID;
+              $transaction->user_id = $userid;
+              $transaction->status = 'Credit';
+              $transaction->amount = $amount;
+              $transaction->save();
+              
+          }
+
+          else{
+             $wallet = new Wallet;
+             $wallet->user_id = $userid;
+             $wallet->amount = $amount;
+             $wallet->save();
+             $lastwalletID = Wallet::orderBy('created_at', 'desc')->value('walletID');
+
+             $transaction = new Transaction;
+             $transaction->walletID = $lastwalletID;
+             $transaction->user_id = $userid;
+             $transaction->amount = $amount;
+             $transaction->save();
+              
+          }
+
 
           $email=DB::table('users')->where('users.id', '=', $userid)->value('email');
           Mail::to($email)->send(new Wallet_Credit($email));
@@ -162,7 +190,7 @@ class APIJobController extends Controller
           $jobstatuses->save();
 
           $joblists = Joblist::find($JobID);
-          $joblists->status_job=2;
+          $joblists->status_job='Reject';
           $joblists->save();
           
           $userid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');

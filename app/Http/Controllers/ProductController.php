@@ -128,15 +128,27 @@ class ProductController extends Controller
    public function assignProduct(Request $request)
  
    {
-        //$input = $request->all();
-        // dd(Input::all());
-        //$inventories = Inventory::create($input);
-         $inventories = new Inventory;
-         $inventories->product_id = Input::get('product_id');
-         $inventories->quantity = Input::get('quantity');
-         $inventories ->user_id = Input::get('user_id');
-         $inventories->save();
-         //Alert::message('Product has been assign to the Agent!');
+         $userid = $request->user_id;
+         $productid = DB::table('inventories')->where('user_id', '=', $userid)->value('product_id');
+         $id = DB::table('inventories')->where('product_id', '=', $productid)->value('id');
+         $currentquantity = DB::table('inventories')->where('id', '=', $id)->value('quantity');
+
+         if($productid != $request->product_id)
+           {
+            $inventories = new Inventory;
+            $inventories->product_id = Input::get('product_id');
+            $inventories->quantity = Input::get('quantity');
+            $inventories ->user_id = $userid;
+            $inventories->save();
+           }
+
+         else
+         {
+            $inventories = Inventory::find($id);
+            $inventories->quantity = Input::get('quantity')+$currentquantity;
+            $inventories->save();
+         }
+       
          return redirect()->route('viewInventory');
     }
 
@@ -171,9 +183,7 @@ class ProductController extends Controller
         return view('product.ed-inventory', ['inventories' => Inventory::find($id)]);
        
         $inventories = Inventory::find($id);
-        $currentquantity = $inventories->quantity;
-        $inventories->user_id = Input::get('user_id');
-        $inventories->quantity = $currentquantity + Input::get('quantity');
+        $inventories->quantity = Input::get('quantity');
         $inventories->save();
         return redirect()->route('viewInventory');
     }

@@ -41,4 +41,23 @@ class APIWithdrawController extends Controller
         	return response()->json(['message' => 'Not enough amount in your wallet to withdraw', 'status' => false], 401);
          
       }
+
+      public function History (Request $request, $user_id){
+      	 $year = $request->year;
+      	 $transactions = DB:: table('transactions')
+                  -> join ('users', 'users.id', '=', 'transactions.user_id')
+                  -> select ('transactions.walletID' ,'users.name' , 'transactions.status', 'transactions.amount', 'transactions.created_at')
+                  ->where('transactions.user_id', '=', $user_id)
+                  ->where(DB::raw("year(transactions.created_at)"), $year)
+                  -> get();
+         return response() -> json(['transactions' => $transactions],  200);
+      }
+
+      public function balance ($user_id){
+      	 $wallets = DB::table('wallets')
+      	          -> select('amount')
+      	          -> where('user_id', '=', $user_id)
+      	          ->get();
+      	 return response() -> json(['wallets' => $wallets],  200);
+      }
 }

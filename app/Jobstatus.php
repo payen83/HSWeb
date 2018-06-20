@@ -27,6 +27,14 @@ class Jobstatus extends Model
 
     public static function CreateStatusJobHQ(){
            $lastjob = Joblist::orderBy('created_at', 'desc')->first();
+           $JobID = $lastjob->JobID;
+
+           $joblists = Joblist::find($JobID);
+           $joblists->status_job='HQ Delivery';
+           $joblists->user_id = 6;
+           $joblists->save();
+
+
            $jobstatus = new Jobstatus;
            $jobstatus->job_status = "HQ Delivery";
            $jobstatus->JobID =$lastjob->JobID;

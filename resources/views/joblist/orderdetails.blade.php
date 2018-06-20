@@ -70,9 +70,9 @@
                                         @foreach($orders as $key=> $data)
 
                                         <tr>
-                                            <td class="text-center"><a href="base_pages_ecom_product_edit.html"><strong>{{$data->OrderID}}</strong></a></td>
-                                            <td class="text-center"><a href="base_pages_ecom_product_edit.html"><strong>{{$data->ProductID}}</strong></a></td>
-                                            <td><a href="base_pages_ecom_product_edit.html">{{$data->Name}}</a></td>
+                                            <td class="text-center">{{$data->OrderID}}</td>
+                                            <td class="text-center">{{$data->ProductID}}</td>
+                                            <td>{{$data->Name}}</td>
                                             <td class="text-center">{{$data->ProductQuantity}}</td>
                                             <td class="text-right">${{$data->Price}}</td>
                                             <td class="text-right">${{$data->Total_Amount}}</td>

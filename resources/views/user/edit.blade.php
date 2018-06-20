@@ -123,7 +123,15 @@
                                                     {{ Form::password('password', array('placeholder'=>'Password', 'class'=>'form-control' ) ) }}
                                                 </div>
                                             </div>
-                                            <hr>
+
+                                            <div class="form-group">
+                                                <div class="col-xs-12">
+                                                    <label for="profile-password">Confirm Password</label>
+                                                    <!--{!! Form::password("password",null,["class"=>"form-control",'rows'=>'6']) !!}-->
+                                                    {{ Form::password('', array('placeholder'=>'Confirm Password', 'class'=>'form-control' , 'required' ) ) }}
+                                                </div>
+                                            </div>
+                                            <br>
                                             <div class="form-group">
                                                 <div class="col-xs-12">
                                                     <label for="profile-password-new">Role</label>
