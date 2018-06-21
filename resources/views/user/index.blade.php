@@ -58,11 +58,12 @@
                                             <td class="text-center">
                                            
                                             
-                                            <form name ="frmdelete" action="{{route('delete',['id'=>$data->id])}}" method="POST">
+                                            <form name ="frmdelete" action="{{route('deleteuser',['id'=>$data->id])}}" method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                             <a href="{{route('viewEditUser',['id'=>$data->id])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i> View</button></a>    
                                             <button type="submit" class="btn btn-xs btn-danger push-5-r push-10" onclick="return myFunction()"><i class="fa fa-times"></i> Delete</button>
+                                             <a href="{{route('viewEditUser',['id'=>$data->id])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i> View</button></a>    
+                                            
                                             </form>
                                             </td>
                                         </tr>

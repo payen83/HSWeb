@@ -30,7 +30,7 @@ class APIPurchaseController extends Controller
 
     	if($request->role =="Customer"){
            $joblist = new Joblist;
-           $joblist->status_job = 0;
+           $joblist->status_job = 'Pending';
            $joblist->OrderID = $order_no;
            $joblist->save();
            Jobstatus::CreateStatusJob();
@@ -46,15 +46,11 @@ class APIPurchaseController extends Controller
         $orders->total_price = Input::get('total_price');
         $orders->save();
        
-        // validated input request
-            $this->validate($request, [
-                            'ProductID' => 'required',
-                            ]);
 
         // store product
-            $data->data = Input::get('data');
-            $rows = json_decode($data);
-            foreach ($rows as $row)
+            
+            $data = json_encode(Input::get('data'));
+            foreach ($data['data'] as $row)
                     {
                     $store_orders[] = [
                     'OrderID' => $order_no,

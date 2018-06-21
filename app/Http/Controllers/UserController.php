@@ -51,9 +51,6 @@ class UserController extends Controller
 
    public function editUser(Request $request, $id) {
 
-
-        if ($request->isMethod('get'))
-        return view('user.edit', ['user' => User::find($id)]);
         
         $user = User::find($id);
         if (Input::get('password') != '')
@@ -72,7 +69,7 @@ class UserController extends Controller
   
    
 
-     public function delete($id)
+     public function deleteuser($id)
     {
         User::destroy($id);
         return redirect('user');

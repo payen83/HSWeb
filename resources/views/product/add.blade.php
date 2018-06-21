@@ -59,7 +59,15 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="productname">Product Name</label>
                                             <div class="col-md-7">
-                                               {{Form ::text('Name',null,['class'=>'form-control','rows'=>'6'])}}
+                                               {{Form ::text('Name',null,['class'=>'form-control','rows'=>'6', 'required'])}}
+                                            </div>
+                                            <br>
+                                        </div>
+
+                                         <div class="form-group">
+                                            <label class="col-md-4 control-label" for="productname">SKU Number</label>
+                                            <div class="col-md-7">
+                                               {{Form ::text('sku_number',null,['class'=>'form-control','rows'=>'6', 'required'])}}
                                             </div>
                                             <br>
                                         </div>
@@ -67,17 +75,17 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label"" for="val-desc">Description</label>
                                             <div class="col-md-7">
-                                                 {{Form ::textarea('Description',null,['class'=>'form-control','rows'=>'6'])}}
+                                                 {{Form ::textarea('Description',null,['class'=>'form-control','rows'=>'6', 'required'])}}
                                             </div>
                                             <br>
                                             <br>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-price">Price</label>
+                                            <label class="col-md-4 control-label" for="val-price">Price (USD)</label>
                                             <br>
                                             <div class="col-md-7">
-                                                {{Form ::text('Price',null,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::text('Price',null,['class'=>'form-control','rows'=>'6', 'required'])}}
                                             </div>
                                             <br>
                                         </div>
@@ -87,7 +95,7 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-picture">Image</label>
                                             <div class="col-md-7">
-                                                {{Form ::file('ImageURL',null,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::file('ImageURL',null,['class'=>'form-control','rows'=>'6', 'required'])}}
                                             </div>
                                             <br>
                                             <br>
@@ -125,7 +133,7 @@
                                             <label class="col-md-4 control-label" for="val-price">Quantity Per Package</label>
                                           
                                             <div class="col-md-7">
-                                                {{Form ::text('QuantityPerPackage',null,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::text('QuantityPerPackage',null,['class'=>'form-control','rows'=>'6', 'required'])}}
                                             </div>
                                             
                                         </div>
@@ -135,7 +143,7 @@
                                             <label class="col-md-4 control-label" for="val-price">Discount (%)</label>
                                            <br>
                                             <div class="col-md-7">
-                                                {{Form ::text('Discount',null,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::text('Discount',null,['class'=>'form-control','rows'=>'6', 'required'])}}
                                                
                                             </div>
                                             <br>

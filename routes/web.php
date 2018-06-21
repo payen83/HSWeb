@@ -61,8 +61,8 @@ Route::group(['middleware' => ['auth']], function () {
     ]);
 
     Route::delete('/user/delete/{id}', [
-      'uses' => 'UserController@delete',
-      'as' => 'delete'
+      'uses' => 'UserController@deleteuser',
+      'as' => 'deleteuser'
     ]);
 
    

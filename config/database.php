@@ -52,6 +52,17 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
+              // Ignore this key and rely on the strict key
+            'modes' => null,
+
+            // Explicitly disable all modes, overriding strict setting
+            'modes' => [],
+
+            // Explicitly enable specific modes, overriding strict setting
+            'modes' => [
+                'STRICT_TRANS_TABLES',
+                
+            ],
         ],
 
         'pgsql' => [

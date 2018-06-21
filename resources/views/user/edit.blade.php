@@ -128,20 +128,20 @@
                                                 <div class="col-xs-12">
                                                     <label for="profile-password">Confirm Password</label>
                                                     <!--{!! Form::password("password",null,["class"=>"form-control",'rows'=>'6']) !!}-->
-                                                    {{ Form::password('', array('placeholder'=>'Confirm Password', 'class'=>'form-control' , 'required' ) ) }}
+                                                    {{ Form::password('', array('placeholder'=>'Confirm Password', 'class'=>'form-control' ) ) }}
                                                 </div>
                                             </div>
                                             <br>
                                             <div class="form-group">
                                                 <div class="col-xs-12">
-                                                    <label for="profile-password-new">Role</label>
-                                                    {!! Form::select("role",['Admin'=>'Admin','Agent'=>'Agent','Customer'=>'Customer'],null,["class"=>"form-control",'rows'=>'6']) !!}
+                                                    <label for=role">Role</label>
+                                                    {!! Form::select("role",['SuperAdmin'=>'SuperAdmin','Admin'=>'Admin','Agent'=>'Agent','Customer'=>'Customer'],$data->role,["class"=>"form-control",'rows'=>'6']) !!}
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-xs-12">
-                                                    <label for="profile-password-new-confirm">Active</label>
-                                                    {!! Form::checkbox("status",$data->status,1,null,["style"=>"width:25px;height:25px"]) !!}
+                                                    <label for="status">Active</label>
+                                                    {!! Form::checkbox("status",1,$data->status,["style"=>"width:25px;height:25px"]) !!}
                                                 </div>
                                             </div>
                                         </div>

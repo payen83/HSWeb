@@ -49,16 +49,20 @@
                                     <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
                                       {{Form::open(['route' => ['editProduct','id'=>$data->id],'method'=>'POST','enctype' => 'multipart/form-data'])}}
                                       @csrf
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-productid">Product ID</label>
-                                            <div class="col-md-7">
-                                                {{Form ::text('id',$data->id,['class'=>'form-control','rows'=>'6'])}}
-                                            </div>
-                                        </div>
+                                      
+                                                {{Form ::hidden('id',$data->id,['class'=>'form-control','rows'=>'6'])}}
+                                        
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="productname">Product Name</label>
                                             <div class="col-md-7">
                                                 {{Form ::text('Name',$data->Name,['class'=>'form-control','rows'=>'6'])}}
+                                            </div>
+                                        </div>
+
+                                         <div class="form-group">
+                                            <label class="col-md-4 control-label" for="productname">SKU Number</label>
+                                            <div class="col-md-7">
+                                                {{Form ::text('sku_number',$data->sku_number,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
 

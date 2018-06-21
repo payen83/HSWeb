@@ -50,6 +50,7 @@ class ProductController extends Controller
 
          $product = new Product;
          $product->Name = Input::get('Name');
+         $product->sku_number = Input::get('sku_number');
          $product->Price = Input::get('Price');
          $product->Description = Input::get('Description');
          $product->ImageURL = $filename;
@@ -101,6 +102,7 @@ class ProductController extends Controller
         $product->Name = Input::get('Name');
         $product->Description = Input::get('Description');
         $product->Price = Input::get('Price');
+        $product->sku_number = Input::get('sku_number');
         $product->ImageURL = $filename;
         $product->QuantityPerPackage = Input::get('QuantityPerPackage');
         $product->Discount = Input::get('Discount')/100;
@@ -157,7 +159,9 @@ class ProductController extends Controller
         $inventories = DB:: table('inventories')
                   -> join ('products', 'products.id', '=', 'inventories.product_id')
                   -> join ('users', 'users.id', '=', 'inventories.user_id')
-                  -> select ('inventories.id','products.Name', 'products.ImageURL', 'users.name', 'users.email', 'inventories.quantity')
+                  -> select ('users.name', 'inventories.id','products.Name','users.email', 'inventories.quantity')
+                  -> orderby('users.name')
+                  -> groupby('users.name')
                   -> get();
         return view('product.inventory', compact('inventories'));
     }
@@ -168,7 +172,7 @@ class ProductController extends Controller
         $data = DB:: table('inventories')
                   -> join ('products', 'products.id', '=', 'inventories.product_id')
                   -> join ('users', 'users.id', '=', 'inventories.user_id')
-                  -> select ('inventories.id','products.Name', 'products.ImageURL', 'users.email', 'inventories.user_id','inventories.quantity')
+                  -> select ('inventories.id','products.Name', 'products.ImageURL', 'users.email', 'users.name','inventories.user_id','inventories.quantity')
                   -> where ('inventories.id', $id)
                   -> first();
         $select_email_user = User::getListSelect2();

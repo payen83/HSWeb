@@ -27,21 +27,7 @@
                     <div class="block">
                         <div class="block-header">
                             <ul class="block-options">
-                                <li>
-                                    <button type="button"><i class="si si-settings"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="close"><i class="si si-close"></i></button>
-                                </li>
+                               
                             </ul>
                             <h3 class="block-title">Add Assign Product Details</h3>
                         </div>
@@ -61,6 +47,18 @@
                                     <div class="form-group">
                                         <center><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></center>
                                     </div>
+                                     <div class="form-group">
+                                            <label class="col-md-4 control-label" for="productname">Agent Name</label>
+                                            <div class="col-md-7">
+                                                {{Form ::label('name',$data->name,['class'=>'form-control','rows'=>'6'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="productname">Agent Email</label>
+                                            <div class="col-md-7">
+                                                {{Form ::label('email',$data->email,['class'=>'form-control','rows'=>'6'])}}
+                                            </div>
+                                        </div>
                                        
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="productname">Product Name</label>
