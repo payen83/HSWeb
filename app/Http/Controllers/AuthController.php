@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use\App\User;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -29,9 +30,11 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+        $email = $request->email;
 
         if ($token = $this->guard()->attempt($credentials)) {
-            return $this->respondWithToken($token);
+            return $this->respondWithToken($token,$email);
+
         }
 
         return response()->json(['error' => 'Invalid Username or Password','status' => false], 401);
@@ -76,16 +79,23 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken($token,$email)
     {
+        $userid=User::where('email', '=', $email)->value('id');
+      $data = DB:: table('users')
+              -> select ('name', 'role','email', 'icnumber', 'u_address', 'u_bankname', 'u_accnumber', 'u_phone')
+              -> where('id',$userid)
+              -> get();
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60,
-            'status' => true
+            'status' => true,
+            'users' => $data
         ]);
     }
 
+   
     /**
      * Get the guard to be used during authentication.
      *

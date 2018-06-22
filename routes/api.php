@@ -36,9 +36,9 @@ Route::group([
 
 ], function ($router) {
 
-    Route::get('productcustomer', 'APIProductController@ProductCustomer');
-    Route::get('productagent', 'APIProductController@ProductAgent');
-    Route::get('productinventory', 'APIProductController@ProductInventory');
+    Route::get('product-customer', 'APIProductController@ProductCustomer');
+    Route::get('product-agent', 'APIProductController@ProductAgent');
+    Route::get('product-inventory/{user_id}', 'APIProductController@ProductInventory');
 
 });
 
@@ -49,12 +49,11 @@ Route::group([
 
 ], function ($router) {
 
-    Route::get('viewProfile/{id}', 'APIUserController@viewProfile');
-    Route::post('UserProfile/{id}', 'APIUserController@UserProfile');
-    Route::post('UserProfile/{id}', 'APIUserController@UserProfile');
-    Route::post('ChangePassword/{id}', 'APIUserController@ChangePassword');
-    Route::post('UserImage/{id}', 'APIUserController@UserImage');
-    Route::post('BankDetails/{id}', 'APIUserController@BankDetails');
+    Route::get('view-profile/{id}', 'APIUserController@viewProfile');
+    Route::post('update-profile/{id}', 'APIUserController@UserProfile');
+    Route::post('change-password/{id}', 'APIUserController@ChangePassword');
+    Route::post('user-image/{id}', 'APIUserController@UserImage');
+    Route::post('bank-details/{id}', 'APIUserController@BankDetails');
     
 });
 

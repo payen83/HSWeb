@@ -37,13 +37,14 @@ class APIProductController extends Controller
         
    		}
 
-   		public function ProductInventory()
+   		public function ProductInventory($user_id)
     	{
        
         	$inventories = DB:: table('inventories')
                   -> join ('products', 'products.id', '=', 'inventories.product_id')
                   -> join ('users', 'users.id', '=', 'inventories.user_id')
                   -> select ('inventories.id','products.Name', 'products.ImageURL', 'users.name', 'users.email', 'inventories.quantity')
+                  ->where('inventories.user_id', $user_id)
                   -> get();
         	return response() -> json(['inventories' => $inventories], 200);
         
