@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailtrap.io'),
+    'host' => env('MAIL_HOST', 'smtp.mailtarp.io'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'cuba.coding@gmail.com'),
-        'name' => env('MAIL_FROM_NAME', 'No-Reply@tutorial.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'healthshoppe.elyzian.xyz@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'No-Reply@healthshoope.com'),
     ],
 
     /*

@@ -46,7 +46,7 @@ class APIWithdrawController extends Controller
       	 $year = $request->year;
       	 $transactions = DB:: table('transactions')
                   -> join ('users', 'users.id', '=', 'transactions.user_id')
-                  -> select ('transactions.walletID' ,'users.name' , 'transactions.status', 'transactions.amount', 'transactions.created_at')
+                  -> select ('transactions.walletID' ,'users.name' , 'transactions.status', 'transactions.message', 'transactions.amount', 'transactions.created_at')
                   ->where('transactions.user_id', '=', $user_id)
                   ->where(DB::raw("year(transactions.created_at)"), $year)
                   -> get();

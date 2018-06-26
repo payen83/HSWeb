@@ -64,7 +64,7 @@ Route::group([
 
 ], function ($router) {
 
-    Route::post('orders', 'APIPurchaseController@orders');
+    Route::post('orders/{user_id}', 'APIPurchaseController@orders');
 
 });
 
@@ -75,9 +75,9 @@ Route::group([
 
 ], function ($router) {
 
-    Route::get('PendingJob', 'APIJobController@PendingJob');
-    Route::get('ActiveJob', 'APIJobController@ActiveJob');
-    Route::post('AcceptJob/{JobID}', 'APIJobController@AcceptJob');
+    Route::get('pending-job', 'APIJobController@PendingJob');
+    Route::get('active-job', 'APIJobController@ActiveJob');
+    Route::post('accept-job/{JobID}', 'APIJobController@AcceptJob');
     Route::post('UpdateJob/{JobID}', 'APIJobController@UpdateJob');
     Route::post('CancelJob/{JobID}', 'APIJobController@CancelJob');
     Route::post('AcceptDelivery/{JobID}', 'APIJobController@AcceptDelivery');

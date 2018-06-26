@@ -84,6 +84,7 @@ class WithdrawController extends Controller
          $transactions->walletID = $walletID;
          $transactions->user_id = $userid;
          $transactions->status = 'Withdraw';
+         $transaction->message = 'Deduct wallet amount';
          $transactions->amount = $withdraw_amount;
          return redirect()->route('viewWithdraw');
 

@@ -22,13 +22,17 @@ class APIJobController extends Controller
 {
         public function PendingJob()
     	{
-          
-        	$joblists = DB:: table('joblists')
-        	      ->join('jobstatuses', 'jobstatuses.JobID', '=', 'joblists.JobID')
-                  -> select ('joblists.JobID', 'jobstatuses.job_status')
-                  -> where('jobstatuses.job_status','Pending')
-                  -> get();
-        	return response() -> json(['joblists' => $joblists],  200);
+          $data = DB:: table('joblists')
+                  -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
+                  -> join ('users', 'users.id', '=', 'orders.user_id')
+                  -> join ('store_orders', 'store_orders.OrderID','=','orders.OrderID' )
+                  -> join ('products', 'products.id','=','store_orders.ProductID' )
+                  -> select ('orders.OrderID', 'users.name', 'users.u_address', 'products.Name','store_orders.ProductID','store_orders.ProductQuantity')
+                  -> where('joblists.status_job','Pending')
+                  ->orderby('joblists.OrderID')
+                  //->groupBy('joblists.JobID')
+                  -> get(); 
+        	return response() -> json(['data' => $data],  200);
         
    		}
 
@@ -36,17 +40,16 @@ class APIJobController extends Controller
       {
           
           $joblists = DB:: table('joblists')
-                ->join('jobstatuses', 'jobstatuses.JobID', '=', 'joblists.JobID')
-                  -> select ('joblists.JobID', 'jobstatuses.job_status')
-                  -> where('jobstatuses.job_status','Active')
+                  -> select ('JobID', 'status_job')
+                  -> where('status_job','Active')
                   -> get();
           return response() -> json(['joblists' => $joblists],  200);
         
       }
 
       public function AcceptJob(Request $request, $JobID){
-
-        if($request->job_status == 'Pending'){
+        $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
+        if($jobstatus == 'Pending'){
           $jobstatuses = new Jobstatus;
           $jobstatuses->JobID= $JobID;
           $jobstatuses->job_status= 'Active';
@@ -58,10 +61,9 @@ class APIJobController extends Controller
 
           return response()->json(['JobID'=> $JobID,'message' => 'Successful Accept Job', 'status' => true], 201);
           
-
         }
 
-        else if($request->job_status == 'Active'){
+        else{
            return response()->json(['message' => 'Job has been accepted by other agent', 'status' => false], 401);
         }
       }
@@ -151,6 +153,7 @@ class APIJobController extends Controller
               $transaction->walletID = $walletID;
               $transaction->user_id = $userid;
               $transaction->status = 'Credit';
+              $transaction->message = 'Order Completed';
               $transaction->amount = $amount;
               $transaction->save();
               

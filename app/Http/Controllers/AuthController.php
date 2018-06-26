@@ -81,7 +81,7 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token,$email)
     {
-        $userid=User::where('email', '=', $email)->value('id');
+      $userid=User::where('email', '=', $email)->value('id');
       $data = DB:: table('users')
               -> select ('name', 'role','email', 'icnumber', 'u_address', 'u_bankname', 'u_accnumber', 'u_phone')
               -> where('id',$userid)
