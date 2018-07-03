@@ -76,13 +76,13 @@ Route::group([
 ], function ($router) {
 
     Route::get('pending-job', 'APIJobController@PendingJob');
-    Route::get('active-job', 'APIJobController@ActiveJob');
+    Route::get('active-job/{user_id}', 'APIJobController@ActiveJob');
     Route::post('accept-job/{JobID}', 'APIJobController@AcceptJob');
-    Route::post('UpdateJob/{JobID}', 'APIJobController@UpdateJob');
-    Route::post('CancelJob/{JobID}', 'APIJobController@CancelJob');
-    Route::post('AcceptDelivery/{JobID}', 'APIJobController@AcceptDelivery');
-    Route::post('RejectDelivery/{JobID}', 'APIJobController@RejectDelivery');
-    Route::get('ViewOrderStatus/{user_id}', 'APIJobController@ViewOrderStatus');
+    Route::post('agent-update-job/{JobID}', 'APIJobController@UpdateJob');
+    Route::post('cancel-job/{JobID}', 'APIJobController@CancelJob');
+    Route::post('accept-delivery/{JobID}', 'APIJobController@AcceptDelivery');
+    Route::post('reject-delivery/{JobID}', 'APIJobController@RejectDelivery');
+    Route::get('view-order-status/{user_id}', 'APIJobController@ViewOrderStatus');
 
 });
 
@@ -93,7 +93,7 @@ Route::group([
 
 ], function ($router) {
 
-    Route::post('WithdrawRequest/{user_id}', 'APIWithdrawController@WithdrawRequest');
+    Route::post('withdraw-request/{user_id}', 'APIWithdrawController@WithdrawRequest');
 
 });
 
@@ -104,7 +104,7 @@ Route::group([
 
 ], function ($router) {
 
-    Route::post('History/{user_id}', 'APIWithdrawController@History');
+    Route::post('history/{user_id}', 'APIWithdrawController@History');
 
 });
 
@@ -115,7 +115,7 @@ Route::group([
 
 ], function ($router) {
 
-    Route::post('balance/{user_id}', 'APIWithdrawController@balance');
+    Route::get('balance/{user_id}', 'APIWithdrawController@balance');
 
 });
 

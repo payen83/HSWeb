@@ -22,28 +22,104 @@ class APIJobController extends Controller
 {
         public function PendingJob()
     	{
-          $data = DB:: table('joblists')
+         //list pending job
+          $result = DB:: table('joblists')
                   -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
+                  -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> join ('store_orders', 'store_orders.OrderID','=','orders.OrderID' )
-                  -> join ('products', 'products.id','=','store_orders.ProductID' )
-                  -> select ('orders.OrderID', 'users.name', 'users.u_address', 'products.Name','store_orders.ProductID','store_orders.ProductQuantity')
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                   -> where('joblists.status_job','Pending')
-                  ->orderby('joblists.OrderID')
-                  //->groupBy('joblists.JobID')
-                  -> get(); 
-        	return response() -> json(['data' => $data],  200);
-        
-   		}
+                  ->groupby('joblists.OrderID')
+                  ->get();
 
-        public function ActiveJob()
+           
+   
+          $array = [];
+                    foreach($result as $data){
+                    $x = $data->JobID;
+                    if($data->JobID == $x){
+                           $result1 = DB:: table('store_orders')
+                            -> join ('joblists', 'joblists.OrderID', '=', 'store_orders.OrderID')
+                            -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                            -> select ('store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                            -> where('joblists.JobID', '=', $x)
+                            ->where(function($q) {
+                                $q->where('joblists.status_job','Pending');
+                              })
+                            ->get();
+                    }
+              
+                   
+                    $array[] = [
+                                  'JobID'=> $data->JobID,
+                                  'current_status'=> $data->status_job,
+                                  'c_name' => $data->name,
+                                  'c_address' => $data->location_address,
+                                  'latitude' => $data->Lat,
+                                  'longitude' => $data->Lng,
+                                  'note' => $data->special_notes,
+                                  'total_price'=> $data->total_price,
+                                  'orders' => $result1
+                                  
+
+                                ];
+                    
+                    }
+
+                    return response()->json($array);
+
+
+    }
+
+        public function ActiveJob($user_id)
       {
           
-          $joblists = DB:: table('joblists')
-                  -> select ('JobID', 'status_job')
-                  -> where('status_job','Active')
-                  -> get();
-          return response() -> json(['joblists' => $joblists],  200);
+          $result =DB:: table('joblists')
+                  -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
+                  -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                  -> join ('users', 'users.id', '=', 'orders.user_id')
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                   -> where('joblists.user_id', '=', $user_id)
+                  ->where(function($q) {
+                                $q->where('joblists.status_job','Active');
+                              })
+                  ->groupby('joblists.OrderID')
+                  ->get();
+
+          $array = [];
+                    foreach($result as $data){
+                    $x = $data->JobID;
+                    if($data->JobID == $x){
+                           $result1 = DB:: table('store_orders')
+                            -> join ('joblists', 'joblists.OrderID', '=', 'store_orders.OrderID')
+                            -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                            -> select ('store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                            -> where('joblists.JobID', '=', $x)
+                            ->where(function($z) {
+                                $z->where('joblists.status_job','Active');
+                              })
+                            ->get();
+                    }
+              
+                   
+                    $array[] = [
+                                  'JobID'=> $data->JobID,
+                                  'current_status'=> $data->status_job,
+                                  'c_name' => $data->name,
+                                  'c_address' => $data->location_address,
+                                  'latitude' => $data->Lat,
+                                  'longitude' => $data->Lng,
+                                  'note' => $data->special_notes,
+                                  'total_price'=> $data->total_price,
+                                  'orders' => $result1
+                                  
+
+                                ];
+                    
+                    }
+          return response() -> json($array);
         
       }
 
@@ -69,18 +145,21 @@ class APIJobController extends Controller
       }
 
         public function UpdateJob (Request $request, $JobID){
-           if($request->job_status == 'Completed'){
+          $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
+           if($jobstatus == 'Active'){
               $jobstatuses = new Jobstatus;
               $jobstatuses->JobID= $JobID;
-              $jobstatuses->job_status= 'Completed';
+              $jobstatuses->job_status= 'Pending Completion';
               $jobstatuses->save();
               $joblists = Joblist::find($JobID);
-              $joblists->status_job='Completed';
+              $joblists->status_job='Pending Completion';
               $joblists->save();
 
-              return response()->json(['JobID'=> $JobID,'message' => 'Job has been Completed', 'status' => true], 201);
+              return response()->json(['JobID'=> $JobID,'message' => 'Job has been mark as completed', 'status' => true], 201);
 
               }
+           else 
+              return response()->json(['message' => 'Fail to proceed a process', 'status' => false], 401);
         }
 
       
@@ -101,20 +180,22 @@ class APIJobController extends Controller
       }
 
       public function CancelJob (Request $request, $JobID){
-        if($request->job_status=='Cancel'){
+        $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
+        if($jobstatus =='Active'){
           $jobstatuses = new Jobstatus;
           $jobstatuses->JobID = $JobID;
           $jobstatuses->job_status = 'Cancel';
           $jobstatuses->message = Input::get('message');
           $jobstatuses->save();
           
-          $cancelcount=0;
+          $cancel = DB::table('joblists')->where('JobID', '=', $JobID)->value('cancelcount');
           $joblists = Joblist::find($JobID);
           $joblists->status_job='Cancel';
-          $joblists->cancelcount = $cancelcount+1;
+          $joblists->cancelcount = $cancel + 1;
           $joblists->save();
 
           $ordernumber=Joblist::where('JobID', '=', $JobID)->value('OrderID');
+
           $joblist = new Joblist;
           $joblist->status_job = 'Cancel';
           $joblist->OrderID = $ordernumber;
@@ -123,10 +204,18 @@ class APIJobController extends Controller
 
           return response()->json(['JobID'=> $JobID,'message' => 'Job has been Cancel and deliverd to HQ', 'status' => true], 201);
         }
+
+        else
+          return response()->json(['message' => 'Fail to proceed a process', 'status' => false], 401);
+
       }
 
       public function AcceptDelivery (Request $request, $JobID){
-        if($request->job_status=='Completed' or $request->job_status=='completed')
+        $customer_id = $request->user_id;
+        $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID'); 
+        $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
+        $custid_db = DB::table('orders')->where('OrderID', '=', $orderid)->value('user_id');
+        if($jobstatus == 'Pending Completion' && $customer_id == $custid_db)
         {
           $jobstatuses = new Jobstatus;
           $jobstatuses->JobID = $JobID;
@@ -181,10 +270,16 @@ class APIJobController extends Controller
            return response()->json(['JobID'=> $JobID,'message' => 'Job has Accepted and Amount has been credited in your wallet, Check email for more details', 'status' => true], 201);
 
         }
+        else
+           return response()->json(['message' => 'Fail to proceed a process', 'status' => false], 401);
       }
 
       public function RejectDelivery (Request $request, $JobID){
-        if($request->job_status=='Reject' or $request->job_status=='reject')
+        $customer_id = $request->user_id;
+        $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID'); 
+        $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
+        $custid_db = DB::table('orders')->where('OrderID', '=', $orderid)->value('user_id');
+        if($jobstatus =='Active' && $customer_id == $custid_db)
         {
           $jobstatuses = new Jobstatus;
           $jobstatuses->JobID = $JobID;
@@ -205,6 +300,8 @@ class APIJobController extends Controller
            return response()->json(['JobID'=> $JobID,'message' => 'Delivery has been rejected by customer', 'status' => true], 201);
 
         }
+        else
+           return response()->json(['message' => 'Fail to proceed a process', 'status' => false], 401);
       }
 
    		

@@ -54,10 +54,17 @@ class APIWithdrawController extends Controller
       }
 
       public function balance ($user_id){
-      	 $wallets = DB::table('wallets')
-      	          -> select('amount')
-      	          -> where('user_id', '=', $user_id)
-      	          ->get();
-      	 return response() -> json(['wallets' => $wallets],  200);
+         $role = DB::table('users')->where('id', '=', $user_id)->value('role');
+         if($role == 'Agent'){
+            $wallets = DB::table('wallets')
+                  -> join ('users', 'users.id', '=', 'wallets.user_id')
+                  -> select('users.name', 'users.email','users.u_bankname','users.u_accnumber','wallets.amount')
+                  -> where('user_id', '=', $user_id)
+                  ->get();
+         return response() -> json(['wallets' => $wallets],  200);
+         }
+      	 
+         else
+          return response()->json(['message' => 'You cannot get access to this process', 'status' => false], 401);
       }
 }

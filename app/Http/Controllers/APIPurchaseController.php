@@ -69,6 +69,8 @@ class APIPurchaseController extends Controller
            $payment ->user_id = $user_id;
            $payment ->amount = Input::get('amount');
            $payment ->currency = Input::get('currency');
+           $payment ->payment_date = Input::get('payment_date');
+           $payment ->transaction_id = Input::get('transaction_id');
            $payment->save();
         
            $email=User::where('users.id', '=', $user_id)->pluck('email','id');
@@ -109,6 +111,8 @@ class APIPurchaseController extends Controller
               $payment ->user_id = $user_id;
               $payment ->amount = Input::get('amount');
               $payment ->currency = Input::get('currency');
+              $payment ->payment_date = Input::get('payment_date');
+              $payment ->transaction_id = Input::get('transaction_id');
               $payment->save();
         
             $walletID= DB::table('wallets')->where('user_id', '=', $user_id)->value('walletID');

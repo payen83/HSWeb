@@ -20,7 +20,7 @@ Route::group(['middleware' => ['auth']], function () {
             }
       
         else{
-            return Redirect::to('login');
+            return redirect('error');
         }
     });
     Route::get('error', function () {
