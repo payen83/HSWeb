@@ -25,8 +25,10 @@ use Illuminate\Support\Facades\Validator;
 class APIPurchaseController extends Controller
 {
     public function orders(Request $request, $user_id) {
-
-    	if($request->role =="customer"){
+      
+      $id= DB::table('orders')->where('user_id', '=', $user_id)->value('user_id');
+      $role= DB::table('users')->where('id', '=', $id)->value('role');
+    	if($role =="Customer"){
             // create order no
            $order_no = Orders::getNextOrderNumber();
            $orders = new Orders;
@@ -78,7 +80,7 @@ class APIPurchaseController extends Controller
            return response()->json(['OrderID'=> $order_no,'message' => 'Successful Order', 'status' => true], 201);
     	}
 
-    	else if ($request->role =="agent"){
+    	else if ($role =="Agent"){
         // create order number
            $order_no = Orders::getNextOrderNumber();
            $orders = new Orders;
@@ -141,7 +143,8 @@ class APIPurchaseController extends Controller
               return response()->json(['message' => 'Not enough wallet amount to make order', 'status' => false], 401);  
 
     	}
-
+      else
+        return response()->json(['message' => 'You are not allowed to make order', 'status' => false], 401);
         
 
     }

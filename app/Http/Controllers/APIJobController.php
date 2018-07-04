@@ -165,6 +165,53 @@ class APIJobController extends Controller
       
 
       public function ViewOrderStatus($user_id){
+        $result =DB:: table('joblists')
+                  -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
+                  -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                  -> join ('users', 'users.id', '=', 'orders.user_id')
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                   -> where('orders.user_id', '=', $user_id)
+                  ->where(function($q) {
+                                    $q->where('joblists.status_job','Active')
+                                      ->orWhere('joblists.status_job', 'Completed');
+                                    })
+                  ->groupby('joblists.OrderID')
+                  ->get();
+
+          $array = [];
+                    foreach($result as $data){
+                    $x = $data->JobID;
+                    if($data->JobID == $x){
+                           $result1 = DB:: table('store_orders')
+                            -> join ('joblists', 'joblists.OrderID', '=', 'store_orders.OrderID')
+                            -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                            -> select ('store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                            -> where('joblists.JobID', '=', $x)
+                            ->where(function($q) {
+                                    $q->where('joblists.status_job','Active')
+                                      ->orWhere('joblists.status_job', 'Completed');
+                                    })
+                            ->get();
+                    }
+              
+                   
+                    $array[] = [
+                                  'JobID'=> $data->JobID,
+                                  'current_status'=> $data->status_job,
+                                  'c_name' => $data->name,
+                                  'c_address' => $data->location_address,
+                                  'latitude' => $data->Lat,
+                                  'longitude' => $data->Lng,
+                                  'note' => $data->special_notes,
+                                  'total_price'=> $data->total_price,
+                                  'orders' => $result1
+                                  
+
+                                ];
+                    
+                    }
+          return response() -> json($array);
          $orders = DB:: table('orders')
                   ->join('users', 'users.id', '=', 'orders.user_id')
                   ->join('joblists', 'joblists.OrderID', '=', 'orders.OrderID')
@@ -267,7 +314,7 @@ class APIJobController extends Controller
           $email=DB::table('users')->where('users.id', '=', $userid)->value('email');
           Mail::to($email)->send(new Wallet_Credit($email));
           
-           return response()->json(['JobID'=> $JobID,'message' => 'Job has Accepted and Amount has been credited in your wallet, Check email for more details', 'status' => true], 201);
+           return response()->json(['message' => 'You have accepted the delivery. Thank you.', 'status' => true], 201);
 
         }
         else

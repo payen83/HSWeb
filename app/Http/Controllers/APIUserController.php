@@ -25,11 +25,16 @@ class APIUserController extends Controller
     }
 
     public function UserProfile(Request $request, $id) {
-         
-        $input = $request->all();
-        $update = User::find($id);
-        $update->update($input);
-        return response()->json(['message' => 'Your Profile has been update', 'status' => true], 201);
+        
+        $user = User::find($id);
+        $user->name = Input::get('name');
+        $user->icnumber= Input::get('icnumber');
+        $user->u_address = Input::get('u_address');
+        $user->u_phone = Input::get('u_phone');
+        $user->u_bankname = Input::get('u_bankname');
+        $user->u_accnumber = Input::get('u_accnumber');
+        $user->save();
+        return response()->json(['message' => 'Your Profile has been updated', 'status' => true], 201);
     }
 
     public function ChangePassword(Request $request, $id){
@@ -71,12 +76,5 @@ class APIUserController extends Controller
 
     }
 
-    public function BankDetails (Request $request, $id){
-        $user = User::find($id);
-        $user->u_bankname = Input::get('u_bankname');
-        $user->u_accnumber = Input::get('u_accnumber');
-        $user->save();
-        return response()->json(['message' => 'Bank Details has been update', 'status' => true], 201);
-    }
-
+   
 }

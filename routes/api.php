@@ -53,7 +53,7 @@ Route::group([
     Route::post('update-profile/{id}', 'APIUserController@UserProfile');
     Route::post('change-password/{id}', 'APIUserController@ChangePassword');
     Route::post('user-image/{id}', 'APIUserController@UserImage');
-    Route::post('bank-details/{id}', 'APIUserController@BankDetails');
+   
     
 });
 
