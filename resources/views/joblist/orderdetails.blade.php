@@ -12,7 +12,7 @@
                         </div>
                         <div class="col-sm-5 text-right hidden-xs">
                             <ol class="breadcrumb push-10-t">
-                                <li><a class="link-effect" href="{{route('ViewOrderList')}}">Order List</a></li>
+                                <li><a class="link-effect" href="{{route('viewJoblist')}}">Joblist List</a></li>
                                 <li>Order Details</li>
                             </ol>
                         </div>
@@ -25,23 +25,7 @@
                     <!-- My Block -->
                     <div class="block">
                         <div class="block-header">
-                            <ul class="block-options">
-                                <li>
-                                    <button type="button"><i class="si si-settings"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="close"><i class="si si-close"></i></button>
-                                </li>
-                            </ul>
+                            
                            
                         </div>
                          <!-- Products -->
@@ -97,43 +81,25 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <!-- Billing Address -->
+                            
                             <div class="block">
                                 <div class="block-header bg-gray-lighter">
-                                    <h3 class="block-title">Billing Address</h3>
+                                    <h3 class="block-title">Delivery Address</h3>
                                 </div>
+                                @foreach($orders1 as $key=> $data)
                                 <div class="block-content block-content-full">
-                                    <div class="h4 push-5">Bruce Edwards</div>
+                                    <div class="h4 push-5">{{$data->name}}</div>
                                     <address>
-                                        Sunset Str 598<br>
-                                        Melbourne<br>
-                                        Australia, 11-671<br><br>
-                                        <i class="fa fa-phone"></i> (999) 888-77777<br>
-                                        <i class="fa fa-envelope-o"></i> <a href="javascript:void(0)">company@example.com</a>
+                                        {{$data->u_address}}<br>
+                                        <i class="fa fa-phone"></i>  {{$data->u_phone}}<br>
+                                        <i class="fa fa-envelope-o"></i> <a href="javascript:void(0)">{{$data->email}}</a>
                                     </address>
                                 </div>
+                                 @endforeach
                             </div>
                             <!-- END Billing Address -->
                         </div>
-                        <div class="col-lg-6">
-                            <!-- Shipping Address -->
-                            <div class="block">
-                                <div class="block-header bg-gray-lighter">
-                                    <h3 class="block-title">Shipping Address</h3>
-                                </div>
-                                <div class="block-content block-content-full">
-                                    <div class="h4 push-5">Dennis Ross</div>
-                                    <address>
-                                        Sunrise Str 620<br>
-                                        Melbourne<br>
-                                        Australia, 11-587<br><br>
-                                        <i class="fa fa-phone"></i> (999) 888-55555<br>
-                                        <i class="fa fa-envelope-o"></i> <a href="javascript:void(0)">company@example.com</a>
-                                    </address>
-                                </div>
-                            </div>
-                            <!-- END Shipping Address -->
-                        </div>
-                    </div>
+                   
                     <!-- END Customer -->
 
                   

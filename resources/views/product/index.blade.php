@@ -14,7 +14,7 @@
                         <div class="col-sm-5 text-right hidden-xs">
                             <ol class="breadcrumb push-10-t">
                                 <li>Product</li>
-                                <li><a class="link-effect" href="product.html">Inventory Product</a></li>
+                                <li><a class="link-effect" href="{{route('viewProduct')}}">Inventory Product</a></li>
                             </ol>
                         </div>
                     </div>

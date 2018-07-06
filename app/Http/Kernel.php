@@ -40,6 +40,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+           
         ],
     ];
 
@@ -59,7 +60,8 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'jwt.auth' =>\Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+        //'jwt.auth' => \App\Http\Middleware\VerifyJWTToken::class,
+        //'jwt.auth' =>\Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' =>\Tymon\JWTAuth\Middleware\RefreshToken::class,
         'super_admin' => \App\Http\Middleware\SuperAdmin::class,
         'admin' => \App\Http\Middleware\Admin::class,

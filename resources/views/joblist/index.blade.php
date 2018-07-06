@@ -11,7 +11,7 @@
                     <div class="block">
                         <div class="block-header bg-gray-lighter">
                             <ul class="block-options">
-                            <a href="{{route('ViewOrderList')}}"<button class="btn btn-primary push-5-r push-10" type="button"><i class="si si-basket-loaded"></i> Order Details</button></a>
+      
                             </ul>
                             <h3 class="block-title">All Job List</h3>
                         </div>
@@ -24,7 +24,7 @@
                                         <th class="text-center" >Job ID</th>
                                         <th class="text-center">Agent Name</th>
                                         <th class="text-center">Order Number</th>
-                                        <th  style="width: 100px;">Status</th>
+                                        <th class="text-center">Current Status</th>
                                         <th class="hidden-xs text-center">Date/Time</th>
                                         <th class="hidden-xs text-center">Action</th>
                                        
@@ -34,22 +34,16 @@
                                     <?php $i = 1;?>
                                     @foreach($joblists as $key=>$data)
                                     <tr>
-                                        <td class="text-center">
-                                            <a class="font-">
-                                                <strong>{{$data->JobID}}</strong>
-                                            </a>
-                                        </td>
+                                        <td class="text-center">{{$data->JobID}}</td>
                                         <td class="hidden-xs text-center">{{$data->name}}</td>
                                          <td class="hidden-xs text-center">{{$data->OrderID}}</td>
-                                        <td>
-                                            <span class="label label-success">{{$data->status_job}}</span>  
-                                        </td>
+                                        <td>{{$data->status_job}}</td>
                                         <td class="hidden-xs text-center">{{$data->update_at}}</td>
                                         
                                          <td class="text-center">
                                             <div class="btn-group">
-                                                <a href="{{route('viewJobDetails',['JobID'=>$data->JobID])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i> View</button></a>
-                                                 <a href="{{route('viewEditJoblist',['JobID'=>$data->JobID])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
+                                                <a href="{{route('ViewOrderDetails',['OrderID'=>$data->OrderID])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button">Order Details</button></a>
+                                                 <a href="{{route('viewJobDetails',['JobID'=>$data->JobID])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button">Job History</button></a>
                                             </div>
                                         </td>
                                         

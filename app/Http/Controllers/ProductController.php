@@ -159,11 +159,21 @@ class ProductController extends Controller
         $inventories = DB:: table('inventories')
                   -> join ('products', 'products.id', '=', 'inventories.product_id')
                   -> join ('users', 'users.id', '=', 'inventories.user_id')
-                  -> select ('users.name', 'inventories.id','products.Name','users.email', 'inventories.quantity')
+                  -> select ('users.name','inventories.user_id', 'inventories.id','products.Name','users.email', 'inventories.quantity', DB::raw('count(inventories.product_id) as NumberOfProducts'))
                   -> orderby('users.name')
                   -> groupby('users.name')
                   -> get();
         return view('product.inventory', compact('inventories'));
+    }
+
+    public function viewInventoryDetails($user_id)
+    {
+        $inventories = DB:: table('inventories')
+                  -> join ('products', 'products.id', '=', 'inventories.product_id')
+                  -> select ('inventories.id','products.Name','inventories.quantity')
+                  ->where('inventories.user_id', $user_id)
+                  -> get();
+        return view('product.inv_list', compact('inventories'));
     }
 
      public function viewEditInvProduct($id)

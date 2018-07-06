@@ -39,9 +39,9 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center" style="width: 100px;">Bil</th>
-                                            <th>Order ID</th>
-                                            <th>Job Status</th>
                                             <th>Date/Time</th>
+                                            <th>Job Status</th>
+                                            
                                             
                                         </tr>
                                     </thead>
@@ -52,9 +52,9 @@
 
                                         <tr>
                                             <td class="text-center">{{$i++}}</td>
-                                            <td><a href="{{route('ViewOrderDetails',['OrderID'=>$data->OrderID])}}"><strong>{{$data->OrderID}}</strong></a></td>
-                                            <td>{{$data->job_status}}</a></td>
                                             <td>{{$data->created_at}}</td>
+                                            <td>{{$data->job_status}}</a></td>
+                                            
                                         </tr>
                                        
                                     @endforeach

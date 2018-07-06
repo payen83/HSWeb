@@ -26,7 +26,7 @@
                     <!-- My Block -->
                     <div class="block">
                         <div class="block-header">
-                            <h3 class="block-title">Agent Product Inventory</h3>
+                            <h3 class="block-title">Product Inventory Details</h3>
                         </div>
                         <div class="block-content">
                             <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
@@ -35,8 +35,8 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center" style="width: 5%;"></th>
-                                        <th class="hidden-xs">Agent Details</th>
-                                        <th class="text-center">Number Of Product</th>
+                                        <th class="hidden-xs">Product Name</th>
+                                        <th class="text-center">Quantity</th>
                                         <th class="text-center" style="width: 20%;">Actions</th>
                                     </tr>
                                 </thead>
@@ -45,12 +45,18 @@
                                 @foreach($inventories as $key=>$data)
                                     <tr>
                                         <td class="text-center">{{$i++}}</td>
-                                        <td class="font-w600">{{$data->name}}    ({{$data->email}})</td>
-                                        <td class="text-center">{{$data->NumberOfProducts}}</td>
+                                        <td class="font-w600">{{$data->Name}}</td>
+                                        <td class="text-center">{{$data->quantity}}</td>
                                       
                                         <td class="text-center" >
                                             <div class="btn-group">
-                                                 <a href="{{route('viewInventoryDetails',['user_id'=>$data->user_id])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i> View</button></a>
+                                               
+                                                <form name ="frmdelete" action="{{route('deleteInventory',['id'=>$data->id])}}" method="POST">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                 <a href="{{route('viewEditInvProduct',['id'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
+                                                <button type="submit" class="btn btn-xs btn-danger push-5-r push-10" onclick="return myFunction()"><i class="fa fa-times"></i> Delete</button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>

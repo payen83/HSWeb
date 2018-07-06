@@ -72,7 +72,7 @@ class APIJobController extends Controller
 
     }
 
-        public function ActiveJob($user_id)
+        public function StatusJob($user_id)
       {
           
           $result =DB:: table('joblists')
@@ -82,8 +82,10 @@ class APIJobController extends Controller
                   -> join ('users', 'users.id', '=', 'orders.user_id')
                   -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                    -> where('joblists.user_id', '=', $user_id)
-                  ->where(function($q) {
-                                $q->where('joblists.status_job','Active');
+                   ->where(function($q) {
+                                $q->where('joblists.status_job','Active')
+                                   ->orWhere('joblists.status_job', 'Completed')
+                                   ->orWhere('joblists.status_job', 'Pending Completion');
                               })
                   ->groupby('joblists.OrderID')
                   ->get();
@@ -98,7 +100,9 @@ class APIJobController extends Controller
                             -> select ('store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                             -> where('joblists.JobID', '=', $x)
                             ->where(function($z) {
-                                $z->where('joblists.status_job','Active');
+                                $z->where('joblists.status_job','Active')
+                                   ->orWhere('joblists.status_job', 'Completed')
+                                   ->orWhere('joblists.status_job', 'Pending Completion');
                               })
                             ->get();
                     }
@@ -174,6 +178,8 @@ class APIJobController extends Controller
                    -> where('orders.user_id', '=', $user_id)
                   ->where(function($q) {
                                     $q->where('joblists.status_job','Active')
+                                      ->orWhere('joblists.status_job', 'Pending')
+                                      ->orWhere('joblists.status_job', 'Pending Completion')
                                       ->orWhere('joblists.status_job', 'Completed');
                                     })
                   ->groupby('joblists.OrderID')
@@ -190,6 +196,8 @@ class APIJobController extends Controller
                             -> where('joblists.JobID', '=', $x)
                             ->where(function($q) {
                                     $q->where('joblists.status_job','Active')
+                                      ->orWhere('joblists.status_job', 'Pending')
+                                      ->orWhere('joblists.status_job', 'Pending Completion')
                                       ->orWhere('joblists.status_job', 'Completed');
                                     })
                             ->get();
@@ -349,6 +357,14 @@ class APIJobController extends Controller
         }
         else
            return response()->json(['message' => 'Fail to proceed a process', 'status' => false], 401);
+      }
+
+      public function OrderTrack ($JobID){
+          $ordertrack = DB:: table('jobstatuses')
+                  ->select ('job_status','created_at')
+                  ->where('JobID', $JobID) 
+                  -> get();
+          return response() -> json(['order_track' => $ordertrack],  200);
       }
 
    		

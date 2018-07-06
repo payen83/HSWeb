@@ -115,6 +115,11 @@ Route::group(['middleware' => ['auth']], function () {
         'uses' => 'ProductController@viewInventory'
     ]);
 
+    Route::get('/Inventory/list-inventory/{user_id}', [
+        'as' => 'viewInventoryDetails',
+        'uses' => 'ProductController@viewInventoryDetails'
+    ]);
+
      Route::get('/Inventory/ed-inventory/{id}', [
         'uses' => 'ProductController@viewEditInvProduct',
         'as' => 'viewEditInvProduct'

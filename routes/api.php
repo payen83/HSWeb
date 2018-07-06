@@ -31,7 +31,7 @@ Route::group([
 
 Route::group([
 
-    'middleware' => 'api',
+    'middleware' => 'jwt.auth',
     'prefix' => 'products'
 
 ], function ($router) {
@@ -76,13 +76,14 @@ Route::group([
 ], function ($router) {
 
     Route::get('pending-job', 'APIJobController@PendingJob');
-    Route::get('active-job/{user_id}', 'APIJobController@ActiveJob');
+    Route::get('status-job/{user_id}', 'APIJobController@StatusJob');
     Route::post('accept-job/{JobID}', 'APIJobController@AcceptJob');
     Route::post('agent-update-job/{JobID}', 'APIJobController@UpdateJob');
     Route::post('cancel-job/{JobID}', 'APIJobController@CancelJob');
     Route::post('accept-delivery/{JobID}', 'APIJobController@AcceptDelivery');
     Route::post('reject-delivery/{JobID}', 'APIJobController@RejectDelivery');
     Route::get('view-order-status/{user_id}', 'APIJobController@ViewOrderStatus');
+    Route::get('view-order-timeline/{JobID}', 'APIJobController@OrderTrack');
 
 });
 
