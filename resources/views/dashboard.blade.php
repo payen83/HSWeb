@@ -77,55 +77,14 @@
                                 <div class="block-content">
                                     <table class="table table-borderless table-striped table-vcenter">
                                         <tbody>
+                                            @foreach($latestorder as $key=>$data)
                                             <tr>
-                                                <td class="text-center" style="width: 100px;"><a href="base_pages_ecom_order.html"><strong>ORD.7116</strong></a></td>
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">Vincent Sims</a></td>
-                                                <td><span class="label label-success">Delivered</span></td>
-                                                <td class="text-right"><strong>$271,00</strong></td>
+                                                <td class="text-center" style="width: 100px;"><a><strong>{{$data->OrderID}}</strong></a></td>
+                                                <td class="hidden-xs"><a>{{$data->name}}</a></td>
+                                                <td><span class="label label-success">{{$data->status_job}}</span></td>
+                                                <td class="text-right"><strong>${{$data->amount}}</strong></td>
                                             </tr>
-                                            <tr>
-                                                <td class="text-center"><a href="base_pages_ecom_order.html"><strong>ORD.7115</strong></a></td>
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">Scott Ruiz</a></td>
-                                                <td><span class="label label-danger">Canceled</span></td>
-                                                <td class="text-right"><strong>$430,00</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><a href="base_pages_ecom_order.html"><strong>ORD.7114</strong></a></td>
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">Susan Elliott</a></td>
-                                                <td><span class="label label-success">Delivered</span></td>
-                                                <td class="text-right"><strong>$897,00</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><a href="base_pages_ecom_order.html"><strong>ORD.7113</strong></a></td>
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">John Parker</a></td>
-                                                <td><span class="label label-warning">Processing</span></td>
-                                                <td class="text-right"><strong>$965,00</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center" style="width: 100px;"><a href="base_pages_ecom_order.html"><strong>ORD.7116</strong></a></td>
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">Vincent Sims</a></td>
-                                                <td><span class="label label-success">Delivered</span></td>
-                                                <td class="text-right"><strong>$271,00</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><a href="base_pages_ecom_order.html"><strong>ORD.7115</strong></a></td>
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">Scott Ruiz</a></td>
-                                                <td><span class="label label-danger">Canceled</span></td>
-                                                <td class="text-right"><strong>$430,00</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><a href="base_pages_ecom_order.html"><strong>ORD.7114</strong></a></td>
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">Susan Elliott</a></td>
-                                                <td><span class="label label-success">Delivered</span></td>
-                                                <td class="text-right"><strong>$897,00</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><a href="base_pages_ecom_order.html"><strong>ORD.7114</strong></a></td>
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">Susan Elliott</a></td>
-                                                <td><span class="label label-success">Delivered</span></td>
-                                                <td class="text-right"><strong>$897,00</strong></td>
-                                            </tr>
-                                           
+                                          @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -150,9 +109,10 @@
                                 <div class="block-content">
                                     <table class="table table-borderless table-striped table-vcenter">
                                         <tbody>
+                                            @foreach($topproduct as $key=>$data)
                                             <tr>
-                                                <td class="text-center" style="width: 100px;"><a href="base_pages_ecom_product_edit.html"><strong>AA 123</strong></a></td>
-                                                <td><a href="base_pages_ecom_product_edit.html">Milk Thistle (Silymarin)</a></td>
+                                                <td class="text-center" style="width: 100px;"><a><strong>{{$data->sku_number}}</strong></a></td>
+                                                <td><a>{{$data->Name}}</a></td>
                                                 <td class="hidden-xs text-center">
                                                     <div class="text-warning">
                                                         <i class="fa fa-star"></i>
@@ -163,46 +123,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="text-center"><a href="base_pages_ecom_product_edit.html"><strong>AA 124</strong></a></td>
-                                                <td><a href="base_pages_ecom_product_edit.html">Digestive Enzymes by Naturenetics</a></td>
-                                                <td class="hidden-xs text-center">
-                                                    <div class="text-warning">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><a href="base_pages_ecom_product_edit.html"><strong>AA 125</strong></a></td>
-                                                <td><a href="base_pages_ecom_product_edit.html">MGO™ 550+ Manuka Honey</a></td>
-                                                <td class="hidden-xs text-center">
-                                                    <div class="text-warning">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><a href="base_pages_ecom_product_edit.html"><strong>AA 126</strong></a></td>
-                                                <td><a href="base_pages_ecom_product_edit.html">MGO™ 550+ Manuka Honey</a></td>
-                                                <td class="hidden-xs text-center">
-                                                    <div class="text-warning">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            
+                                           @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -224,31 +145,14 @@
                                 <div class="block-content">
                                     <table class="table table-borderless table-striped table-vcenter">
                                         <tbody>
+                                             @foreach($latestuser as $key=>$data)
                                             <tr>
-                                                <td class="text-center" style="width: 100px;"><a href="base_pages_ecom_order.html">13-04 09:20</a></td>
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">Vincent Sims</a></td>
-                                                <td><span class="label label-primary">Customer</span></td>
-                                                <td class="text-right"><strong>vincent@gmail.com</strong></td>
+                                                <td class="text-center"><a>{{$data->created_at}}</a></td>
+                                                <td class="hidden-xs"><a>{{$data->name}}</a></td>
+                                                <td><span class="label label-primary">{{$data->role}}</span></td>
+                                                <td class="text-right"><strong>{{$data->email}}</strong></td>
                                             </tr>
-                                            <tr>
-                                                <td class="text-center"><a href="base_pages_ecom_order.html">13-04 10:20
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">Scott Ruiz</a></td>
-                                                <td><span class="label label-success">Agent</span></td>
-                                                <td class="text-right"><strong>scott@gmail.com</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><a href="base_pages_ecom_order.html">12-04 13:45</td>
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">Susan Elliott</a></td>
-                                                <td><span class="label label-success">Customer</span></td>
-                                                <td class="text-right"><strong>susan@gmail.com</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><a href="base_pages_ecom_order.html">11-04 18:20</td>
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">John Parker</a></td>
-                                                <td><span class="label label-primary">Agent</span></td>
-                                                <td class="text-right"><strong>john@gmail.com</strong></td>
-                                            </tr>
-                                           
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

@@ -33,7 +33,7 @@
                                             <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                             </span>
-                                                <input class="form-control datepicker" type='text' class="form-control" name="to_date" id="to_date" placeholder="To Date"/> 
+                                                <input class="form-control datepicker" type='text' class="form-control" name="to_date" id="to_date" placeholder="To Date" /> 
                                      </div>
                             </div>
                             <script>

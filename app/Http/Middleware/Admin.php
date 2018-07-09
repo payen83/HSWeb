@@ -9,7 +9,7 @@ class Admin
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->role == 'Admin' || Auth::user()->role == 'SuperAdmin')
+        if (Auth::user()->role == 'Admin')
             return $next($request);
         return redirect('error');
     }
