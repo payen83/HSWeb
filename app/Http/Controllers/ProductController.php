@@ -48,9 +48,16 @@ class ProductController extends Controller
             $filename="NULL";
         }
 
+        if($request->sku_number ==''){
+            $sku_number = Product::getNextSKUNumber();
+        }
+        else{
+            $sku_number = Input::get('sku_number');
+        }
+
          $product = new Product;
          $product->Name = Input::get('Name');
-         $product->sku_number = Input::get('sku_number');
+         $product->sku_number = $sku_number;
          $product->Price = Input::get('Price');
          $product->Description = Input::get('Description');
          $product->ImageURL = $filename;

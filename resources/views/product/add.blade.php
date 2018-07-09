@@ -67,7 +67,7 @@
                                          <div class="form-group">
                                             <label class="col-md-4 control-label" for="productname">SKU Number</label>
                                             <div class="col-md-7">
-                                               {{Form ::text('sku_number',null,['class'=>'form-control','rows'=>'6', 'required'])}}
+                                               {{Form ::text('sku_number',null,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                             <br>
                                         </div>

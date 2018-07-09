@@ -83,7 +83,7 @@ class AuthController extends Controller
     {
       $userid=User::where('email', '=', $email)->value('id');
       $data = DB:: table('users')
-              -> select ('id','name', 'role','email', 'icnumber', 'u_address', 'u_bankname', 'u_accnumber', 'u_phone')
+              -> select ('id','name', 'role','email', 'icnumber', 'u_address', 'u_bankname', 'u_accnumber', 'u_phone', 'url_image')
               -> where('id',$userid)
               -> get();
         return response()->json([

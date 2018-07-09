@@ -201,6 +201,18 @@ class APIJobController extends Controller
                                       ->orWhere('joblists.status_job', 'Completed');
                                     })
                             ->get();
+
+                            $result2 = DB:: table('joblists')
+                            -> join ('users', 'users.id', '=', 'joblists.user_id')
+                            -> select ('users.name','users.url_image', 'users.u_phone')
+                            -> where('joblists.JobID', '=', $x)
+                            ->where(function($q) {
+                                    $q->where('joblists.status_job','Active')
+                                      ->orWhere('joblists.status_job', 'Pending')
+                                      ->orWhere('joblists.status_job', 'Pending Completion')
+                                      ->orWhere('joblists.status_job', 'Completed');
+                                    })
+                            ->get();
                     }
               
                    
@@ -213,25 +225,15 @@ class APIJobController extends Controller
                                   'longitude' => $data->Lng,
                                   'note' => $data->special_notes,
                                   'total_price'=> $data->total_price,
-                                  'orders' => $result1
+                                  'orders' => $result1,
+                                  'agent' => $result2
                                   
 
                                 ];
                     
                     }
           return response() -> json($array);
-         $orders = DB:: table('orders')
-                  ->join('users', 'users.id', '=', 'orders.user_id')
-                  ->join('joblists', 'joblists.OrderID', '=', 'orders.OrderID')
-                  ->join('jobstatuses', 'jobstatuses.JobID', '=', 'joblists.JobID')
-                  ->select ('users.name','orders.OrderID','joblists.JobID','jobstatuses.job_status')
-                  ->where('orders.user_id', $user_id) 
-                   ->where(function($q) {
-                            $q->where('jobstatuses.job_status','Active')
-                            ->orWhere('jobstatuses.job_status', 'Completed');
-                          }) 
-                  -> get();
-          return response() -> json(['orders' => $orders],  200);
+       
       }
 
       public function CancelJob (Request $request, $JobID){
