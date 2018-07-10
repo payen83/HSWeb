@@ -11,6 +11,7 @@ use App\Mail\Wallet_Credit;
 use App\Mail\Reject_Delivery;
 use Mail;
 use DB;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -80,7 +81,7 @@ class APIJobController extends Controller
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'users.url_image', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                    -> where('joblists.user_id', '=', $user_id)
                    ->where(function($q) {
                                 $q->where('joblists.status_job','Active')
@@ -97,7 +98,7 @@ class APIJobController extends Controller
                            $result1 = DB:: table('store_orders')
                             -> join ('joblists', 'joblists.OrderID', '=', 'store_orders.OrderID')
                             -> join ('products', 'products.id', '=', 'store_orders.ProductID')
-                            -> select ('store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                            -> select ('store_orders.ProductID','products.Name', 'products.ImageURL','store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                             -> where('joblists.JobID', '=', $x)
                             ->where(function($z) {
                                 $z->where('joblists.status_job','Active')
@@ -113,6 +114,7 @@ class APIJobController extends Controller
                                   'current_status'=> $data->status_job,
                                   'c_name' => $data->name,
                                   'c_address' => $data->location_address,
+                                  'url_image' => $data->url_image,
                                   'latitude' => $data->Lat,
                                   'longitude' => $data->Lng,
                                   'note' => $data->special_notes,
@@ -137,6 +139,7 @@ class APIJobController extends Controller
           $joblists = Joblist::find($JobID);
           $joblists->user_id = Input::get('user_id');
           $joblists->status_job='Active';
+          $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
           $joblists->save();
 
           return response()->json(['JobID'=> $JobID,'message' => 'Successful Accept Job', 'status' => true], 201);
@@ -157,6 +160,7 @@ class APIJobController extends Controller
               $jobstatuses->save();
               $joblists = Joblist::find($JobID);
               $joblists->status_job='Pending Completion';
+              $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
               $joblists->save();
 
               return response()->json(['JobID'=> $JobID,'message' => 'Job has been mark as completed', 'status' => true], 201);
@@ -204,7 +208,7 @@ class APIJobController extends Controller
 
                             $result2 = DB:: table('joblists')
                             -> join ('users', 'users.id', '=', 'joblists.user_id')
-                            -> select ('users.name','users.url_image', 'users.u_phone')
+                            -> select ('users.id','users.name','users.url_image', 'users.u_phone')
                             -> where('joblists.JobID', '=', $x)
                             ->where(function($q) {
                                     $q->where('joblists.status_job','Active')
@@ -249,6 +253,7 @@ class APIJobController extends Controller
           $joblists = Joblist::find($JobID);
           $joblists->status_job='Cancel';
           $joblists->cancelcount = $cancel + 1;
+          $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
           $joblists->save();
 
           $ordernumber=Joblist::where('JobID', '=', $JobID)->value('OrderID');
@@ -281,6 +286,7 @@ class APIJobController extends Controller
 
           $joblists = Joblist::find($JobID);
           $joblists->status_job='Completed';
+          $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
           $joblists->save();
           
 
@@ -346,6 +352,7 @@ class APIJobController extends Controller
 
           $joblists = Joblist::find($JobID);
           $joblists->status_job='Reject';
+          $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
           $joblists->save();
           
           $userid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');

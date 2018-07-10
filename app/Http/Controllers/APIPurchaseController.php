@@ -14,6 +14,7 @@ use App\Wallet;
 use App\Mail\Invoice;
 use Mail;
 use DB;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -55,13 +56,26 @@ class APIPurchaseController extends Controller
            }
             StoreOrders::insert($store_orders);
 
+            if($request->location_address == '' && $request->lat =='' && $request->lng ==''){
+              $address = DB::table('users')->where('id', '=', $user_id)->value('u_address');
+              $lat = DB::table('users')->where('id', '=', $user_id)->value('lat');
+              $lng = DB::table('users')->where('id', '=', $user_id)->value('lng');
+            }
+
+            else{
+              $address = Input::get('location_address');
+              $lat = Input::get('lat');
+              $lng = Input::get('lng');
+            }
+
            $joblist = new Joblist;
            $joblist->status_job = 'Pending';
            $joblist->OrderID = $order_no;
-           $joblist->location_address = Input::get('location_address');
+           $joblist->location_address = $address;
            $joblist->special_notes = Input::get('special_notes');
-           $joblist->Lat = Input::get('Lat');
-           $joblist->Lng = Input::get('Lng');
+           $joblist->Lat = $lat;
+           $joblist->Lng = $lng;
+           $joblist->update_at =Carbon::now('Asia/Kuala_Lumpur');
            $joblist->save();
            Jobstatus::CreateStatusJob();
 
@@ -69,7 +83,7 @@ class APIPurchaseController extends Controller
            $payment ->OrderID = $order_no;
            $payment ->payment_method = Input::get('payment_method');
            $payment ->user_id = $user_id;
-           $payment ->amount = Input::get('amount');
+           $payment ->amount = Input::get('total_price');
            $payment ->currency = Input::get('currency');
            $payment ->payment_date = Input::get('payment_date');
            $payment ->transaction_id = Input::get('transaction_id');

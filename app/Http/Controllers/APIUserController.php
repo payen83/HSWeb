@@ -33,6 +33,8 @@ class APIUserController extends Controller
         $user->u_phone = Input::get('u_phone');
         $user->u_bankname = Input::get('u_bankname');
         $user->u_accnumber = Input::get('u_accnumber');
+        $user->lng = Input::get('lng');
+        $user->lat = Input::get('lat');
         $user->save();
         return response()->json(['message' => 'Your Profile has been updated', 'status' => true], 201);
     }

@@ -10,7 +10,9 @@
                         <div class="col-sm-6 col-md-3">
                             <a class="block block-link-hover3 text-center" href="base_pages_ecom_orders.html">
                                 <div class="block-content block-content-full">
-                                    <div class="h1 font-w700 text-primary" data-toggle="countTo" data-to="35"></div>
+                                    @foreach($pendingorder as $key=>$data)
+                                    <div class="h1 font-w700 text-primary" data-toggle="countTo" data-to="{{$data->pendingorders}}"></div>
+                                     @endforeach
                                 </div>
                                 <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">Pending Orders</div>
                             </a>
@@ -18,7 +20,9 @@
                         <div class="col-sm-6 col-md-3">
                             <a class="block block-link-hover3 text-center" href="javascript:void(0)">
                                 <div class="block-content block-content-full">
-                                    <div class="h1 font-w700 text-success" data-toggle="countTo" data-to="28"></div>
+                                    @foreach($completedorder as $key=>$data)
+                                    <div class="h1 font-w700 text-success" data-toggle="countTo" data-to="{{$data->completedorders}}""></div>
+                                    @endforeach
                                 </div>
                                 <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">Order Completed</div>
                             </a>
@@ -26,7 +30,9 @@
                         <div class="col-sm-6 col-md-3">
                             <a class="block block-link-hover3 text-center" href="base_pages_ecom_orders.html">
                                 <div class="block-content block-content-full">
-                                    <div class="h1 font-w700" data-toggle="countTo" data-to="109"></div>
+                                    @foreach($ordertoday as $key=>$data)
+                                    <div class="h1 font-w700" data-toggle="countTo" data-to="{{$data->numberoforder}}"></div>
+                                    @endforeach
                                 </div>
                                 <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">Orders Today</div>
                             </a>
@@ -34,7 +40,16 @@
                         <div class="col-sm-6 col-md-3">
                             <a class="block block-link-hover3 text-center" href="javascript:void(0)">
                                 <div class="block-content block-content-full">
-                                    <div class="h1 font-w700">$<span data-toggle="countTo" data-to="8970"></span></div>
+                                    <?php
+                                        $totalearn=0;
+                                        ?>
+                                    @foreach($earntoday as $key=>$data)
+                                    <?php
+                                            $totalearn += $data->amount;
+                                    ?>
+                                    
+                                    @endforeach
+                                    <div class="h1 font-w700">$<span data-toggle="countTo" data-to="{{$totalearn}}"></span></div>
                                 </div>
                                 <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">Earnings Today</div>
                             </a>

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -34,11 +35,37 @@ class DashboardController extends Controller
                   ->limit(5)
                   -> get();
 
+      $pendingorder = DB:: table('joblists')
+                  -> select (DB::raw('count(JobID) as pendingorders'))
+                  -> where('status_job', '=', 'Pending')
+                  -> get();
+
+      $completedorder = DB:: table('joblists')
+                  -> select (DB::raw('count(JobID) as completedorders'))
+                  -> where('status_job', '=', 'Completed')
+                  -> get();
+
+      $carbon = Carbon::today();
+      $ordertoday = DB:: table('orders')
+                  -> select (DB::raw('count(OrderID) as numberoforder'))
+                  -> where(DB::raw("date(created_at)"), '=', $carbon->format('Y-m-d'))
+                  -> get();
+
+      $carbon = Carbon::today();
+      $earntoday = DB:: table('payments')
+                  -> select ('amount')
+                  -> where(DB::raw("date(created_at)"), '=', $carbon->format('Y-m-d'))
+                  -> get();
+
 
         return view('dashboard', [
         	'latestorder' => $latestorder,
         	'topproduct' => $topproduct,
-        	'latestuser' => $latestuser
+        	'latestuser' => $latestuser,
+          'pendingorder' => $pendingorder,
+          'completedorder' => $completedorder,
+          'ordertoday' => $ordertoday,
+          'earntoday' => $earntoday
 
         ]);
     }
