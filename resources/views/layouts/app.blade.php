@@ -39,7 +39,6 @@
         
         <!-- Page JS Plugins CSS go here -->
         <link rel="stylesheet" href="{{ asset('assets/js/plugins/bootstrap-datepicker/bootstrap-datepicker3.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/js/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/js/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/js/plugins/select2/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/js/plugins/select2/select2-bootstrap.min.css') }}">
@@ -48,6 +47,7 @@
         <link rel="stylesheet" href="{{ asset('assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.skinHTML5.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/js/plugins/dropzonejs/dropzone.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/js/plugins/jquery-tags-input/jquery.tagsinput.min.css') }}">
+
 
         
 
@@ -238,8 +238,6 @@
 
         <!-- Page JS Plugins -->
         <script src="{{ asset('assets/js/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/bootstrap-datetimepicker/moment.min.js') }}"></script>
-        <script src="{{ asset('assets/js/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/bootstrap-colorpicker/bootstrap-colorpicker.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/select2/select2.full.min.js') }}"></script>
@@ -249,6 +247,9 @@
         <script src="{{ asset('assets/js/plugins/dropzonejs/dropzone.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/jquery-tags-input/jquery.tagsinput.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/autonumeric/autoNumeric.min.js') }}"></script>
+        <script src="{{ asset('js/script.js') }}"></script>
+
+    
 
         <!-- Page JS Code -->
         <script src="{{ asset('assets/js/pages/base_forms_pickers_more.js') }}"></script>

@@ -25,7 +25,7 @@
                                             <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                             </span>
-                                                <input class="form-control datepicker" type='text' class="form-control" name="form_date" id="from_date" placeholder="From Date"/>
+                                                <input class="form-control datepicker" type='text' class="form-control" name="form_date" id="from_date" placeholder="From Date" value="{{date('d-M-Y',strtotime(Session::get('from_date')))}}"/>
                                     </div>
                             </div>
                             <div class="col-sm-3 form-group">
@@ -33,45 +33,20 @@
                                             <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                             </span>
-                                                <input class="form-control datepicker" type='text' class="form-control" name="to_date" id="to_date" placeholder="To Date" /> 
+                                                <input class="form-control datepicker" type='text' class="form-control" name="to_date" id="to_date" placeholder="To Date" value="{{date('d-M-Y',strtotime(Session::get('to_date')))}}"/> 
                                      </div>
                             </div>
+                             <a href="javascript:ajaxLoad('{{route('viewSales')}}?from_date='+$('#from_date').val()+'&to_date='+$('#to_date'))"<button class="btn btn-primary push-5-r push-10" name="filter" id="filter"><i class="si si-magnifier"></i>Submit</button></a>
                             <script>
-                                jQuery(document).ready(function($) {
-                                     $.datepicker.setDefaults({
-                                        dateFormat: "dd-mm-yy"
-                                     });
-                                     $(function() {
-                                        $('#from_date').datepicker();
-                                        $('#to_date').datepicker();
-                                     })
-                                     $('#filter').click(function(){
-                                       var from_date = $('#from_date').val();
-                                       var to_date = $('#to_date').val();
-                                       if(from_date !='' && to_date !='')
-                                       {
-                                           $.ajax({
-                                             url:"SalesController.php",
-                                             method:"POST",
-                                             data:{from_date:from_date, to_date:to_date},
-                                             success: function (data) 
-                                             {
-                                                $('#sale_table').html(data);
-                                             }
 
-
-                                           });
-                                       }
-
-                                       else
-                                        {
-                                            alert("Please Select Date");
-                                        }
-                                      });
-                            });
+                             $('#from_date, #to_date').datepicker({
+                               dateFormat: "dd-mm-yy",
+                               selectMonths: true,
+                               selectYears: true,
+                             });
                             </script>
                             
-                         <button class="btn btn-primary push-5-r push-10" name="filter" id="filter" type="submit"><i class="si si-magnifier"></i>Submit</button>
+                         
                             
                             
                         </div>
