@@ -125,7 +125,7 @@ class APIPurchaseController extends Controller
               $payment ->OrderID = $order_no;
               $payment ->payment_method = Input::get('payment_method');
               $payment ->user_id = $user_id;
-              $payment ->amount = Input::get('amount');
+              $payment ->amount = Input::get('total_price');
               $payment ->currency = Input::get('currency');
               $payment ->payment_date = Input::get('payment_date');
               $payment ->transaction_id = Input::get('transaction_id');
@@ -133,7 +133,7 @@ class APIPurchaseController extends Controller
         
             $walletID= DB::table('wallets')->where('user_id', '=', $user_id)->value('walletID');
             $wallet_amount = DB::table('wallets')->where('walletID', '=', $walletID)->value('amount');
-            $amount=$request->amount;
+            $amount=$request->total_price;
             
             if($wallet_amount >= $amount){
                     $wallet = Wallet::find($walletID);

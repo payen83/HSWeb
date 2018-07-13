@@ -120,5 +120,16 @@ Route::group([
 
 });
 
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'dashboard'
+
+], function ($router) {
+
+    Route::get('view/{user_id}', 'APIDashboardController@viewdashboard');
+
+});
+
 
 

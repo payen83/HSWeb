@@ -22,7 +22,6 @@ class APIProductController extends Controller
 
         public function ProductCustomer(Request $request)
     	{
-          $products = JWTAuth::toUser($request->token);
         	$products = DB:: table('products')
                   -> select ('products.id','products.Name', 'products.Price','products.ImageURL', 'products.Description')
                   -> where('products.status',1)

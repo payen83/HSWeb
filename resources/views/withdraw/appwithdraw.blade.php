@@ -40,13 +40,9 @@
                                     <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
                                     {{Form::open(['route' => ['saveWithdrawDetails','withdrawID'=>$data->withdrawID],'method'=>'POST','enctype' => 'multipart/form-data'])}}
                                     @csrf
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-ag-email">Withdraw ID</label>
-                                            <div class="col-md-7">
-                                                <!--<input class="form-control" type="text" id="val-ag-email" name="val-ag-email" >-->
-                                                 {{Form ::text('withdrawID',$data->withdrawID,['class'=>'form-control','rows'=>'6'])}}
-                                            </div>
-                                        </div>
+                                       
+                                                 {{Form ::hidden('withdrawID',$data->withdrawID,['class'=>'form-control','rows'=>'6'])}}
+                                           
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-ag-email">Agent Name</label>
                                             <div class="col-md-7">
@@ -61,6 +57,12 @@
                                                  {{Form ::label('email',$data->email,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
+                                         <div class="form-group">
+                                            <label class="col-md-4 control-label" for="val-amt">Amount Withdraw (USD)</label>
+                                            <div class="col-md-7">
+                                                {{Form ::text('amount',$data->amount,['class'=>'form-control','rows'=>'6'])}}
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-refnum">Reference Number</label>
                                             <div class="col-md-7">
@@ -71,13 +73,6 @@
                                             <label class="col-md-4 control-label" for="val-trans-date">Transaction Date</label>
                                             <div class="col-md-7">
                                                 {{Form ::date('TransactionDate',null,['class'=>'form-control','rows'=>'6'])}}
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-amt">Amount Withdraw</label>
-                                            <div class="col-md-7">
-                                                {{Form ::text('amount',null,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
 

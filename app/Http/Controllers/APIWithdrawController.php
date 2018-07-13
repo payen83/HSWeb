@@ -25,6 +25,10 @@ class APIWithdrawController extends Controller
           	$withdraw->user_id= $user_id;
           	$withdraw->amount= Input::get('amount');
           	$withdraw->save();
+
+            $wallets = Wallet::find($walletid);
+            $wallets->pending_approval = Input::get('amount');
+            $wallets->save();
             
 
             return response()->json(['message' => 'Withdraw request has been send', 'status' => true], 201);
@@ -58,7 +62,7 @@ class APIWithdrawController extends Controller
          if($role == 'Agent'){
             $wallets = DB::table('wallets')
                   -> join ('users', 'users.id', '=', 'wallets.user_id')
-                  -> select('users.name', 'users.email','users.u_bankname','users.u_accnumber','wallets.amount')
+                  -> select('users.name', 'users.email','users.u_bankname','users.u_accnumber','wallets.amount', 'wallets.pending_approval')
                   -> where('user_id', '=', $user_id)
                   ->get();
          return response() -> json(['wallets' => $wallets],  200);

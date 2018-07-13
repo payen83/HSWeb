@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Withdraw;
 use App\Wallet;
 use App\StoreWithdraw;
+use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -17,14 +18,11 @@ class WithdrawController extends Controller
 {
     	public function viewWithdraw()
     {
-       
-        //$joblists = Joblist::all();
-        //return view('joblist.index', compact('joblists'));
-
         $withdraw = DB:: table('withdraws')
                   -> join ('wallets', 'wallets.walletID', '=', 'withdraws.walletID')
                   -> join ('users', 'users.id', '=', 'withdraws.user_id')
                   -> select ('withdraws.withdrawID','withdraws.created_at', 'users.name','users.email', 'withdraws.amount')
+                  ->where('withdraws.status', '=', 1)
                   -> get();
         return view('withdraw.index', compact('withdraw'));
     }
@@ -78,14 +76,22 @@ class WithdrawController extends Controller
 
          $wallet = Wallet::find($walletID);
          $wallet->amount = $newamount;
+         $wallet->pending_approval =0;
          $wallet->save();
+         
+         $withdraw = Withdraw::find($withdrawID);
+         $withdraw->status=0;
+         $withdraw->save();
+
 
          $transactions = new Transaction;
          $transactions->walletID = $walletID;
          $transactions->user_id = $userid;
          $transactions->status = 'Withdraw';
-         $transaction->message = 'Deduct wallet amount';
-         $transactions->amount = $withdraw_amount;
+         $transactions->message = 'Deduct wallet amount';
+         $transactions->amount = Input::get('amount');
+         $transactions->save();
+
          return redirect()->route('viewWithdraw');
 
     }
@@ -112,6 +118,11 @@ class WithdrawController extends Controller
          $storewithdraw->amount = Input::get('amount');
          $storewithdraw->status = 'Reject';
          $storewithdraw->save();
+
+         $withdraw = Withdraw::find($withdrawID);
+         $withdraw->status=0;
+         $withdraw->save();
+         
          return redirect()->route('viewWithdraw');
 
     }
