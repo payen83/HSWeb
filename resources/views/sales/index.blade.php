@@ -25,7 +25,7 @@
                                             <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                             </span>
-                                                <input class="form-control datepicker" type='text' class="form-control" name="form_date" id="from_date" placeholder="From Date" value="{{date('d-M-Y',strtotime(Session::get('from_date')))}}"/>
+                                                <input class="form-control datepicker" type='text' class="form-control" name="form_date" id="from_date" placeholder="From Date" value="{{date('d-M-Y',strtotime('now'))}}"/>
                                     </div>
                             </div>
                             <div class="col-sm-3 form-group">
@@ -33,7 +33,7 @@
                                             <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                             </span>
-                                                <input class="form-control datepicker" type='text' class="form-control" name="to_date" id="to_date" placeholder="To Date" value="{{date('d-M-Y',strtotime(Session::get('to_date')))}}"/> 
+                                                <input class="form-control datepicker" type='text' class="form-control" name="to_date" id="to_date" placeholder="To Date" value="{{date('d-M-Y',strtotime('now'))}}"/> 
                                      </div>
                             </div>
                              <a href="javascript:ajaxLoad('{{route('viewSales')}}?from_date='+$('#from_date').val()+'&to_date='+$('#to_date'))"<button class="btn btn-primary push-5-r push-10" name="filter" id="filter"><i class="si si-magnifier"></i>Submit</button></a>

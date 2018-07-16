@@ -55,11 +55,8 @@ class WithdrawController extends Controller
          
          $withdrawID = $request->withdrawID;
          $userid = DB::table('withdraws')->where('withdrawID', '=', $withdrawID)->value('user_id');
-         $wallet_amount = DB::table('wallets')->where('user_id', '=', $userid)->value('amount');
          $walletID = DB::table('wallets')->where('user_id', '=', $userid)->value('walletID');
-         $withdraw_amount = DB::table('withdraws')->where('withdrawID', '=', $withdrawID)->value('amount');
-         
-         $newamount= $wallet_amount - $withdraw_amount;
+
          $file = $request->file('ProofURL');
          $filename = $file->getClientOriginalName();
 
@@ -75,7 +72,6 @@ class WithdrawController extends Controller
          $storewithdraw->save();
 
          $wallet = Wallet::find($walletID);
-         $wallet->amount = $newamount;
          $wallet->pending_approval =0;
          $wallet->save();
          

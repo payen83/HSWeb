@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Validator;
 class SalesController extends Controller
 {
 	public function viewSales(){
-		//Session::put('from_date', Input::has('from_date') ? Input::get('from_date') : (Session::has('from_date') ? Session::get('from_date') : date("Y-m-d")));
-        Session::put('to_date', Input::has('to_date') ? Input::get('to_date') : (Session::has('to_date') ? Session::get('to_date') : date("Y-m-d")));
+		Session::put('from_date', Input::has('from_date') ? Input::get('from_date') : (Session::has('from_date') ? Session::get('from_date') : date("Y-m-d")));
+    Session::put('to_date', Input::has('to_date') ? Input::get('to_date') : (Session::has('to_date') ? Session::get('to_date') : date("Y-m-d")));
 		 $orders = DB:: table('orders')
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
