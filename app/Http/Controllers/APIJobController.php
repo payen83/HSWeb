@@ -196,7 +196,7 @@ class APIJobController extends Controller
                            $result1 = DB:: table('store_orders')
                             -> join ('joblists', 'joblists.OrderID', '=', 'store_orders.OrderID')
                             -> join ('products', 'products.id', '=', 'store_orders.ProductID')
-                            -> select ('store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                            -> select ('store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'), 'products.ImageURL')
                             -> where('joblists.JobID', '=', $x)
                             ->where(function($q) {
                                     $q->where('joblists.status_job','Active')

@@ -94,10 +94,13 @@
                                         <tbody>
                                             @foreach($latestorder as $key=>$data)
                                             <tr>
-                                                <td class="text-center" style="width: 100px;"><a><strong>{{$data->OrderID}}</strong></a></td>
+                                                <td class="text-center" style="width: 100px;">
+                                                <a  href="{{route('ViewOrderDetails',['OrderID'=>$data->OrderID])}}">     
+                                                    <strong>{{$data->OrderID}}</strong>
+                                                </a></td>
                                                 <td class="hidden-xs"><a>{{$data->name}}</a></td>
                                                 <td><span class="label label-success">{{$data->status_job}}</span></td>
-                                                <td class="text-right"><strong>${{$data->amount}}</strong></td>
+                                                <td class="text-right"><strong>${{$data->total_price}}</strong></td>
                                             </tr>
                                           @endforeach
                                         </tbody>
@@ -129,13 +132,7 @@
                                                 <td class="text-center" style="width: 100px;"><a><strong>{{$data->sku_number}}</strong></a></td>
                                                 <td><a>{{$data->Name}}</a></td>
                                                 <td class="hidden-xs text-center">
-                                                    <div class="text-warning">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
+                                                    {{$data->TotalQuantity}} UNIT SOLD
                                                 </td>
                                             </tr>
                                            @endforeach

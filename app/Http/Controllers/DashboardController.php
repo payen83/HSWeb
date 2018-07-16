@@ -17,15 +17,17 @@ class DashboardController extends Controller
     	$latestorder = DB:: table('orders')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
                   -> join ('joblists', 'joblists.OrderID', '=', 'orders.OrderID')
-                  -> join ('payments', 'payments.OrderID', '=', 'orders.OrderID')
-                  -> select ('orders.OrderID','users.name', 'joblists.status_job', 'payments.amount')
+                  -> select ('orders.OrderID','users.name', 'joblists.status_job', 'orders.total_price')
                   ->orderBy('orders.created_at', 'desc')
                   ->limit(8)
                   -> get();
 
 
-    	$topproduct = DB:: table('products')
-                  -> select ('sku_number','Name')
+    	$topproduct = DB:: table('store_orders')
+                  -> join('products', 'products.id', '=' , 'store_orders.ProductID')
+                  -> select ('products.sku_number','products.Name', 'store_orders.ProductID', DB::raw('sum(store_orders.ProductQuantity) as TotalQuantity'))
+                  ->groupby('store_orders.ProductID')
+                  ->orderBy('TotalQuantity', 'desc')
                   ->limit(5)
                   -> get();
 

@@ -51,4 +51,20 @@ class LoginController extends Controller
         Auth::logout();
         return redirect('/login');
     }
+
+    public function login(Request $request){
+        if($request->isMethod('POST')){
+            $data= $request->input();
+            if(Auth::attempt(['email' => $data['email'], 'password' => $data['password']]))
+                {
+                    return redirect('/dashboard');
+                }
+            else
+            {
+                 return redirect('/login')->with('flash_message_error', 'Invalid Email or Password');
+            }
+
+            return view('auth.login');
+        }
+    }
 }
