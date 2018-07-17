@@ -58,6 +58,7 @@
                                     {{Form::open(['route' => ['saveRejectWdDetails','withdrawID'=>$data->withdrawID]])}}
                                       @csrf
                                         <div class="form-group">
+                                            {{Form ::hidden('withdrawID',$data->withdrawID,['class'=>'form-control','rows'=>'6'])}}
                                             <label class="col-md-4 control-label" for="val-ag-email">Agent Email</label>
                                             <div class="col-md-7">
                                                  {{Form ::label('email',$data->email,['class'=>'form-control','rows'=>'6'])}}
@@ -67,7 +68,7 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-amt">Amount Withdraw</label>
                                             <div class="col-md-7">
-                                                 {{Form ::text('amount',$data->amount,['class'=>'form-control','rows'=>'6'])}}
+                                                 {{Form ::text('amount',$data->amount,['class'=>'form-control','rows'=>'6','required'])}}
                                             </div>
                                         </div>
 
@@ -75,7 +76,7 @@
                                             <label class="col-md-4 control-label" for="val-quantity">Rejection Reason</label>
                                             <div class="col-md-7">
                                                   <div class="col-md-7">
-                                                {{Form ::textarea('RejectReason',null,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::textarea('RejectReason',null,['class'=>'form-control','rows'=>'6','required'])}}
                                             </div>
                                             </div>
                                         </div>

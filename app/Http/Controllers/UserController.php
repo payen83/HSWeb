@@ -9,9 +9,20 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class UserController extends Controller
 {
+
+    use RegistersUsers;
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+    }
 	public function viewUser()
     {
         $users = User::all();
@@ -24,16 +35,17 @@ class UserController extends Controller
         return view('user.add');
     }
 
-    public function addUser()
+    public function addUser(Request $request)
     {
      
-         $user = new User;
-         $user->name = Input::get('name');
-         $user->email = Input::get('email');
-         $user->password = bcrypt(Input::get('password'));
-         $user->role = Input::get('role');
-         $user->status = Input::get('status') ? 1 : 0;
-         $user->save();
+         $data = User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+            'role' => $request['role'],
+            'status' => $request['status']? 1 : 0,
+            ]);
+        
          return redirect()->route('viewUser');
 
     

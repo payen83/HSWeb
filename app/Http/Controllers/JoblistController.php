@@ -21,6 +21,7 @@ class JoblistController extends Controller
         $joblists = DB:: table('joblists')
                   -> join ('users', 'users.id', '=', 'joblists.user_id')
                   -> select ('joblists.JobID', 'users.name', 'joblists.OrderID', 'joblists.status_job' , 'joblists.update_at')
+                  -> orderby('joblists.update_at','desc')
                   -> get();
         return view('joblist.index', compact('joblists'));
     }

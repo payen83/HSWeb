@@ -177,10 +177,24 @@ class ProductController extends Controller
     {
         $inventories = DB:: table('inventories')
                   -> join ('products', 'products.id', '=', 'inventories.product_id')
-                  -> select ('inventories.id','products.Name','inventories.quantity')
+                  -> join ('users', 'users.id', '=', 'inventories.user_id')
+                  -> select ('users.name', 'inventories.id','products.Name','inventories.quantity')
                   ->where('inventories.user_id', $user_id)
                   -> get();
-        return view('product.inv_list', compact('inventories'));
+        
+        $inventories1 = DB:: table('inventories')
+                  -> join ('products', 'products.id', '=', 'inventories.product_id')
+                  -> join ('users', 'users.id', '=', 'inventories.user_id')
+                  -> select ('users.name', 'users.email', 'inventories.id','products.Name','inventories.quantity')
+                  ->where('inventories.user_id', $user_id)
+                  -> groupby('users.name')
+                  -> get();
+        
+
+        return view('product.inv_list', [
+                    'inventories' => $inventories,
+                    'inventories1' => $inventories1
+                  ]);
     }
 
      public function viewEditInvProduct($id)

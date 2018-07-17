@@ -30,7 +30,11 @@
                         </div>
                         <div class="block-content">
                             <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
-                            
+                            @foreach($inventories1 as $key=>$data)
+                            <div class="block-content block-content-full">
+                                    <div class="font-w600">Agent Details: </div><div class="text">{{$data->name}} ({{$data->email}})</div>
+                            </div>
+                            @endforeach
                             <table class="table table-bordered table-striped js-dataTable-full">
                                 <thead>
                                     <tr>

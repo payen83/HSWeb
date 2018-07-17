@@ -60,26 +60,26 @@
                                          <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-amt">Amount Withdraw (USD)</label>
                                             <div class="col-md-7">
-                                                {{Form ::text('amount',$data->amount,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::text('amount',$data->amount,['class'=>'form-control','rows'=>'6', 'required'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-refnum">Reference Number</label>
                                             <div class="col-md-7">
-                                                {{Form ::text('ReferenceNumber',null,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::text('ReferenceNumber',null,['class'=>'form-control','rows'=>'6', 'required'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-trans-date">Transaction Date</label>
                                             <div class="col-md-7">
-                                                {{Form ::date('TransactionDate',null,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::date('TransactionDate',null,['class'=>'form-control','rows'=>'6', 'required'])}}
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-quantity">Proof of payment</label>
                                             <div class="col-md-7">
-                                                 {{Form ::file('ProofURL',null,['class'=>'form-control','rows'=>'6'])}}
+                                                 {{Form ::file('ProofURL',null,['class'=>'form-control','rows'=>'6', 'required'])}}
                                             </div>
                                         </div>
                                        

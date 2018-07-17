@@ -60,7 +60,7 @@
                                             <label class="col-md-4 control-label" for="val-username">Name <span class="text-danger">*</span></label>
                                             <div class="col-md-7">
                                                 <!--<input class="form-control" type="text" id="val-username" name="val-username" placeholder="Enter your name">-->
-                                                {{Form ::text('name',null,['placeholder'=>'Name','class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::text('name',null,['placeholder'=>'Name','class'=>'form-control','rows'=>'6' , 'required'])}}
                                             </div>
                                         </div>
                                         
@@ -68,14 +68,14 @@
                                             <label class="col-md-4 control-label" for="val-email">Email <span class="text-danger">*</span></label>
                                             <div class="col-md-7">
                                                 <!--<input class="form-control" type="text" id="val-email" name="val-email" placeholder="Enter your valid email">-->
-                                                {{Form ::text('email',null,['placeholder'=>'abc@gmail.com','class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::text('email',null,['placeholder'=>'abc@gmail.com','class'=>'form-control','rows'=>'6', 'required'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-password">Password <span class="text-danger">*</span></label>
                                             <div class="col-md-7">
                                                 <!--<input class="form-control" type="password" id="val-password" name="val-password" placeholder="Choose a good pasword">-->
-                                                 {{ Form::password('password', array('placeholder'=>'Password', 'class'=>'form-control' ) ) }}
+                                                 {{ Form::password('password', array('placeholder'=>'Password', 'class'=>'form-control' , 'required') ) }}
                                             </div>
                                         </div>
                                       
@@ -89,14 +89,14 @@
                                                     <option value="3">3-Customer</option>
                                                     
                                                 </select>-->
-                                                 {!! Form::select("role",['Admin'=>'Admin','Agent'=>'Agent','Customer'=>'Customer'],null,["class"=>"form-control"]) !!}
+                                                 {!! Form::select("role",['Admin'=>'Admin','Agent'=>'Agent','Customer'=>'Customer'],null,["class"=>"form-control", 'required']) !!}
                                             </div>
                                        </div>
 
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-select2">Active</label>
                                             <div class="col-md-7">
-                                                   {!! Form::checkbox("status",1,null,["style"=>"width:25px;height:25px"]) !!}
+                                                   {!! Form::checkbox("status",1,null,["style"=>"width:25px;height:25px", 'required']) !!}
                                                 
                                             </div>
                                        </div>

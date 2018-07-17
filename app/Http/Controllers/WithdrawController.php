@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use Carbon\Carbon;
 
 class WithdrawController extends Controller
 {
@@ -57,11 +58,19 @@ class WithdrawController extends Controller
          $userid = DB::table('withdraws')->where('withdrawID', '=', $withdrawID)->value('user_id');
          $walletID = DB::table('wallets')->where('user_id', '=', $userid)->value('walletID');
 
-         $file = $request->file('ProofURL');
-         $filename = $file->getClientOriginalName();
+          //upload new images
+        if ($request->hasFile('ProofURL'))
+        {
+        $file = $request->file('ProofURL');
+        $filename = $file->getClientOriginalName();
+        $path = 'upload/files';
+        $file->move($path, $filename);
+        }
 
-         $path = 'upload/files';
-         $file->move($path, $filename);
+        else{
+            $filename="NULL";
+        }
+
          $storewithdraw = new StoreWithdraw;
          $storewithdraw->withdrawID = Input::get('withdrawID');
          $storewithdraw->ReferenceNumber = Input::get('ReferenceNumber');
@@ -84,7 +93,7 @@ class WithdrawController extends Controller
          $transactions->walletID = $walletID;
          $transactions->user_id = $userid;
          $transactions->status = 'Withdraw';
-         $transactions->message = 'Deduct wallet amount';
+         $transactions->message = 'Withdrawal from wallet';
          $transactions->amount = Input::get('amount');
          $transactions->save();
 
@@ -105,14 +114,15 @@ class WithdrawController extends Controller
         
     }
 
-     public function saveRejectWdDetails(Request $request) {
+     public function saveRejectWdDetails(Request $request, $withdrawID) {
 
-        
+       
          $storewithdraw = new StoreWithdraw;
          $storewithdraw->withdrawID = Input::get('withdrawID');
-         $storewithdraw->ReasonReject = Input::get('ReasonReject');
+         $storewithdraw->RejectReason = Input::get('RejectReason');
          $storewithdraw->amount = Input::get('amount');
          $storewithdraw->status = 'Reject';
+         $storewithdraw->created_at =Carbon::now('Asia/Kuala_Lumpur');
          $storewithdraw->save();
 
          $withdraw = Withdraw::find($withdrawID);
