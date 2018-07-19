@@ -12,8 +12,8 @@
                         </div>
                         <div class="col-sm-5 text-right hidden-xs">
                             <ol class="breadcrumb push-10-t">
-                                <li>Job List</li>
-                                <li><a class="link-effect" href="adduser.html">Edit Order Details</a></li>
+                                <li><a class="link-effect" href="{{route('viewAgentOrder')}}">Order from Agents</a></li>
+                                <li>Edit Agent Details</li>
                             </ol>
                         </div>
                     </div>
@@ -25,24 +25,8 @@
                     <!-- My Block -->
                     <div class="block">
                         <div class="block-header">
-                            <ul class="block-options">
-                                <li>
-                                    <button type="button"><i class="si si-settings"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="close"><i class="si si-close"></i></button>
-                                </li>
-                            </ul>
-                            <h3 class="block-title">Edit Order Details</h3>
+                           
+                            <h3 class="block-title">Edit Agent Order Details</h3>
                         </div>
                         <div class="block-content">
                            <!-- Page Content -->
@@ -55,43 +39,40 @@
                                 <div class="block-content block-content-narrow">
                                     <!-- jQuery Validation (.js-validation-bootstrap class is initialized in js/pages/base_forms_validation.js) -->
                                     <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
-                                    {{Form::open(['route' => ['editJoblist','JobID'=>$data->JobID],'method'=>'POST'])}}
+                                    {{Form::open(['route' => ['editAgentOrder','id'=>$data->id],'method'=>'POST'])}}
                                         @csrf
+                                      
+                                                {{Form ::hidden('id',$data->id,['class'=>'form-control','rows'=>'6'])}}
+                                       
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-username">Job ID</label>
+                                            <label class="col-md-4 control-label" for="val-ag-email">Agent Name</label>
                                             <div class="col-md-7">
-                                                {{Form ::text('JobID',$data->JobID,['class'=>'form-control','rows'=>'6'])}}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-ag-email">Agent Email</label>
-                                            <div class="col-md-7">
-                                                {{Form ::text('agent_email',$data->email,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::label('name',$data->name,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-ag-email">Order Number</label>
                                             <div class="col-md-7">
-                                                {{Form ::text('OrderID',$data->OrderID,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::label('order_id',$data->order_id,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
 
                                          <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-status">Status</label>
                                             <div class="col-md-7">
-                                               {!! Form::select('job_status',['Processing'=>'Processing','On Delivery'=>'On Delivery','Completed'=>'Completed'],null,["class"=>"form-control",'rows'=>'6']) !!}
-                                            </div>
-                                       </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-custname">Total Price</label>
-                                            <div class="col-md-7">
-                                                {{Form ::text('total_price',$data->total_price,['class'=>'form-control','rows'=>'6'])}}
+                                               {!! Form::select('status_order',['Pending'=>'Pending','OnDelivery'=>'OnDelivery','Completed'=>'Completed'],null,["class"=>"form-control",'rows'=>'6']) !!}
                                             </div>
                                         </div>
-
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="val-ag-email">Tracking Number Number</label>
+                                            <div class="col-md-7">
+                                                {{Form ::text('tracking_number',$data->tracking_number,['class'=>'form-control','rows'=>'6'])}}
+                                            </div>
+                                        </div>
+                                       <br><br>
                                         <div class="form-group">
                                             <div class="col-md-8 col-md-offset-4">
-                                                <a href="{{route('viewJoblist')}}"<button class="btn btn-sm btn-danger" type="submit">Back</button></a>
+                                                <a href="{{route('viewAgentOrder')}}"<button class="btn btn-sm btn-danger" type="submit">Back</button></a>
                                                 <button class="btn btn-sm btn-primary" type="submit">Submit</button></a>
                                             </div>
                                         </div>

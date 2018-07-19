@@ -11,6 +11,7 @@ use App\Jobstatus;
 use App\User;
 use App\Transaction;
 use App\Wallet;
+use App\AgentOrder;
 use App\Mail\Invoice;
 use Mail;
 use DB;
@@ -95,7 +96,9 @@ class APIPurchaseController extends Controller
     	}
 
     	else if ($role =="Agent"){
-        // create order number
+
+        if($request->payment_method == "PayPal"){
+           // create order number
            $order_no = Orders::getNextOrderNumber();
            $orders = new Orders;
            $orders->OrderID = $order_no;
@@ -121,6 +124,30 @@ class APIPurchaseController extends Controller
            }
             StoreOrders::insert($store_orders);
 
+                if($request->location_address == '' && $request->lat =='' && $request->lng ==''){
+                $address = DB::table('users')->where('id', '=', $user_id)->value('u_address');
+                $lat = DB::table('users')->where('id', '=', $user_id)->value('lat');
+                $lng = DB::table('users')->where('id', '=', $user_id)->value('lng');
+              }
+
+              else{
+                $address = Input::get('location_address');
+                $lat = Input::get('lat');
+                $lng = Input::get('lng');
+              }
+
+              $agent = new AgentOrder;
+              $agent->status_order = 'Pending';
+              $agent->order_id = $order_no;
+              $agent->user_id = $user_id;
+              $agent->location_address = $address;
+              $agent->total_price = Input::get('total_price');
+              $agent->special_notes = Input::get('special_notes');
+              $agent->lat = $lat;
+              $agent->lng = $lng;
+              $agent->updated_at =Carbon::now('Asia/Kuala_Lumpur');
+              $agent->save();
+
               $payment = new Payment;
               $payment ->OrderID = $order_no;
               $payment ->payment_method = Input::get('payment_method');
@@ -130,7 +157,14 @@ class APIPurchaseController extends Controller
               $payment ->payment_date = Input::get('payment_date');
               $payment ->transaction_id = Input::get('transaction_id');
               $payment->save();
-        
+
+             $email=User::where('users.id', '=', $user_id)->pluck('email','id');
+             Mail::to($email)->send(new Invoice($email));
+            return response()->json(['OrderID'=> $order_no,'message' => 'Successful Order', 'status' => true], 201);
+        }
+
+        else if($request->payment_method == "Wallet"){
+
             $walletID= DB::table('wallets')->where('user_id', '=', $user_id)->value('walletID');
             $wallet_amount = DB::table('wallets')->where('walletID', '=', $walletID)->value('amount');
             $amount=$request->total_price;
@@ -148,17 +182,78 @@ class APIPurchaseController extends Controller
                     $transaction->amount = $amount;
                     $transaction->save();
 
-                    $email=User::where('users.id', '=', $user_id)->pluck('email','id');
-                    Mail::to($email)->send(new Invoice($email));
-                   return response()->json(['OrderID'=> $order_no,'message' => 'Successful Order', 'status' => true], 201);
+                    // create order number
+                     $order_no = Orders::getNextOrderNumber();
+                     $orders = new Orders;
+                     $orders->OrderID = $order_no;
+                     $orders->user_id = $user_id;
+                     $orders->total_price = Input::get('total_price');
+                     $orders->save();
+       
+
+                     // store product
+                        
+                        $data = json_decode(Input::get('data'), true);
+                        //dd($data);
+                        foreach ($data as $row)
+                                {  
+                                 //dd($row);
+                                 $store_orders[] = [
+                                'OrderID' => $order_no,
+                                'ProductID'=>$row['ProductID'],
+                                'ProductQuantity'=>$row['ProductQuantity'],
+                                'Discount'=>$row['Discount']/100,
+                                ];
+
+                       }
+                        StoreOrders::insert($store_orders);
+
+                        if($request->location_address == '' && $request->lat =='' && $request->lng ==''){
+                          $address = DB::table('users')->where('id', '=', $user_id)->value('u_address');
+                          $lat = DB::table('users')->where('id', '=', $user_id)->value('lat');
+                          $lng = DB::table('users')->where('id', '=', $user_id)->value('lng');
+                        }
+
+                        else{
+                          $address = Input::get('location_address');
+                          $lat = Input::get('lat');
+                          $lng = Input::get('lng');
+                        }
+
+                            $agent = new AgentOrder;
+                            $agent->status_order = 'Pending';
+                            $agent->order_id = $order_no;
+                            $agent->user_id = $user_id;
+                            $agent->location_address = $address;
+                            $agent->total_price = Input::get('total_price');
+                            $agent->special_notes = Input::get('special_notes');
+                            $agent->lat = $lat;
+                            $agent->lng = $lng;
+                            $agent->updated_at =Carbon::now('Asia/Kuala_Lumpur');
+                            $agent->save();
+
+                            $payment = new Payment;
+                            $payment ->OrderID = $order_no;
+                            $payment ->payment_method = Input::get('payment_method');
+                            $payment ->user_id = $user_id;
+                            $payment ->amount = Input::get('total_price');
+                            $payment ->currency = Input::get('currency');
+                            $payment->save();
+
+                $email=User::where('users.id', '=', $user_id)->pluck('email','id');
+                Mail::to($email)->send(new Invoice($email));
+                return response()->json(['OrderID'=> $order_no,'message' => 'Successful Order', 'status' => true], 201);
               
             }
             else
               return response()->json(['message' => 'Not enough wallet amount to make order', 'status' => false], 401);  
 
-    	}
-      else
-        return response()->json(['message' => 'You are not allowed to make order', 'status' => false], 401);
+        }
+
+       
+   }
+   else
+   return response()->json(['message' => 'You are not allowed to make order', 'status' => false], 401);
         
 
     }

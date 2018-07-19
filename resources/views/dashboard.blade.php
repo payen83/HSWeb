@@ -21,7 +21,7 @@
                             <a class="block block-link-hover3 text-center" href="javascript:void(0)">
                                 <div class="block-content block-content-full">
                                     @foreach($completedorder as $key=>$data)
-                                    <div class="h1 font-w700 text-success" data-toggle="countTo" data-to="{{$data->completedorders}}""></div>
+                                    <div class="h1 font-w700 text-success" data-toggle="countTo" data-to="{{$data->completedorders}}"></div>
                                     @endforeach
                                 </div>
                                 <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">Order Completed</div>

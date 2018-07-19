@@ -13,7 +13,7 @@
                             <ul class="block-options">
       
                             </ul>
-                            <h3 class="block-title">All Job List</h3>
+                            <h3 class="block-title">Order from Agents</h3>
                         </div>
                         <div class="block-content">
                             <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
@@ -22,7 +22,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center"></th>
-                                        <th class="text-center" style="width: 15%;" >Job ID</th>
+                                        <th class="text-center" style="width: 15%;" >ID</th>
                                         <th class="text-center">Agent Name</th>
                                         <th class="text-center">Order Number</th>
                                         <th class="text-center">Current Status</th>
@@ -33,19 +33,19 @@
                                 </thead>
                                 <tbody>
                                     <?php $i = 1;?>
-                                    @foreach($joblists as $key=>$data)
+                                    @foreach($agentorder as $key=>$data)
                                     <tr>
                                         <td align="center">{{$i++}}</td>
-                                        <td class="text-center">{{$data->JobID}}</td>
+                                        <td class="text-center">{{$data->id}}</td>
                                         <td class="hidden-xs text-center">{{$data->name}}</td>
-                                         <td class="hidden-xs text-center">{{$data->OrderID}}</td>
-                                        <td>{{$data->status_job}}</td>
-                                        <td class="hidden-xs text-center">{{$data->update_at}}</td>
+                                         <td class="hidden-xs text-center">{{$data->order_id}}</td>
+                                        <td>{{$data->status_order}}</td>
+                                        <td class="hidden-xs text-center">{{$data->created_at}}</td>
                                         
                                          <td class="text-center">
                                             <div class="btn-group">
-                                                <a href="{{route('ViewOrderDetails',['OrderID'=>$data->OrderID])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button">Order Details</button></a>
-                                                 <a href="{{route('viewJobDetails',['JobID'=>$data->JobID])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button">Job History</button></a>
+                                                <a href="{{route('ViewOrderDetails',['OrderID'=>$data->order_id])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i>View</button></a>
+                                                <a href="{{route('viewEditAgentOrder',['id'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
                                             </div>
                                         </td>
                                         

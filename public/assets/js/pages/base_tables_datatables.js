@@ -18,7 +18,8 @@ var BaseTableDatatables = function() {
     var initDataTableFullPagination = function() {
         jQuery('.js-dataTable-full-pagination').dataTable({
             pagingType: "full_numbers",
-            columnDefs: [ { orderable: false, targets: [ 4 ] } ],
+            order: [0, 'desc'],
+            columnDefs: [ { orderable: false, targets: [ 0 ] } ],
             pageLength: 10,
             lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]]
         });
@@ -27,7 +28,7 @@ var BaseTableDatatables = function() {
     // Init simple DataTable, for more examples you can check out https://www.datatables.net/
     var initDataTableSimple = function() {
         jQuery('.js-dataTable-simple').dataTable({
-            columnDefs: [ { orderable: false, targets: [ 4 ] } ],
+            columnDefs: [ { orderable: false, targets: [ 0 ] } ],
             pageLength: 10,
             lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]],
             searching: false,

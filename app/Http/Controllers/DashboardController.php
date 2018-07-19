@@ -31,7 +31,7 @@ class DashboardController extends Controller
                   ->limit(5)
                   -> get();
 
-        $latestuser= DB:: table('users')
+      $latestuser= DB:: table('users')
                   -> select ('created_at','name', 'role', 'email')
                   ->orderBy('created_at', 'desc')
                   ->limit(5)

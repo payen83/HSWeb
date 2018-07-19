@@ -31,7 +31,7 @@ Route::group([
 
 Route::group([
 
-    'middleware' => 'jwt.auth',
+    'middleware' => 'api',
     'prefix' => 'products'
 
 ], function ($router) {

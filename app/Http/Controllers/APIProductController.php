@@ -32,7 +32,7 @@ class APIProductController extends Controller
 
    		public function ProductAgent()
     	{
-          $products = JWTAuth::toUser($request->token);
+          
         	$products = DB:: table('products')
                   -> select ('products.id','products.Name', 'products.Price','products.ImageURL', 'products.Description', 'products.QuantityPerPackage' , 'products.Discount')
                   -> where('products.status',1)
@@ -43,14 +43,29 @@ class APIProductController extends Controller
 
    		public function ProductInventory($user_id)
     	{
-          $inventories  = JWTAuth::toUser($request->token);
+
+        
         	$inventories = DB:: table('inventories')
                   -> join ('products', 'products.id', '=', 'inventories.product_id')
                   -> join ('users', 'users.id', '=', 'inventories.user_id')
-                  -> select ('inventories.id','products.Name', 'products.ImageURL', 'users.name', 'users.email', 'inventories.quantity')
+                  -> select ('products.id','products.Name', 'products.ImageURL', 'users.name', 'users.email', 'inventories.quantity')
                   ->where('inventories.user_id', $user_id)
                   -> get();
-        	return response() -> json(['inventories' => $inventories], 200);
+
+        $array = [];
+        foreach($inventories as $data){       
+                    $array[] = [
+                                  'product_id'=> $data->id,
+                                  'product_name'=> $data->Name,
+                                  'ImageURL' => $data->ImageURL,
+                                  'agent_name' => $data->name,
+                                  'agent_email' => $data->email,
+                                  'quantity' => $data->quantity,
+                                
+                                ];
+                    
+                    }
+        	return response() -> json($array);
         
    		}
 }

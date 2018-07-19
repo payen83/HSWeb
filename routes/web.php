@@ -56,10 +56,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/Inventory/ed-inventory/{id}', ['uses' => 'ProductController@editInventoryProduct','as' => 'editInventoryProduct']);
     Route::delete('/Inventory/delete/{id}', ['uses' => 'ProductController@deleteInventory','as' => 'deleteInventory']);
 
-    Route::get('/joblist', ['as' => 'viewJoblist','uses' => 'JoblistController@viewJoblist']);
+    Route::get('/joblist/customer-order', ['as' => 'viewJoblist','uses' => 'JoblistController@viewJoblist']);
+     Route::get('/joblist/agent-order', ['as' => 'viewAgentOrder','uses' => 'JoblistController@viewAgentOrder']);
     Route::get('/joblist/view/{JobID}', ['uses' => 'JoblistController@viewJobDetails','as' => 'viewJobDetails']);
-    Route::get('/joblist/edit/{JobID}', ['uses' => 'JoblistController@viewEditJoblist','as' => 'viewEditJoblist']);
-    Route::post('/joblist/edit/{JobID}', ['uses' => 'JoblistController@editJoblist','as' => 'editJoblist']);
+    Route::get('/joblist/vwedit-agent-order/{id}', ['uses' => 'JoblistController@viewEditAgentOrder','as' => 'viewEditAgentOrder']);
+    Route::post('/joblist/edit-agent-order/{id}', ['uses' => 'JoblistController@editAgentOrder','as' => 'editAgentOrder']);
     Route::get('/joblist/viewOrder', ['uses' => 'OrderController@ViewOrderList','as' => 'ViewOrderList']);
     Route::get('/joblist/order/{OrderID}', ['uses' => 'OrderController@ViewOrderDetails','as' => 'ViewOrderDetails']);
 
