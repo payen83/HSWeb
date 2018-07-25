@@ -37,9 +37,10 @@ class OrderController extends Controller
 
          $orders1 = DB:: table('orders')
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
+                  -> join ('joblists', 'joblists.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('users.name','users.u_address','users.u_phone','users.email','orders.OrderID', 'store_orders.ProductID', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('orders.*,(store_orders.ProductQuantity*products.Price) as Total_Amount'))
+                  -> select ('users.name','joblists.location_address','joblists.Lat','joblists.Lng', 'joblists.special_notes', 'users.u_phone','users.email','orders.OrderID', 'store_orders.ProductID', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('orders.*,(store_orders.ProductQuantity*products.Price) as Total_Amount'))
                   -> where ('orders.OrderID', $OrderID)
                   ->groupby('orders.OrderID')
                   -> get();

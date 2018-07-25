@@ -39,6 +39,7 @@ Route::group([
     Route::get('product-customer', 'APIProductController@ProductCustomer');
     Route::get('product-agent', 'APIProductController@ProductAgent');
     Route::get('product-inventory/{user_id}', 'APIProductController@ProductInventory');
+    Route::post('stock-deduction/{user_id}', 'APIProductController@DeductStock');
 
 });
 

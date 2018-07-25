@@ -68,4 +68,53 @@ class APIProductController extends Controller
         	return response() -> json($array);
         
    		}
-}
+
+       public function DeductStock ($user_id){
+
+        $inventories = DB:: table('inventories')
+                  -> select ('id','product_id','quantity')
+                  ->where('inventories.user_id', $user_id)
+                  -> get();
+
+        $input = json_decode(Input::get('input'), true);
+        
+        foreach($inventories as $data){
+          $id = $data->id;
+          $productid = $data->product_id;
+          $currentquantity = $data->quantity;
+          
+          foreach($input as $row){
+            $ProductID = $row['ProductID'];
+            $requestquantity = $row['ProductQuantity'];
+            
+            if($productid  == $ProductID){
+              if($currentquantity < $requestquantity){
+ 
+                  $inventories = Inventory::find($id);
+                  $inventories->quantity = 0;
+                  $inventories->save();
+
+                  Inventory::destroy($id);
+
+              } //end if2
+
+              else{
+
+                  $inventories = Inventory::find($id);
+                  $inventories->quantity = $currentquantity - $requestquantity;
+                  $inventories->save();
+
+                  
+              } //end else
+            } // end if1
+            
+          }//end foreach2
+
+        } // end foreach1
+        return response()->json(['message' => 'Stock has been deduct in inventories', 'status' => true], 201); 
+      }//end public
+
+
+}//end class
+      
+

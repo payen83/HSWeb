@@ -8,9 +8,14 @@ use Illuminate\Support\Facades\Auth;
 class Admin
 {
     public function handle($request, Closure $next)
-    {
-        if (Auth::user()->role == 'Admin')
-            return $next($request);
-        return redirect('error');
-    }
+	{
+	    if (Auth::check() && Auth::user()->role == 'Admin') {
+	        return $next($request);
+	    }
+
+	    else {
+	        return redirect('error');
+	    }
+	}
+ 
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab3200b59e54cf89036d4275049ce7e3",
+    "content-hash": "11004d2733675a86ac95a897a960b380",
     "packages": [
         {
             "name": "balping/json-raw-encoder",

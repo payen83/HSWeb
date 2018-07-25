@@ -90,9 +90,10 @@
                                 <div class="block-content block-content-full">
                                     <div class="h4 push-5">{{$data->name}}</div>
                                     <address>
-                                        {{$data->u_address}}<br>
+                                        {{$data->location_address}}  (longitude: {{$data->Lng}} , latitude: {{$data->Lat}}) <br>
                                         <i class="fa fa-phone"></i>  {{$data->u_phone}}<br>
-                                        <i class="fa fa-envelope-o"></i> <a href="javascript:void(0)">{{$data->email}}</a>
+                                        <i class="fa fa-envelope-o"></i> <a href="javascript:void(0)">{{$data->email}}</a><br>
+                                        <i class="fa fa-pencil"></i> <a href="javascript:void(0)">{{$data->special_notes}}</a>
                                     </address>
                                 </div>
                                  @endforeach

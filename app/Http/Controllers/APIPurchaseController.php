@@ -28,8 +28,8 @@ class APIPurchaseController extends Controller
 {
     public function orders(Request $request, $user_id) {
       
-      $id= DB::table('orders')->where('user_id', '=', $user_id)->value('user_id');
-      $role= DB::table('users')->where('id', '=', $id)->value('role');
+     
+      $role= DB::table('users')->where('id', '=', $user_id)->value('role');
     	if($role =="Customer"){
             // create order no
            $order_no = Orders::getNextOrderNumber();
@@ -90,8 +90,28 @@ class APIPurchaseController extends Controller
            $payment ->transaction_id = Input::get('transaction_id');
            $payment->save();
         
-           $email=User::where('users.id', '=', $user_id)->pluck('email','id');
-           Mail::to($email)->send(new Invoice($email));
+             $email=User::where('users.id', '=', $user_id)->value('email');
+             $name=User::where('users.id', '=', $user_id)->value('name');
+             $paymentmethod = Input::get('payment_method') ;
+             $order = DB:: table('store_orders')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                  -> select ('products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as Total_Amount'))
+                  ->where('store_orders.OrderID', $order_no)
+                  -> get();
+            
+             $data1 = [
+                 'email'          => $email,
+                 'name'           => $name,
+                 'OrderID'        => $order_no,
+                 'payment_date'   => Input::get('payment_date'),
+                 'payment_method' => $paymentmethod,
+                 'location_address' => $address,
+                 'order'            => $order,
+              ];
+
+              Mail::send('emails.invoice', $data1, function($m) use ($data1){
+                 $m->to($data1['email'], '')->subject('Invoice');
+              });
            return response()->json(['OrderID'=> $order_no,'message' => 'Successful Order', 'status' => true], 201);
     	}
 
@@ -158,8 +178,29 @@ class APIPurchaseController extends Controller
               $payment ->transaction_id = Input::get('transaction_id');
               $payment->save();
 
-             $email=User::where('users.id', '=', $user_id)->pluck('email','id');
-             Mail::to($email)->send(new Invoice($email));
+             $email=User::where('users.id', '=', $user_id)->value('email');
+             $name=User::where('users.id', '=', $user_id)->value('name');
+             $paymentmethod = Input::get('payment_method') ;
+             $order = DB:: table('store_orders')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                  -> select ('products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as Total_Amount'))
+                  ->where('store_orders.OrderID', $order_no)
+                  -> get();
+            
+             $data1 = [
+                 'email'          => $email,
+                 'name'           => $name,
+                 'OrderID'        => $order_no,
+                 'payment_date'   => Input::get('payment_date'),
+                 'payment_method' => $paymentmethod,
+                 'location_address' => $address,
+                 'order'            => $order,
+              ];
+
+              Mail::send('emails.invoice', $data1, function($m) use ($data1){
+                 $m->to($data1['email'], '')->subject('Invoice');
+              });
+          
             return response()->json(['OrderID'=> $order_no,'message' => 'Successful Order', 'status' => true], 201);
         }
 
@@ -236,13 +277,34 @@ class APIPurchaseController extends Controller
                             $payment ->OrderID = $order_no;
                             $payment ->payment_method = Input::get('payment_method');
                             $payment ->user_id = $user_id;
+                            $payment->payment_date = Input::get('payment_date');
                             $payment ->amount = Input::get('total_price');
                             $payment ->currency = Input::get('currency');
                             $payment->save();
 
-                $email=User::where('users.id', '=', $user_id)->pluck('email','id');
-                Mail::to($email)->send(new Invoice($email));
-                return response()->json(['OrderID'=> $order_no,'message' => 'Successful Order', 'status' => true], 201);
+                           $email=User::where('users.id', '=', $user_id)->value('email');
+                           $name=User::where('users.id', '=', $user_id)->value('name');
+                           $paymentmethod = Input::get('payment_method') ;
+                           $order = DB:: table('store_orders')
+                                -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                                -> select ('products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as Total_Amount'))
+                                ->where('store_orders.OrderID', $order_no)
+                                -> get();
+                          
+                           $data1 = [
+                               'email'          => $email,
+                               'name'           => $name,
+                               'OrderID'        => $order_no,
+                               'payment_date'   => Input::get('payment_date'),
+                               'payment_method' => $paymentmethod,
+                               'location_address' => $address,
+                               'order'            => $order,
+                            ];
+
+                            Mail::send('emails.invoice', $data1, function($m) use ($data1){
+                               $m->to($data1['email'], '')->subject('Invoice');
+                            });
+                            return response()->json(['OrderID'=> $order_no,'message' => 'Successful Order', 'status' => true], 201);
               
             }
             else

@@ -112,7 +112,7 @@
                                 }
                                     $segment++;
                                 }
-                                return ' active';
+                                return 'active';
                                 }
                         }
                         ?>
@@ -126,8 +126,8 @@
                                 <li>
                                     <a class="{!! classActivePath('product') !!}" href="{{route('viewProduct')}}"><i class="si si-handbag"></i><span class="sidebar-mini-hide">Product</span></a>
                                 </li>
-                                 <li>
-                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-layers"></i><span class="sidebar-mini-hide">Orders Details</span></a>
+                                <li>
+                                    <a class="nav-submenu" data-toggle="nav-submenu"><i class="si si-layers"></i><span class="sidebar-mini-hide">Orders Details</span></a>
                                     <ul>
                                         <li>
                                            <a class="{!! classActivePath('/joblist/customer-order') !!}" href="{{route('viewJoblist')}}">Job List</a>
@@ -138,6 +138,7 @@
                                            <a class="{!! classActivePath('/joblist/agent-order') !!}" href="{{route('viewAgentOrder')}}">Order from Agents</a>
                                         </li>
                                     </ul>
+
                                 </li>
                                 <li>
                                     <a class="{!! classActivePath('user') !!}" href="{{route('viewUser')}}"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>

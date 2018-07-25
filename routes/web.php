@@ -12,16 +12,20 @@
 */
 
 Auth::routes();
-Route::group(['middleware' => ['auth']], function () {
+    Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
-        if (Auth::User()->role == 'Admin' or Auth::User()->role == 'SuperAdmin')
+        if (Auth::user()->role == 'Admin' or Auth::user()->role == 'SuperAdmin')
             {
-            return redirect('/dashboard');
+                dd(Auth::user()->role);
+                
             }
-      
-        else{
-            return redirect('/error');
-        }
+            
+        else
+            return redirect('error');
+    });
+    Route::get('error', function () {
+        return redirect('/login')->with('flash_message_error', 'You are not authorized');
+        return view('auth.login');
     });
    
 
@@ -29,8 +33,6 @@ Route::group(['middleware' => ['auth']], function () {
     Auth::logout();
     return Redirect::to('login');
     });
-
-    Route::get('/error', ['as' => 'viewError','uses' => 'ErrorController@viewError']);
 
     Route::get('/user', ['as' => 'viewUser','uses' => 'UserController@viewUser']);
     Route::get('/dashboard', ['as' => 'viewDashboard','uses' => 'DashboardController@viewDashboard']);
@@ -73,5 +75,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/withdraw/edit/{withdrawID}', ['uses' => 'WithdrawController@saveWithdrawDetails','as' => 'saveWithdrawDetails']);
     Route::get('/withdraw/viewRejectWithdraw/{withdrawID}', ['as' => 'viewRejectWithdraw','uses' => 'WithdrawController@viewRejectWithdraw']);
     Route::post('/withdraw/reject/{withdrawID}', ['uses' => 'WithdrawController@saveRejectWdDetails','as' => 'saveRejectWdDetails']);
+
+    Route::get('bar-chart', 'ChartController@index');
 
 });

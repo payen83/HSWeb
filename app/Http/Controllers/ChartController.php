@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use ConsoleTVs\Charts\Charts;
+use Charts;
 use App\User;
 use DB;
 

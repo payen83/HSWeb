@@ -7,6 +7,7 @@ use App\Joblist;
 use App\Wallet;
 use App\Payment;
 use App\Transaction;
+use App\User;
 use App\Mail\Wallet_Credit;
 use App\Mail\Reject_Delivery;
 use Mail;
@@ -81,7 +82,7 @@ class APIJobController extends Controller
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'users.url_image', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'users.u_phone', 'users.url_image', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                    -> where('joblists.user_id', '=', $user_id)
                    ->where(function($q) {
                                 $q->where('joblists.status_job','Active')
@@ -114,6 +115,7 @@ class APIJobController extends Controller
                                   'current_status'=> $data->status_job,
                                   'c_name' => $data->name,
                                   'c_address' => $data->location_address,
+                                  'u_phone' => $data->u_phone,
                                   'url_image' => $data->url_image,
                                   'latitude' => $data->Lat,
                                   'longitude' => $data->Lng,
@@ -153,7 +155,8 @@ class APIJobController extends Controller
 
         public function UpdateJob (Request $request, $JobID){
           $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
-           if($jobstatus == 'Active'){
+          $userid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');
+           if($jobstatus == 'Active' && $userid == $request->user_id ){
               $jobstatuses = new Jobstatus;
               $jobstatuses->JobID= $JobID;
               $jobstatuses->job_status= 'Pending Completion';
@@ -296,6 +299,7 @@ class APIJobController extends Controller
           $wallet_amount = DB::table('wallets')->where('walletID', '=', $walletID)->value('amount');
           $amount=DB::table('payments')->where('OrderID', '=', $ordernumber)->value('amount');
 
+
            if(!$walletID == null){
               $wallet = Wallet::find($walletID);
               $wallet->amount = $wallet_amount+$amount;
@@ -327,8 +331,20 @@ class APIJobController extends Controller
           }
 
 
-          $email=DB::table('users')->where('users.id', '=', $userid)->value('email');
-          Mail::to($email)->send(new Wallet_Credit($email));
+         $email=User::where('users.id', '=', $userid)->value('email');
+         $name=User::where('users.id', '=', $userid)->value('name');
+         $amount_wallet = $wallet_amount+$amount;
+            
+             $data1 = [
+                 'email'          => $email,
+                 'name'           => $name,
+                 'amount_credit'  => $amount,
+                 'amount_wallet'  => $amount_wallet,
+              ];
+
+              Mail::send('emails.wallet', $data1, function($m) use ($data1){
+                 $m->to($data1['email'], '')->subject('Wallet Credit');
+              });
           
            return response()->json(['message' => 'You have accepted the delivery. Thank you.', 'status' => true], 201);
 
@@ -376,5 +392,4 @@ class APIJobController extends Controller
           return response() -> json(['order_track' => $ordertrack],  200);
       }
 
-   		
 }

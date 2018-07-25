@@ -57,7 +57,12 @@ class LoginController extends Controller
             $data= $request->input();
             if(Auth::attempt(['email' => $data['email'], 'password' => $data['password']]))
                 {
-                    return redirect('/dashboard');
+                    if (Auth::user()->role == 'Admin' or Auth::user()->role == 'SuperAdmin')
+                       return redirect('/dashboard');
+
+                    else
+                       return redirect('/login')->with('flash_message_error', 'You are not authorized');
+       
                 }
             else
             {
