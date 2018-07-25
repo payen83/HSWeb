@@ -374,8 +374,20 @@ class APIJobController extends Controller
           $userid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');
          
 
-          $email=DB::table('users')->where('users.id', '=', $userid)->value('email');
-          Mail::to($email)->send(new Reject_Delivery($email));
+          $email=User::where('users.id', '=', $userid)->value('email');
+          $name=User::where('users.id', '=', $custid_db)->value('name');
+          $pesanan = Input::get('message');
+            
+             $data1 = [
+                 'email'          => $email,
+                 'orderid'        => $orderid,
+                 'name'           => $name,
+                 'pesanan'        => $pesanan,
+              ];
+
+              Mail::send('emails.rejectdelivery', $data1, function($m) use ($data1){
+                 $m->to($data1['email'], '')->subject('Notis Rejection');
+              });
           
            return response()->json(['JobID'=> $JobID,'message' => 'Delivery has been rejected by customer', 'status' => true], 201);
 

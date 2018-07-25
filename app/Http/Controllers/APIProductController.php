@@ -88,11 +88,7 @@ class APIProductController extends Controller
             $requestquantity = $row['ProductQuantity'];
             
             if($productid  == $ProductID){
-              if($currentquantity < $requestquantity){
- 
-                  $inventories = Inventory::find($id);
-                  $inventories->quantity = 0;
-                  $inventories->save();
+              if($currentquantity <= $requestquantity){
 
                   Inventory::destroy($id);
 
