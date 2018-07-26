@@ -88,18 +88,34 @@
                                 </div>
                                 @foreach($orders1 as $key=> $data)
                                 <div class="block-content block-content-full">
-                                    <div class="h4 push-5">{{$data->name}}</div>
                                     <address>
-                                        {{$data->location_address}}  (longitude: {{$data->Lng}} , latitude: {{$data->Lat}}) <br>
+                                        <div><strong>{{$data->name}}</strong></div>
+                                        <i class="fa fa-home"></i> {{$data->location_address}}<br>
                                         <i class="fa fa-phone"></i>  {{$data->u_phone}}<br>
                                         <i class="fa fa-envelope-o"></i> <a href="javascript:void(0)">{{$data->email}}</a><br>
-                                        <i class="fa fa-pencil"></i> <a href="javascript:void(0)">{{$data->special_notes}}</a>
+                                       
                                     </address>
                                 </div>
                                  @endforeach
                             </div>
                             <!-- END Billing Address -->
                         </div>
+                        <div class="col-lg-6">
+                            <!-- Shipping Address -->
+                            <div class="block">
+                                <div class="block-header bg-gray-lighter">
+                                    <h3 class="block-title"><i class="fa fa-pencil"></i>Special Notes</h3>
+                                </div>
+                                <div class="block-content block-content-full">
+                                    
+                                        {{$data->special_notes}}
+                                   
+                                </div>
+                            </div>
+                            <!-- END Shipping Address -->
+                        </div>
+                    </div>
+
                    
                     <!-- END Customer -->
 
