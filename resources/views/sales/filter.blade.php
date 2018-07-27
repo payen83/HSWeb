@@ -1,73 +1,13 @@
 @extends('layouts.app')
 
-@section('content') 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>  
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />   -->
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
-  
-
+@section('content')
             <!-- Main Container -->
             <main id="main-container">
                         <!-- Page Content -->
                 <div class="content">
                     <!-- My Block -->
                     <div class="block">
-                        <div class="block-header">
-                              <h3 class="block-title">Sales Tracking</h3>
-                              <br>
-                              <br>
-                            <div class="col-sm-3 form-group">
-                                    <div class="input-daterange input-group" data-date-format="dd/mm/yyyy">
-                                            <span class="input-group-addon">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
-                                            </span>
-                                                <input class="form-control datepicker" type='text' class="form-control" name="form_date" id="from_date" placeholder="From Date" value="{{date('d-M-Y',strtotime('now'))}}"/>
-                                    </div>
-                            </div>
-                            <div class="col-sm-3 form-group">
-                                    <div class="input-daterange input-group" data-date-format="dd/mm/yyyy">
-                                            <span class="input-group-addon">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
-                                            </span>
-                                                <input class="form-control datepicker" type='text' class="form-control" name="to_date" id="to_date" placeholder="To Date" value="{{date('d-M-Y',strtotime('now'))}}"/> 
-                                     </div>
-                            </div>
-                            <button class="btn btn-primary push-5-r push-10" type="submit" name="filter" id="filter"><i class="si si-magnifier"></i>Submit</button></a>
-
-
-                            <script>  
-                                $('#from_date, #to_date').datepicker({
-                                       dateFormat: "dd-mm-yy",
-                                       
-                                     }); 
-                                   $('#filter').click(function(){  
-                                        var from_date = $('#from_date').val();  
-                                        var to_date = $('#to_date').val();  
-                                        if(from_date != '' && to_date != '')  
-                                        {  
-                                             $.ajax({  
-                                                  url:"{{url('/sales-filter/{from_date,to_date}')}}",  
-                                                  method:"GET",  
-                                                  data:{from_date:from_date, to_date:to_date},  
-                                                  success:function(data)  
-                                                  {  
-                                                       $('#sale_table').html(data);  
-                                                  }  
-                                             });  
-                                        }  
-                                        else  
-                                        {  
-                                             alert("Please Select Date");  
-                                        }  
-                                   });  
-                                
-                         </script>
-                            
-                         
-                            
-                            
-                        </div>
+                        
                         <div class="block-content">
                             <!-- Select Date To View Sales Tracking -->
                             <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
@@ -126,7 +66,6 @@
                 </div>
             </div>
                 <!-- END Page Content -->
-                
-                
+            </main>
             <!-- END Main Container -->
 @endsection 

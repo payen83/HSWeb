@@ -37,19 +37,25 @@ Auth::routes();
 
     //Dashboard
     Route::get('/dashboard-superadmin', ['as' => 'viewDashboard','uses' => 'DashboardController@viewDashboard'])->middleware('super_admin');
+    Route::get('/user/viewlist-superadmin', ['as' => 'viewUser','uses' => 'UserController@viewUser'])->middleware('super_admin');
+    Route::get('/user/viewAdd-superadmin', ['uses' => 'UserController@viewAddUserSuperAdmin','as' => 'viewAddUserSuperAdmin'])->middleware('super_admin');;
+    Route::delete('/user/delete-superadmin/{id}', ['uses' => 'UserController@deleteuser_superadmin','as' => 'deleteuser_superadmin'])->middleware('super_admin');
 
     // ADMIN
 
     //Dashboard
     Route::get('/dashboard-admin', ['as' => 'viewDashboard','uses' => 'DashboardController@viewDashboard'])->middleware('admin');
+    Route::get('/user/viewlist-admin', ['as' => 'viewUserAdmin','uses' => 'UserController@viewUserAdmin'])->middleware('admin');
+    Route::get('/user/viewAdd-admin', ['uses' => 'UserController@viewAddUserAdmin','as' => 'viewAddUserAdmin'])->middleware('admin');
+    Route::delete('/user/delete-admin/{id}', ['uses' => 'UserController@deleteuser_admin','as' => 'deleteuser_admin'])->middleware('admin');
 
     //User Management 
-    Route::get('/user', ['as' => 'viewUser','uses' => 'UserController@viewUser']);
-    Route::get('/user/viewAdd', ['uses' => 'UserController@ViewAddUser','as' => 'viewAddUser']);
+    //Route::get('/user', ['as' => 'viewUser','uses' => 'UserController@viewUser']);
+    //Route::get('/user/viewAdd', ['uses' => 'UserController@ViewAddUser','as' => 'viewAddUser']);
     Route::post('/user/add', ['as' => 'addUser','uses' => 'UserController@addUser']);
     Route::get('/user/edit/{id}', ['uses' => 'UserController@viewEditUser','as' => 'viewEditUser']);
     Route::post('/user/edit/{id}', ['uses' => 'UserController@editUser','as' => 'editUser']);
-    Route::delete('/user/delete/{id}', ['uses' => 'UserController@deleteuser','as' => 'deleteuser']);
+    //Route::delete('/user/delete/{id}', ['uses' => 'UserController@deleteuser','as' => 'deleteuser']);
     
     
     //Product
@@ -81,6 +87,7 @@ Auth::routes();
     
     //Sales Tracking
     Route::get('/sales', ['as' => 'viewSales','uses' => 'SalesController@viewSales']);
+    Route::get('/sales-filter/{from_date,to_date}', ['as' => 'filterSales','uses' => 'SalesController@filterSales']);
     
     //Withdraw
     Route::get('/withdraw', ['as' => 'viewWithdraw','uses' => 'WithdrawController@viewWithdraw']);

@@ -25,14 +25,27 @@ class UserController extends Controller
     }
 	public function viewUser()
     {
-        $users = User::all();
+         $users = User::all();
+         return view('user.index', compact('users'));
+    }
+
+    public function viewUserAdmin()
+    {
+        $users = User::where('users.role', '!=', 'SuperAdmin')
+                     ->get();     
         return view('user.index', compact('users'));
     }
 
-     public function viewAddUser()
+     public function viewAddUserSuperAdmin()
     {
         
         return view('user.add');
+    }
+
+    public function viewAddUserAdmin()
+    {
+        
+        return view('user.add-admin');
     }
 
     public function addUser(Request $request)
@@ -81,10 +94,16 @@ class UserController extends Controller
   
    
 
-     public function deleteuser($id)
+     public function deleteuser_superadmin($id)
     {
         User::destroy($id);
-        return redirect('user');
+        return redirect('/user/viewlist-superadmin');
+    }
+
+    public function deleteuser_admin($id)
+    {
+        User::destroy($id);
+        return redirect('/user/viewlist-admin');
     }
 
     

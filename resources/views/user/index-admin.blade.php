@@ -24,13 +24,9 @@
                     <!-- My Block -->
                     <div class="block">
                         <div class="block-header">
-                            <ul class="block-options">
-                            @if(Auth::user()->role == 'SuperAdmin')
-                            <a href="{{url('/user/viewAdd-superadmin')}}"<button class="btn btn-success push-5-r push-10" type="button"><i class="fa fa-plus"></i> Add User</button></a>
-                            @endif
-                            @if(Auth::user()->role == 'Admin')
+                            
                             <a href="{{url('/user/viewAdd-admin')}}"<button class="btn btn-success push-5-r push-10" type="button"><i class="fa fa-plus"></i> Add User</button></a>
-                            @endif
+                            
                             </ul>
                             <h3 class="block-title">User Details</h3>
                         </div>
@@ -62,16 +58,6 @@
                                             </td>
                                             <td class="text-center">
                                            
-                                            @if(Auth::user()->role == 'SuperAdmin')
-                                            <form name ="frmdelete" action="{{route('deleteuser_superadmin',['id'=>$data->id])}}" method="POST">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <button type="submit" class="btn btn-xs btn-danger push-5-r push-10" onclick="return myFunction()"><i class="fa fa-times"></i> Delete</button>
-                                             <a href="{{route('viewEditUser',['id'=>$data->id])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i> View</button></a>    
-                                            
-                                            </form>
-                                            @endif
-                                            @if(Auth::user()->role == 'Admin')
                                             <form name ="frmdelete" action="{{route('deleteuser_admin',['id'=>$data->id])}}" method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -79,7 +65,7 @@
                                              <a href="{{route('viewEditUser',['id'=>$data->id])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i> View</button></a>    
                                             
                                             </form>
-                                            @endif
+                                            
                                             </td>
                                         </tr>
                                        

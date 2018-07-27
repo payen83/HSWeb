@@ -147,9 +147,16 @@
                                     </ul>
 
                                 </li>
+                                @if(Auth::user()->role == 'SuperAdmin')
                                 <li>
-                                    <a class="{!! classActivePath('user') !!}" href="{{url('/user')}}"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>
-                                </li> 222222
+                                    <a class="{!! classActivePath('user') !!}" href="{{url('/user/viewlist-superadmin')}}"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>
+                                </li>
+                                @endif
+                                @if(Auth::user()->role == 'Admin')
+                                <li>
+                                    <a class="{!! classActivePath('user') !!}" href="{{url('/user/viewlist-admin')}}"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>
+                                </li>
+                                @endif
                               
                                 <li>
                                     <a class="{!! classActivePath('sales') !!}" href="{{route('viewSales')}}"><i class="fa fa-bar-chart"></i><span class="sidebar-mini-hide">Sales Tracking</span></a>

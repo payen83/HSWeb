@@ -132,12 +132,22 @@
                                                 </div>
                                             </div>
                                             <br>
+                                            @if(Auth::user()->role == 'SuperAdmin')
                                             <div class="form-group">
                                                 <div class="col-xs-12">
                                                     <label for=role">Role</label>
                                                     {!! Form::select("role",['SuperAdmin'=>'SuperAdmin','Admin'=>'Admin','Agent'=>'Agent','Customer'=>'Customer'],$data->role,["class"=>"form-control",'rows'=>'6']) !!}
                                                 </div>
                                             </div>
+                                            @endif
+                                            @if(Auth::user()->role == 'Admin')
+                                            <div class="form-group">
+                                                <div class="col-xs-12">
+                                                    <label for=role">Role</label>
+                                                    {!! Form::select("role",['Admin'=>'Admin','Agent'=>'Agent','Customer'=>'Customer'],$data->role,["class"=>"form-control",'rows'=>'6']) !!}
+                                                </div>
+                                            </div>
+                                            @endif
                                             <div class="form-group">
                                                 <div class="col-xs-12">
                                                     <label for="status">Active</label>
@@ -150,7 +160,12 @@
                                 <!-- END Privacy Tab -->
                             </div>
                             <div class="block-content block-content-full bg-gray-lighter text-center">
-                                <a href="{{route('viewUser')}}" <button class="btn btn-sm btn-danger" type="submit">Back</button></a>
+                                @if(Auth::user()->role == 'SuperAdmin')
+                                <a href="{{url('/user/viewlist-superadmin')}}" <button class="btn btn-sm btn-danger" type="submit">Back</button></a>
+                                @endif
+                                @if(Auth::user()->role == 'Admin')
+                                <a href="{{url('/user/viewlist-admin')}}" <button class="btn btn-sm btn-danger" type="submit">Back</button></a>
+                                @endif
                                 <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-check push-5-r"></i> Save Changes</button>
                                 <button class="btn btn-sm btn-warning" type="reset"><i class="fa fa-refresh push-5-r"></i> Reset</button>
                             </div>
