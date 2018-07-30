@@ -120,51 +120,14 @@
                         <!-- Side Content -->
                         <div class="side-content side-content-full">
                             <ul class="nav-main">
-                                @if(Auth::user()->role == 'SuperAdmin')
                                 <li>
-                                    <a class="{!! classActivePath('dashboard-superadmin') !!}" href="{{url('/dashboard-superadmin')}}"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
+                                    <a class="{!! classActivePath('home-merchant') !!}" href="{{url('/home-merchant')}}"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
                                 </li>
-                                @endif
-                                @if(Auth::user()->role == 'Admin')
+                                
                                 <li>
-                                    <a class="{!! classActivePath('dashboard') !!}" href="{{url('/dashboard-admin')}}"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
-                                </li>
-                                @endif
-                                <li>
-                                    <a class="{!! classActivePath('product') !!}" href="{{route('viewProduct')}}"><i class="si si-handbag"></i><span class="sidebar-mini-hide">Product</span></a>
+                                    <a class="{!! classActivePath('product-merchant') !!}" href="{{url('/product-merchant')}}"><i class="si si-handbag"></i><span class="sidebar-mini-hide">Product</span></a>
                                 </li>
                                 <li>
-                                    <a class="nav-submenu" data-toggle="nav-submenu"><i class="si si-layers"></i><span class="sidebar-mini-hide">Orders Details</span></a>
-                                    <ul>
-                                        <li>
-                                           <a class="{!! classActivePath('/joblist/customer-order') !!}" href="{{route('viewJoblist')}}">Job List</a>
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                           <a class="{!! classActivePath('/joblist/agent-order') !!}" href="{{route('viewAgentOrder')}}">Order from Agents</a>
-                                        </li>
-                                    </ul>
-
-                                </li>
-                                @if(Auth::user()->role == 'SuperAdmin')
-                                <li>
-                                    <a class="{!! classActivePath('user') !!}" href="{{url('/user/viewlist-superadmin')}}"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>
-                                </li>
-                                @endif
-                                @if(Auth::user()->role == 'Admin')
-                                <li>
-                                    <a class="{!! classActivePath('user') !!}" href="{{url('/user/viewlist-admin')}}"><i class="si si-user"></i><span class="sidebar-mini-hide">User Management</span></a>
-                                </li>
-                                @endif
-                              
-                                <li>
-                                    <a class="{!! classActivePath('sales') !!}" href="{{route('viewSales')}}"><i class="fa fa-bar-chart"></i><span class="sidebar-mini-hide">Sales Tracking</span></a>
-                                </li>
-                                <li>
-                                    <a class="{!! classActivePath('withdraw') !!}" href="{{route('viewWithdraw')}}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Withdraw</span></a>
-                                </li>
-                                 <li>
                                     <a href="{{url('/logout')}}" onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();"><i class="si si-logout"></i><span class="sidebar-mini-hide">Logout</span></a>
                                       <form id="logout-form" action="{{ route('logout') }}" method="POST"
@@ -272,7 +235,6 @@
         <script src="{{ asset('assets/js/plugins/dropzonejs/dropzone.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/jquery-tags-input/jquery.tagsinput.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/autonumeric/autoNumeric.min.js') }}"></script>
-        <script src="{{ asset('js/script.js') }}"></script>
 
     
 

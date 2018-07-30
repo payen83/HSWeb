@@ -66,7 +66,11 @@ class LoginController extends Controller
                         {
                             return redirect('/dashboard-admin');
                         }
-            
+                    else if (Auth::user()->role == 'Merchant')
+                        {
+                            return redirect('/home-merchant');
+                        }
+                        
                     else
                         return redirect('error');
        

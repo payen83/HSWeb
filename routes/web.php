@@ -23,15 +23,29 @@ Auth::routes();
             {
                 return redirect('/dashboard-admin');
             }
+        else if (Auth::user()->role == 'Merchant')
+            {
+                return redirect('/home-merchant');
+            }
             
         else
-            return redirect('error');
+            return redirect('logout');
     });
     Route::get('/error', ['as' => 'viewError','uses' => 'ErrorController@viewError']);
    
 
     Route::get('/logout', function(){Auth::logout(); return Redirect::to('login');
     });
+    
+    //MERCHANT
+    Route::get('/home-merchant', ['as' => 'viewHome','uses' => 'HomeController@viewHome'])->middleware('merchant');
+    Route::get('/product-merchant', ['as' => 'viewProductMerchant','uses' => 'ProductMerchantController@viewProductMerchant'])->middleware('merchant')->middleware('merchant');
+    Route::get('/product/merchant-vwaddproduct', ['uses' => 'ProductMerchantController@viewAddMerchantProduct','as' => 'viewAddMerchantProduct'])->middleware('merchant');
+    Route::post('/product/merchant-add-product', ['as' => 'addProductMerchant','uses' => 'ProductMerchantController@addProductMerchant'])->middleware('merchant');
+    Route::get('/product/-mc-vw-edit/{id}', ['uses' => 'ProductMerchantController@viewEditProductMerchant','as' => 'viewEditProductMerchant'])->middleware('merchant');
+    Route::post('/product/mc-edit/{id}', ['uses' => 'ProductMerchantController@editProductMerchant','as' => 'editProductMerchant'])->middleware('merchant');
+    Route::delete('/product/merchant-delete-product/{id}', ['uses' => 'ProductMerchantController@deleteproductmerchant','as' => 'deleteproductmerchant'])->middleware('merchant');
+
 
     // SUPER ADMIN 
 

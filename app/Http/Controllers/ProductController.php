@@ -63,6 +63,7 @@ class ProductController extends Controller
          $product->ImageURL = $filename;
          $product->QuantityPerPackage = Input::get('QuantityPerPackage');
          $product->Discount = Input::get('Discount')/100;
+         $product->tagto = 'HQ';
          $product->save();
          Session::put('msg_status', true);
          return redirect()->route('viewProduct')->with('status', 'Product Uploaded');

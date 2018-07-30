@@ -89,7 +89,7 @@
                                                     <option value="3">3-Customer</option>
                                                     
                                                 </select>-->
-                                                 {!! Form::select("role",['Admin'=>'Admin','Agent'=>'Agent','Customer'=>'Customer'],null,["class"=>"form-control", 'required']) !!}
+                                                 {!! Form::select("role",['Admin'=>'Admin','Merchant'=>'Merchant','Agent'=>'Agent','Customer'=>'Customer'],null,["class"=>"form-control", 'required']) !!}
                                             </div>
                                        </div>
 
