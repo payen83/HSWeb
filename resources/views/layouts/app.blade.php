@@ -252,7 +252,7 @@
         <script src="{{ asset('assets/js/plugins/chartjs/Chart.min.js') }}"></script>
 
         <!-- Page JS Code -->
-        <script src="{{ asset('assets/js/pages/base_pages_ecom_dashboard.js') }}"></script>
+        <script src="{{ asset('assets/js/pages/base_pages_ecom_orders.js') }}"></script>
         
         <script>
             jQuery(function () {
@@ -272,7 +272,7 @@
         <script src="{{ asset('assets/js/plugins/dropzonejs/dropzone.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/jquery-tags-input/jquery.tagsinput.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/autonumeric/autoNumeric.min.js') }}"></script>
-        <script src="{{ asset('js/script.js') }}"></script>
+        <script src="{{ asset('js/Chart.min.js') }}"></script>
 
     
 

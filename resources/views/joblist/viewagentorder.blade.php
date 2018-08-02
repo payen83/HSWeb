@@ -44,7 +44,7 @@
                                         
                                          <td class="text-center">
                                             <div class="btn-group">
-                                                <a href="{{route('ViewOrderDetails',['OrderID'=>$data->order_id])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i>View</button></a>
+                                                <a href="{{route('ViewAgentOrderDetails',['OrderID'=>$data->order_id])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i>View</button></a>
                                                 <a href="{{route('viewEditAgentOrder',['id'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
                                             </div>
                                         </td>

@@ -169,9 +169,6 @@ return [
         //PDF Provider
         Barryvdh\DomPDF\ServiceProvider::class,
 
-        //Chart Provider
-        ConsoleTVs\Charts\ChartsServiceProvider::class,
-
 
     ],
 
@@ -226,7 +223,6 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-      
 
 
 

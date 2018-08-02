@@ -3,16 +3,43 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Charts\DashboardChart;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use App\Orders;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
+
+    private function generateDateRange(Carbon $start_date, Carbon $end_date)
+    {
+      $dates = [];
+
+      for ($date = $start_date; $date->lte($end_date); $date->addDay()){
+        $dates[]= $date->format('Y-m-d');
+      }
+
+      return $dates;
+    }
+
     public function viewDashboard()
     {
+
+      $chart = new DashboardChart;
+
+      $days = $this->generateDateRange(Carbon::now()->subDays(30), Carbon::now());
+
+      $orders = [];
+
+      foreach ($days as $day) {
+        $orders[] = Orders::whereDate('created_at', $day)->count();
+      }
+
+      $chart->dataset('Orders','line', $orders);
+      $chart->labels($days);
 
     	$latestorder = DB:: table('orders')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
@@ -34,7 +61,7 @@ class DashboardController extends Controller
       $latestuser= DB:: table('users')
                   -> select ('created_at','name', 'role', 'email')
                   ->orderBy('created_at', 'desc')
-                  ->limit(5)
+                  ->limit(4)
                   -> get();
 
       $pendingorder = DB:: table('joblists')
@@ -61,6 +88,7 @@ class DashboardController extends Controller
 
 
         return view('dashboard', [
+          'chart' => $chart,
         	'latestorder' => $latestorder,
         	'topproduct' => $topproduct,
         	'latestuser' => $latestuser,

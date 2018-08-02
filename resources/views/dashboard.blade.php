@@ -7,12 +7,12 @@
                 <div class="content content-boxed">
                     <!-- Header Tiles -->
                     <div class="row">
-                        <div class="col-sm-6 col-md-3">
-                            <a class="block block-link-hover3 text-center" href="base_pages_ecom_orders.html">
+                         <div class="col-sm-6 col-md-3">
+                            <a class="block block-link-hover3 text-center" href="javascript:void(0)">
                                 <div class="block-content block-content-full">
-                                    @foreach($pendingorder as $key=>$data)
+                                     @foreach($pendingorder as $key=>$data)
                                     <div class="h1 font-w700 text-primary" data-toggle="countTo" data-to="{{$data->pendingorders}}"></div>
-                                     @endforeach
+                                    @endforeach
                                 </div>
                                 <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">Pending Orders</div>
                             </a>
@@ -28,7 +28,7 @@
                             </a>
                         </div>
                         <div class="col-sm-6 col-md-3">
-                            <a class="block block-link-hover3 text-center" href="base_pages_ecom_orders.html">
+                            <a class="block block-link-hover3 text-center">
                                 <div class="block-content block-content-full">
                                     @foreach($ordertoday as $key=>$data)
                                     <div class="h1 font-w700" data-toggle="countTo" data-to="{{$data->numberoforder}}"></div>
@@ -70,11 +70,12 @@
                             <h3 class="block-title">Orders Overview</h3>
                         </div>
                         <div class="block-content block-content-full">
-                            <!-- Chart.js Charts (initialized in js/pages/base_pages_ecom_dashboard.js), for more examples you can check out http://www.chartjs.org/docs/ -->
-                            <div style="height: 340px;"><canvas class="js-chartjs-overview"></canvas></div>
+        
+                            <div style="height: 340px;">{!! $chart->container() !!}</div>
                         </div>
                     </div>
                 </div>
+                {!! $chart->script() !!}
 
             <!-- END Overview -->
 

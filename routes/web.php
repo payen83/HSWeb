@@ -97,6 +97,7 @@ Auth::routes();
     Route::post('/joblist/edit-agent-order/{id}', ['uses' => 'JoblistController@editAgentOrder','as' => 'editAgentOrder']);
     Route::get('/joblist/viewOrder', ['uses' => 'OrderController@ViewOrderList','as' => 'ViewOrderList']);
     Route::get('/joblist/order/{OrderID}', ['uses' => 'OrderController@ViewOrderDetails','as' => 'ViewOrderDetails']);
+    Route::get('/agent-order/{OrderID}', ['uses' => 'OrderController@ViewAgentOrderDetails','as' => 'ViewAgentOrderDetails']);
 
     
     //Sales Tracking
@@ -110,7 +111,5 @@ Auth::routes();
     Route::post('/withdraw/edit/{withdrawID}', ['uses' => 'WithdrawController@saveWithdrawDetails','as' => 'saveWithdrawDetails']);
     Route::get('/withdraw/viewRejectWithdraw/{withdrawID}', ['as' => 'viewRejectWithdraw','uses' => 'WithdrawController@viewRejectWithdraw']);
     Route::post('/withdraw/reject/{withdrawID}', ['uses' => 'WithdrawController@saveRejectWdDetails','as' => 'saveRejectWdDetails']);
-
-    Route::get('bar-chart', 'ChartController@index');
 
 });
