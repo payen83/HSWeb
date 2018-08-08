@@ -25,6 +25,27 @@ class ProductController extends Controller
         
     }
 
+    public function viewProductApproval()
+    {
+
+        $products= DB:: table('products')
+                  -> select ('id','ImageURL','Name', 'Price','status')
+                  -> where('tagto', 'MCN')
+                  -> get();
+        return view('product.vw_approveproduct', compact('products'));
+        
+        
+    }
+
+     public function updateApproval($id) {
+
+       
+        $product = Product::find($id);
+        $product->status = 'Approved';
+        $product->save();
+         return redirect()->route('viewProductApproval');
+    }
+
 
       public function viewAddProduct()
     {

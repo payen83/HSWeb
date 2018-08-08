@@ -1,4 +1,4 @@
-@extends('layouts.nav')
+@extends('layouts.app')
 
 @section('content')
             <!-- Main Container -->
@@ -8,13 +8,13 @@
                     <div class="row items-push">
                         <div class="col-sm-7">
                             <h1 class="page-heading">
-                                Inventory Product <small>
+                                Product Approval <small>
                             </h1>
                         </div>
                         <div class="col-sm-5 text-right hidden-xs">
                             <ol class="breadcrumb push-10-t">
                                 <li>Product</li>
-                                <li><a class="link-effect" href="#">Inventory Product</a></li>
+                                <li><a class="link-effect" href="#">Product Approval</a></li>
                             </ol>
                         </div>
                     </div>
@@ -26,9 +26,7 @@
                     <!-- My Block -->
                     <div class="block">
                         <div class="block-header">
-                            <ul class="block-options">
-                            <a href="{{route('viewAddMerchantProduct')}}"<button class="btn btn-success push-5-r push-10" type="button"><i class="fa fa-plus"></i> Add Product</button></a>
-                            </ul>
+                           
                             
                         </div>
                         <div class="block-content">
@@ -55,7 +53,7 @@
                                          <td class="hidden-xs">{{$data->status}}</td>
                                         <td class="text-center">
                                             <div class="btn-group">
-                                                <a href="{{route('viewEditProductMerchant',['ProductID'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>
+                                                <a href="{{route('updateApproval',['ProductID'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-thumbs-o-up"></i> Approve</button></a>
                                                
                                             </div>
                                         </td>

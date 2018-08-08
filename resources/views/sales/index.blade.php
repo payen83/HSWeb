@@ -47,7 +47,7 @@
                                         if(from_date != '' && to_date != '')  
                                         {  
                                              $.ajax({  
-                                                  url:"{{url('/sales-filter/{from_date,to_date}')}}",  
+                                                  url:"{!! url('/sales-filter/{from_date,to_date}') !!}",  
                                                   method:"GET",  
                                                   data:{from_date:from_date, to_date:to_date},  
                                                   success:function(data)  

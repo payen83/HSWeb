@@ -74,6 +74,8 @@ Auth::routes();
     
     //Product
     Route::get('/product', ['as' => 'viewProduct','uses' => 'ProductController@viewProduct']);
+    Route::get('/product-approval', ['as' => 'viewProductApproval','uses' => 'ProductController@viewProductApproval']);
+    Route::get('/product/update-approval/{id}', ['uses' => 'ProductController@updateApproval','as' => 'updateApproval']);
     Route::get('/product/viewAdd', ['uses' => 'ProductController@ViewAddProduct','as' => 'viewAddProduct']);
     Route::post('/product/add', ['as' => 'addProduct','uses' => 'ProductController@addProduct']);
     Route::get('/product/edit/{id}', ['uses' => 'ProductController@viewEditProduct','as' => 'viewEditProduct']);

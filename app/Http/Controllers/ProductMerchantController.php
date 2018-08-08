@@ -20,7 +20,7 @@ class ProductMerchantController extends Controller
     {
         $id = Auth::user()->id;
         $products= DB:: table('products')
-                  -> select ('id','ImageURL','Name', 'Price','QuantityPerPackage','Discount')
+                  -> select ('id','ImageURL','Name', 'Price','status')
                   -> where('user_id', $id)
                   -> get();
         return view('product.vw_mcproduct', compact('products'));
@@ -67,6 +67,7 @@ class ProductMerchantController extends Controller
          $product->Discount = Input::get('Discount')/100;
          $product->tagto = 'MCN';
          $product->user_id = $id;
+         $product->status = 'Unapproved';
          $product->save();
          Session::put('msg_status', true);
          return redirect()->route('viewProductMerchant')->with('status', 'Product Uploaded');

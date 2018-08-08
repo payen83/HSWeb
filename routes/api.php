@@ -40,6 +40,10 @@ Route::group([
     Route::get('product-agent', 'APIProductController@ProductAgent');
     Route::get('product-inventory/{user_id}', 'APIProductController@ProductInventory');
     Route::post('stock-deduction/{user_id}', 'APIProductController@DeductStock');
+    Route::get('merchant-view-product/{user_id}', 'APIProductMerchantController@viewProductMerchant');
+    Route::post('add-product-merchant/{user_id}', 'APIProductMerchantController@addProductMerchant');
+    Route::post('insert-image-merchant/{product_id}', 'APIProductMerchantController@insertimage');
+
 
 });
 
