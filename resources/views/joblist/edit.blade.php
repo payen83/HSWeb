@@ -39,10 +39,10 @@
                                 <div class="block-content block-content-narrow">
                                     <!-- jQuery Validation (.js-validation-bootstrap class is initialized in js/pages/base_forms_validation.js) -->
                                     <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
-                                    {{Form::open(['route' => ['editAgentOrder','id'=>$data->id],'method'=>'POST'])}}
+                                    {{Form::open(['route' => ['editAgentOrder','JobID'=>$data->JobID],'method'=>'POST'])}}
                                         @csrf
                                       
-                                                {{Form ::hidden('id',$data->id,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::hidden('JobID',$data->JobID,['class'=>'form-control','rows'=>'6'])}}
                                        
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-ag-email">Agent Name</label>
@@ -53,18 +53,18 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-ag-email">Order Number</label>
                                             <div class="col-md-7">
-                                                {{Form ::label('order_id',$data->order_id,['class'=>'form-control','rows'=>'6'])}}
+                                                {{Form ::label('OrderID',$data->OrderID,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
                                         </div>
 
                                          <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-status">Status</label>
                                             <div class="col-md-7">
-                                               {!! Form::select('status_order',['Pending'=>'Pending','OnDelivery'=>'OnDelivery','Completed'=>'Completed'],null,["class"=>"form-control",'rows'=>'6']) !!}
+                                               {!! Form::select('status_job',['Pending'=>'Pending','OnDelivery'=>'OnDelivery','Completed'=>'Completed'],$data->status_job,["class"=>"form-control",'rows'=>'6']) !!}
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-ag-email">Tracking Number Number</label>
+                                            <label class="col-md-4 control-label" for="val-ag-email">Tracking Number</label>
                                             <div class="col-md-7">
                                                 {{Form ::text('tracking_number',$data->tracking_number,['class'=>'form-control','rows'=>'6'])}}
                                             </div>

@@ -22,6 +22,7 @@ class JoblistController extends Controller
         $joblists = DB:: table('joblists')
                   -> join ('users', 'users.id', '=', 'joblists.user_id')
                   -> select ('joblists.JobID', 'users.name', 'joblists.OrderID', 'joblists.status_job' , 'joblists.update_at')
+                  -> where('joblists.orderfrom','C')
                   -> orderBy('joblists.JobID','DESC')
                   -> get();
         return view('joblist.index', compact('joblists'));
@@ -30,10 +31,12 @@ class JoblistController extends Controller
     public function viewAgentOrder()
     {
 
-        $agentorder = DB:: table('agent_orders')
-                  -> join ('users', 'users.id', '=', 'agent_orders.user_id')
-                  -> select ('agent_orders.id', 'users.name', 'agent_orders.order_id', 'agent_orders.status_order' , 'agent_orders.created_at')
-                  -> orderBy('agent_orders.id','DESC')
+        $agentorder = DB:: table('joblists')
+                  -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
+                   -> join ('users', 'users.id', '=', 'orders.user_id')
+                  -> select ('joblists.JobID', 'users.name', 'joblists.OrderID', 'joblists.status_job' , 'joblists.update_at')
+                  -> where('joblists.orderfrom','A')
+                  -> orderBy('joblists.JobID','DESC')
                   -> get();
         return view('joblist.viewagentorder', compact('agentorder'));
     }
@@ -52,25 +55,32 @@ class JoblistController extends Controller
     }
 
 
-    public function viewEditAgentOrder($id)
+    public function viewEditAgentOrder($JobID)
     {
         
-        $data  = DB:: table('agent_orders')
-                  -> join ('users', 'users.id', '=', 'agent_orders.user_id')
-                  -> select ('agent_orders.id', 'users.name', 'agent_orders.order_id', 'agent_orders.status_order' , 'agent_orders.created_at', 'agent_orders.tracking_number')
-                  -> where ('agent_orders.id', $id)
+        $data  = DB:: table('joblists')
+                  -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
+                   -> join ('users', 'users.id', '=', 'orders.user_id')
+                  -> select ('joblists.JobID', 'users.name', 'joblists.OrderID', 'joblists.status_job' , 'joblists.update_at', 'joblists.tracking_number')
+                  -> where('joblists.orderfrom','A')
+                  -> where ('joblists.JobID', $JobID)
                   -> first();
         return view('joblist.edit', compact('data'));
         
         
     }
 
-    public function editAgentOrder(Request $request) {
+    public function editAgentOrder(Request $request, $JobID) {
 
-        $agentorder = new AgentOrder;
-        $agentorder->status_order = Input::get('status_order');
-        $agentorder->tracking_number = Input::get('tracking_number');
-        $agentorder->save();
+        $joblists = Joblist::find($JobID);
+        $joblists->status_job= Input::get('status_job');
+        $joblists->tracking_number = Input::get('tracking_number');
+        $joblist->save();
+
+        $jobstatuses = new Jobstatus;
+        $jobstatuses->JobID= $JobID;
+        $jobstatuses->job_status= Input::get('status_job');
+        $jobstatuses->save();
         return redirect()->route('viewAgentOrder');
     }
 

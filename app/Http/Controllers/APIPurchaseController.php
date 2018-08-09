@@ -76,6 +76,7 @@ class APIPurchaseController extends Controller
            $joblist->special_notes = Input::get('special_notes');
            $joblist->Lat = $lat;
            $joblist->Lng = $lng;
+           $joblist->orderfrom = 'C';
            $joblist->update_at =Carbon::now('Asia/Kuala_Lumpur');
            $joblist->save();
            Jobstatus::CreateStatusJob();
@@ -156,17 +157,29 @@ class APIPurchaseController extends Controller
                 $lng = Input::get('lng');
               }
 
-              $agent = new AgentOrder;
-              $agent->status_order = 'Pending';
-              $agent->order_id = $order_no;
-              $agent->user_id = $user_id;
-              $agent->location_address = $address;
-              $agent->total_price = Input::get('total_price');
-              $agent->special_notes = Input::get('special_notes');
-              $agent->lat = $lat;
-              $agent->lng = $lng;
-              $agent->updated_at =Carbon::now('Asia/Kuala_Lumpur');
-              $agent->save();
+              // $agent = new AgentOrder;
+              // $agent->status_order = 'Pending';
+              // $agent->order_id = $order_no;
+              // $agent->user_id = $user_id;
+              // $agent->location_address = $address;
+              // $agent->total_price = Input::get('total_price');
+              // $agent->special_notes = Input::get('special_notes');
+              // $agent->lat = $lat;
+              // $agent->lng = $lng;
+              // $agent->updated_at =Carbon::now('Asia/Kuala_Lumpur');
+              // $agent->save();
+
+              $joblist = new Joblist;
+              $joblist->status_job = 'Pending';
+              $joblist->OrderID = $order_no;
+              $joblist->location_address = $address;
+              $joblist->special_notes = Input::get('special_notes');
+              $joblist->Lat = $lat;
+              $joblist->Lng = $lng;
+              $joblist->orderfrom = 'A';
+              $joblist->update_at =Carbon::now('Asia/Kuala_Lumpur');
+              $joblist->save();
+              Jobstatus::CreateStatusJob();
 
               $payment = new Payment;
               $payment ->OrderID = $order_no;
@@ -261,17 +274,29 @@ class APIPurchaseController extends Controller
                           $lng = Input::get('lng');
                         }
 
-                            $agent = new AgentOrder;
-                            $agent->status_order = 'Pending';
-                            $agent->order_id = $order_no;
-                            $agent->user_id = $user_id;
-                            $agent->location_address = $address;
-                            $agent->total_price = Input::get('total_price');
-                            $agent->special_notes = Input::get('special_notes');
-                            $agent->lat = $lat;
-                            $agent->lng = $lng;
-                            $agent->updated_at =Carbon::now('Asia/Kuala_Lumpur');
-                            $agent->save();
+                            // $agent = new AgentOrder;
+                            // $agent->status_order = 'Pending';
+                            // $agent->order_id = $order_no;
+                            // $agent->user_id = $user_id;
+                            // $agent->location_address = $address;
+                            // $agent->total_price = Input::get('total_price');
+                            // $agent->special_notes = Input::get('special_notes');
+                            // $agent->lat = $lat;
+                            // $agent->lng = $lng;
+                            // $agent->updated_at =Carbon::now('Asia/Kuala_Lumpur');
+                            // $agent->save();
+
+                            $joblist = new Joblist;
+                            $joblist->status_job = 'Pending';
+                            $joblist->OrderID = $order_no;
+                            $joblist->location_address = $address;
+                            $joblist->special_notes = Input::get('special_notes');
+                            $joblist->Lat = $lat;
+                            $joblist->Lng = $lng;
+                            $joblist->orderfrom = 'A';
+                            $joblist->update_at =Carbon::now('Asia/Kuala_Lumpur');
+                            $joblist->save();
+                            Jobstatus::CreateStatusJob();
 
                             $payment = new Payment;
                             $payment ->OrderID = $order_no;
