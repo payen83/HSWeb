@@ -99,4 +99,41 @@ class APIProductMerchantController extends Controller
 
     }
 
+    public function MerchantEditProduct(Request $request, $product_id) {
+       
+        $userid = DB::table('products')->where('id', '=', $product_id)->value('user_id');
+        $merchantid = Input::get('user_id');
+        if($merchantid == $userid)
+        {
+            $product = Product::find($product_id);
+            $product->Name = Input::get('Name');
+            $product->Description = Input::get('Description');
+            $product->Price = Input::get('Price');
+            $product->sku_number = Input::get('sku_number');
+            $product->QuantityPerPackage = Input::get('QuantityPerPackage');
+            $product->Discount = Input::get('Discount')/100;
+            $product->save();
+            return response()->json(['message' => 'Details Product has been update', 'status' => true], 201);
+        }
+
+        else
+            return response()->json(['message' => 'Failed to proceed a process', 'status' => false], 401); 
+        
+  
+    }
+
+    public function MerchantDeleteProduct($product_id)
+    {
+        $userid = DB::table('products')->where('id', '=', $product_id)->value('user_id');
+        $merchantid = Input::get('user_id');
+        if($merchantid == $userid){
+            Product::destroy($product_id);
+            return response()->json(['message' => 'Product has been delete in database', 'status' => true], 201);
+        }
+        
+        else
+           return response()->json(['message' => 'Failed to proceed a process', 'status' => false], 401); 
+
+    }
+    
 }

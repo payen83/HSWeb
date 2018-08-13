@@ -3,8 +3,9 @@
 @section('content') 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>  
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />   -->
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
+   <!--  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>   -->
+    <!-- <script rel="javascript" type="text/javascript" href="js/jquery-1.11.3.min.js"></script> -->
+   <!--  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">   -->
   
 
             <!-- Main Container -->
@@ -36,11 +37,13 @@
                             <button class="btn btn-primary push-5-r push-10" type="submit" name="filter" id="filter"><i class="si si-magnifier"></i>Submit</button></a>
 
 
-                            <script>  
-                                $('#from_date, #to_date').datepicker({
-                                       dateFormat: "dd-mm-yy",
-                                       
-                                     }); 
+                            <script type="text/javascript">  
+                                $(document).ready(function(){  
+                                   $('#datepicker').datepicker({ format: 'yyyy-mm-dd' });  
+                                   $(function(){  
+                                        $("#from_date").datepicker();  
+                                        $("#to_date").datepicker();  
+                                   });   
                                    $('#filter').click(function(){  
                                         var from_date = $('#from_date').val();  
                                         var to_date = $('#to_date').val();  
@@ -48,7 +51,7 @@
                                         {  
                                              $.ajax({  
                                                   url:"{!! url('/sales-filter/{from_date,to_date}') !!}",  
-                                                  method:"GET",  
+                                                  method:"POST",  
                                                   data:{from_date:from_date, to_date:to_date},  
                                                   success:function(data)  
                                                   {  
@@ -61,7 +64,8 @@
                                              alert("Please Select Date");  
                                         }  
                                    });  
-                                
+
+                                 }); 
                          </script>
                             
                          

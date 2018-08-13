@@ -43,6 +43,8 @@ Route::group([
     Route::get('merchant-view-product/{user_id}', 'APIProductMerchantController@viewProductMerchant');
     Route::post('add-product-merchant/{user_id}', 'APIProductMerchantController@addProductMerchant');
     Route::post('insert-image-merchant/{product_id}', 'APIProductMerchantController@insertimage');
+    Route::post('merchant-edit-product/{product_id}', 'APIProductMerchantController@MerchantEditProduct');
+    Route::post('merchant-delete-product/{product_id}', 'APIProductMerchantController@MerchantDeleteProduct');
 
 
 });

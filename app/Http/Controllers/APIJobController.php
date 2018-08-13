@@ -183,85 +183,169 @@ class APIJobController extends Controller
       }
 
     public function MerchantCompleteJob (Request $request, $JobID){
-
+        
+        if ($request->delivery_method == 'POS'){
         $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID'); 
         $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
-        $userid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');
-        if($jobstatus == 'Active' && $userid == $request->merchant_id)
+        $userid = $request->user_id;
+        if($jobstatus == 'Pending')
         {
-          $jobstatuses = new Jobstatus;
-          $jobstatuses->JobID = $JobID;
-          $jobstatuses->job_status = 'Completed';
-          $jobstatuses->save();
+            $jobstatuses = new Jobstatus;
+            $jobstatuses->JobID = $JobID;
+            $jobstatuses->job_status = 'Completed';
+            $jobstatuses->save();
 
-          $joblists = Joblist::find($JobID);
-          $joblists->status_job='Completed';
-          $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
-          $joblists->save();
-          
-
-          $ordernumber = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID');
-          $walletID= DB::table('wallets')->where('user_id', '=', $userid)->value('walletID');
-          $wallet_amount = DB::table('wallets')->where('walletID', '=', $walletID)->value('amount');
-          $amount=DB::table('payments')->where('OrderID', '=', $ordernumber)->value('amount');
-
-
-           if(!$walletID == null){
-              $wallet = Wallet::find($walletID);
-              $wallet->amount = $wallet_amount+$amount;
-              $wallet->save();
-
-              $transaction = new Transaction;
-              $transaction->walletID = $walletID;
-              $transaction->user_id = $userid;
-              $transaction->status = 'Credit';
-              $transaction->message = 'Order Completed';
-              $transaction->amount = $amount;
-              $transaction->save();
-              
-          }
-
-          else{
-             $wallet = new Wallet;
-             $wallet->user_id = $userid;
-             $wallet->amount = $amount;
-             $wallet->save();
-             $lastwalletID = Wallet::orderBy('created_at', 'desc')->value('walletID');
-
-             $transaction = new Transaction;
-             $transaction->walletID = $lastwalletID;
-             $transaction->user_id = $userid;
-             $transaction->status = 'Credit';
-             $transaction->message = 'Order Completed';
-             $transaction->amount = $amount;
-             $transaction->save();
-              
-          }
-
-
-         $email=User::where('users.id', '=', $userid)->value('email');
-         $name=User::where('users.id', '=', $userid)->value('name');
-         $amount_wallet = $wallet_amount+$amount;
+            $joblists = Joblist::find($JobID);
+            $joblists->user_id = $userid;
+            $joblists->status_job='Completed';
+            $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
+            $joblists->save();
             
-             $data1 = [
-                 'email'          => $email,
-                 'name'           => $name,
-                 'amount_credit'  => $amount,
-                 'amount_wallet'  => $amount_wallet,
-              ];
 
-              Mail::send('emails.wallet', $data1, function($m) use ($data1){
-                 $m->to($data1['email'], '')->subject('Wallet Credit');
-              });
-          
-           return response()->json(['message' => 'You have completed the delivery method. Thank you.', 'status' => true], 201);
-
-        }
-        else
-           return response()->json(['message' => 'Fail to proceed a process', 'status' => false], 401);
+            $ordernumber = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID');
+            $walletID= DB::table('wallets')->where('user_id', '=', $userid)->value('walletID');
+            $wallet_amount = DB::table('wallets')->where('walletID', '=', $walletID)->value('amount');
+            $amount=DB::table('payments')->where('OrderID', '=', $ordernumber)->value('amount');
 
 
-        }
+             if(!$walletID == null){
+                $wallet = Wallet::find($walletID);
+                $wallet->amount = $wallet_amount+$amount;
+                $wallet->save();
+
+                $transaction = new Transaction;
+                $transaction->walletID = $walletID;
+                $transaction->user_id = $userid;
+                $transaction->status = 'Credit';
+                $transaction->message = 'Order Completed';
+                $transaction->amount = $amount;
+                $transaction->save();
+                
+            }
+
+            else{
+               $wallet = new Wallet;
+               $wallet->user_id = $userid;
+               $wallet->amount = $amount;
+               $wallet->save();
+               $lastwalletID = Wallet::orderBy('created_at', 'desc')->value('walletID');
+
+               $transaction = new Transaction;
+               $transaction->walletID = $lastwalletID;
+               $transaction->user_id = $userid;
+               $transaction->status = 'Credit';
+               $transaction->message = 'Order Completed';
+               $transaction->amount = $amount;
+               $transaction->save();
+                
+            }
+
+
+           $email=User::where('users.id', '=', $userid)->value('email');
+           $name=User::where('users.id', '=', $userid)->value('name');
+           $amount_wallet = $wallet_amount+$amount;
+              
+               $data1 = [
+                   'email'          => $email,
+                   'name'           => $name,
+                   'amount_credit'  => $amount,
+                   'amount_wallet'  => $amount_wallet,
+                ];
+
+                Mail::send('emails.wallet', $data1, function($m) use ($data1){
+                   $m->to($data1['email'], '')->subject('Wallet Credit');
+                });
+            
+             return response()->json(['message' => 'You have completed the delivery method. Thank you.', 'status' => true], 201);
+
+          }
+           else
+              return response()->json(['message' => 'Fail to proceed a process', 'status' => false], 401);
+        }// end if
+
+        else if ($request->delivery_method == 'COD'){
+              $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID'); 
+              $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
+              $userid = $request->user_id;
+              if($jobstatus == 'Pending')
+              {
+                  $jobstatuses = new Jobstatus;
+                  $jobstatuses->JobID = $JobID;
+                  $jobstatuses->job_status = 'Completed';
+                  $jobstatuses->save();
+
+                  $joblists = Joblist::find($JobID);
+                  $joblists->user_id = $userid;
+                  $joblists->status_job='Completed';
+                  $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
+                  $joblists->save();
+                  
+
+                  $ordernumber = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID');
+                  $walletID= DB::table('wallets')->where('user_id', '=', $userid)->value('walletID');
+                  $wallet_amount = DB::table('wallets')->where('walletID', '=', $walletID)->value('amount');
+                  $amount=DB::table('payments')->where('OrderID', '=', $ordernumber)->value('amount');
+
+
+                   if(!$walletID == null){
+                      $wallet = Wallet::find($walletID);
+                      $wallet->amount = $wallet_amount+$amount;
+                      $wallet->save();
+
+                      $transaction = new Transaction;
+                      $transaction->walletID = $walletID;
+                      $transaction->user_id = $userid;
+                      $transaction->status = 'Credit';
+                      $transaction->message = 'Order Completed';
+                      $transaction->amount = $amount;
+                      $transaction->save();
+                      
+                  }
+
+                  else{
+                     $wallet = new Wallet;
+                     $wallet->user_id = $userid;
+                     $wallet->amount = $amount;
+                     $wallet->save();
+                     $lastwalletID = Wallet::orderBy('created_at', 'desc')->value('walletID');
+
+                     $transaction = new Transaction;
+                     $transaction->walletID = $lastwalletID;
+                     $transaction->user_id = $userid;
+                     $transaction->status = 'Credit';
+                     $transaction->message = 'Order Completed';
+                     $transaction->amount = $amount;
+                     $transaction->save();
+                      
+                  }
+
+
+                 $email=User::where('users.id', '=', $userid)->value('email');
+                 $name=User::where('users.id', '=', $userid)->value('name');
+                 $amount_wallet = $wallet_amount+$amount;
+                    
+                     $data1 = [
+                         'email'          => $email,
+                         'name'           => $name,
+                         'amount_credit'  => $amount,
+                         'amount_wallet'  => $amount_wallet,
+                      ];
+
+                      Mail::send('emails.wallet', $data1, function($m) use ($data1){
+                         $m->to($data1['email'], '')->subject('Wallet Credit');
+                      });
+                  
+                   return response()->json(['message' => 'You have completed the delivery method. Thank you.', 'status' => true], 201);
+
+                }
+                else
+                  return response()->json(['message' => 'Fail to proceed a process', 'status' => false], 401);
+        }//end else if
+        
+        
+
+
+        }//end public
 
         public function StatusJob($user_id)
       {

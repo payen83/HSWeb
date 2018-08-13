@@ -104,7 +104,7 @@ Auth::routes();
     
     //Sales Tracking
     Route::get('/sales', ['as' => 'viewSales','uses' => 'SalesController@viewSales']);
-    Route::get('/sales-filter/{from_date,to_date}', ['as' => 'filterSales','uses' => 'SalesController@filterSales']);
+    Route::post('/sales-filter/{from_date,to_date}', ['as' => 'filterSales','uses' => 'SalesController@filterSales']);
     
     //Withdraw
     Route::get('/withdraw', ['as' => 'viewWithdraw','uses' => 'WithdrawController@viewWithdraw']);

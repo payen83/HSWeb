@@ -1,12 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
-            <!-- Main Container -->
-            <main id="main-container">
-                        <!-- Page Content -->
-                <div class="content">
-                    <!-- My Block -->
-                    <div class="block">
                         
                         <div class="block-content">
                             <!-- Select Date To View Sales Tracking -->
@@ -63,9 +54,4 @@
                             </div>
                            </div>
                         </div>
-                </div>
-            </div>
                 <!-- END Page Content -->
-            </main>
-            <!-- END Main Container -->
-@endsection 

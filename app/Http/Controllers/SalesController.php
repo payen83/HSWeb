@@ -27,8 +27,8 @@ class SalesController extends Controller
 	}
 
   public function filterSales(){
-     $from_date = Input::get("from_date");
-     $to_date = Input::get("to_date");
+     $from_date = Input::post("from_date");
+     $to_date = Input::post("to_date");
      $orders = DB:: table('orders')
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
