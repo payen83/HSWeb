@@ -26,7 +26,6 @@
                     <!-- My Block -->
                     <div class="block">
                         <div class="block-header">
-                           
                             
                         </div>
                         <div class="block-content">
@@ -47,13 +46,18 @@
                                     @foreach($products as $key=>$data)
                                     <tr>
                                         <td class="text-center">{{$i++}}</td>
-                                        <td class="hidden-xs"><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></td>
+                                         @if($data->ImageURL == '')
+                                            <td class="hidden-xs"><img src="{{ url('/') }}/upload/images/no-image.png" width="70" height="100"></td>
+                                            @endif
+                                            @if($data->ImageURL != '')
+                                            <td class="hidden-xs"><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></td>
+                                            @endif
                                         <td class="hidden-xs">{{$data->Name}}</td>
                                         <td class="hidden-xs">${{$data->Price}}</td>
                                          <td class="hidden-xs">{{$data->status}}</td>
                                         <td class="text-center">
                                             <div class="btn-group">
-                                                <a href="{{route('updateApproval',['ProductID'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-thumbs-o-up"></i> Approve</button></a>
+                                                <a href="{{route('viewDeatilProduct',['ProductID'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> View</button></a>
                                                
                                             </div>
                                         </td>

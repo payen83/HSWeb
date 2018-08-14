@@ -29,7 +29,7 @@ Auth::routes();
             }
             
         else
-            return redirect('logout');
+            return redirect('error');
     });
     Route::get('/error', ['as' => 'viewError','uses' => 'ErrorController@viewError']);
    
@@ -45,7 +45,10 @@ Auth::routes();
     Route::get('/product/-mc-vw-edit/{id}', ['uses' => 'ProductMerchantController@viewEditProductMerchant','as' => 'viewEditProductMerchant'])->middleware('merchant');
     Route::post('/product/mc-edit/{id}', ['uses' => 'ProductMerchantController@editProductMerchant','as' => 'editProductMerchant'])->middleware('merchant');
     Route::delete('/product/merchant-delete-product/{id}', ['uses' => 'ProductMerchantController@deleteproductmerchant','as' => 'deleteproductmerchant'])->middleware('merchant');
-
+    Route::get('/joblist-merchant', ['as' => 'listpendingjob','uses' => 'JoblistController@listpendingjob'])->middleware('merchant')->middleware('merchant');
+    Route::get('/joblist-merchant/viewdetails/{OrderID}', ['as' => 'MerchantOrderDetails','uses' => 'JoblistController@MerchantOrderDetails'])->middleware('merchant')->middleware('merchant');
+     Route::get('/joblist-merchant/update/{JobID}', ['uses' => 'JoblistController@viewEditStatusJob','as' => 'viewEditStatusJob'])->middleware('merchant')->middleware('merchant');
+     Route::post('/joblist-merchant/update-status/{JobID}', ['uses' => 'JoblistController@editStatusOrder','as' => 'editStatusOrder']);
 
     // SUPER ADMIN 
 
@@ -79,6 +82,7 @@ Auth::routes();
     Route::get('/product/viewAdd', ['uses' => 'ProductController@ViewAddProduct','as' => 'viewAddProduct']);
     Route::post('/product/add', ['as' => 'addProduct','uses' => 'ProductController@addProduct']);
     Route::get('/product/edit/{id}', ['uses' => 'ProductController@viewEditProduct','as' => 'viewEditProduct']);
+    Route::get('/product-approval/view-detail/{id}', ['uses' => 'ProductController@viewDeatilProduct','as' => 'viewDeatilProduct']);
     Route::post('/product/edit/{id}', ['uses' => 'ProductController@editProduct','as' => 'editProduct']);
     Route::delete('/product/delete/{id}', ['uses' => 'ProductController@delete','as' => 'delete']);
     Route::get('/product/assign/{id}', ['uses' => 'ProductController@viewAssignProduct','as' => 'viewAssignProduct']);

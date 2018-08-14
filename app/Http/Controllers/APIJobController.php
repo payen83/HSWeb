@@ -198,6 +198,7 @@ class APIJobController extends Controller
             $joblists = Joblist::find($JobID);
             $joblists->user_id = $userid;
             $joblists->status_job='Completed';
+            $joblists->tracking_number = Input::get('tracking_number');
             $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
             $joblists->save();
             

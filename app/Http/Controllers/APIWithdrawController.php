@@ -54,18 +54,26 @@ class APIWithdrawController extends Controller
 
       public function History (Request $request, $user_id){
       	 $year = $request->year;
-      	 $transactions = DB:: table('transactions')
+         $role = DB::table('users')->where('id', '=', $user_id)->value('role');
+         if($role == 'Agent' or $role == 'Merchant')
+         {
+            $transactions = DB:: table('transactions')
                   -> join ('users', 'users.id', '=', 'transactions.user_id')
                   -> select ('transactions.walletID' ,'users.name' , 'transactions.status', 'transactions.message', 'transactions.amount', 'transactions.created_at')
                   ->where('transactions.user_id', '=', $user_id)
                   ->where(DB::raw("year(transactions.created_at)"), $year)
                   -> get();
-         return response() -> json(['transactions' => $transactions],  200);
+                  return response() -> json(['transactions' => $transactions],  200);
+         }
+
+         else
+          return response()->json(['message' => 'You cannot get access to this process', 'status' => false], 401);
+      	 
       }
 
       public function balance ($user_id){
          $role = DB::table('users')->where('id', '=', $user_id)->value('role');
-         if($role == 'Agent'){
+         if($role == 'Agent' or $role == 'Merchant'){
             $wallets = DB::table('wallets')
                   -> join ('users', 'users.id', '=', 'wallets.user_id')
                   -> select('users.name', 'users.email','users.u_bankname','users.u_accnumber','wallets.amount', 'wallets.pending_approval')

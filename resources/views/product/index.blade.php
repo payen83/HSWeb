@@ -53,7 +53,12 @@
                                     @foreach($products as $key=>$data)
                                     <tr>
                                         <td class="text-center">{{$i++}}</td>
+                                         @if($data->ImageURL == '')
+                                        <td class="hidden-xs"><img src="{{ url('/') }}/upload/images/no-image.png" width="70" height="100"></td>
+                                        @endif
+                                        @if($data->ImageURL != '')
                                         <td class="hidden-xs"><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></td>
+                                        @endif
                                         <td class="hidden-xs">{{$data->Name}}</td>
                                         <td class="hidden-xs">${{$data->Price}}</td>
                                          <td class="hidden-xs">{{$data->QuantityPerPackage}}</td>

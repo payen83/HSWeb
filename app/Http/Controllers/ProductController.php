@@ -103,6 +103,15 @@ class ProductController extends Controller
         
     }
 
+     public function viewDeatilProduct($id)
+    {
+        
+        $data = Product::getSingleData($id);
+        return view('product.vw_detailmc', compact('data'));
+        
+        
+    }
+
    public function editProduct(Request $request, $id) {
 
         if ($request->isMethod('get'))

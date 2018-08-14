@@ -84,7 +84,12 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-picture">Image</label>
                                             <div class="col-md-7">
-                                            <img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100">
+                                            @if($data->ImageURL == '')
+                                            <td class="hidden-xs"><img src="{{ url('/') }}/upload/images/no-image.png" width="70" height="100"></td>
+                                            @endif
+                                            @if($data->ImageURL != '')
+                                            <td class="hidden-xs"><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></td>
+                                            @endif
                                             {{Form ::file('ImageURL',null,['class'=>'form-control','rows'=>'6'])}}
                                
                                             </div>
