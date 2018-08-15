@@ -127,8 +127,11 @@
                                 <li>
                                     <a class="{!! classActivePath('product-merchant') !!}" href="{{url('/product-merchant')}}"><i class="si si-handbag"></i><span class="sidebar-mini-hide">Product</span></a>
                                 </li>
-                                 <li>
+                                <li>
                                     <a class="{!! classActivePath('joblist-merchant') !!}" href="{{url('/joblist-merchant')}}"><i class="fa fa-list-ol"></i><span class="sidebar-mini-hide">Jobs</span></a>
+                                </li>
+                                <li>
+                                    <a class="{!! classActivePath('wallet-merchant') !!}" href="{{url('/wallet-merchant')}}"><i class="fa fa-credit-card"></i><span class="sidebar-mini-hide">Transaction</span></a>
                                 </li>
                                 <li>
                                     <a href="{{url('/logout')}}" onclick="event.preventDefault();

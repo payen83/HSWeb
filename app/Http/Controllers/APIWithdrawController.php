@@ -16,12 +16,11 @@ class APIWithdrawController extends Controller
 {
     public function WithdrawRequest(Request $request, $user_id)
       {
-      	$wallet_amount = DB::table('wallets')->where('user_id', '=', $user_id)->value('amount');
+      	 $wallet_amount = DB::table('wallets')->where('user_id', '=', $user_id)->value('amount');
          $wallet_amount = DB::table('wallets')->where('user_id', '=', $user_id)->value('amount');
          $walletID = DB::table('wallets')->where('user_id', '=', $user_id)->value('walletID');
          
         
-
       	if($wallet_amount >= $request->amount){
       		if ($request->amount <= 5000){
          	$walletid = DB::table('wallets')->where('user_id', '=', $user_id)->value('walletID');

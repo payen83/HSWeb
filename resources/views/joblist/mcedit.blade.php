@@ -13,7 +13,7 @@
                         <div class="col-sm-5 text-right hidden-xs">
                             <ol class="breadcrumb push-10-t">
                                 <li><a class="link-effect" href="{{route('listpendingjob')}}">Pending Jobs</a></li>
-                                <li>Update Job Status/li>
+                                <li>Update Job Status</li>
                             </ol>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="val-status">Delivery Method</label>
                                             <div class="col-md-7">
-                                               {!! Form::select('delivery_method',['POS'=>'POS','COD'=>'COD'],null,["class"=>"form-control",'rows'=>'6']) !!}
+                                               {!! Form::select('delivery_method',['POS'=>'POS (Postage)','COD'=>'COD (Cash On Delivery)'],null,["class"=>"form-control",'rows'=>'6']) !!}
                                             </div>
                                         </div>
                                          <div class="form-group">

@@ -49,6 +49,8 @@ Auth::routes();
     Route::get('/joblist-merchant/viewdetails/{OrderID}', ['as' => 'MerchantOrderDetails','uses' => 'JoblistController@MerchantOrderDetails'])->middleware('merchant')->middleware('merchant');
      Route::get('/joblist-merchant/update/{JobID}', ['uses' => 'JoblistController@viewEditStatusJob','as' => 'viewEditStatusJob'])->middleware('merchant')->middleware('merchant');
      Route::post('/joblist-merchant/update-status/{JobID}', ['uses' => 'JoblistController@editStatusOrder','as' => 'editStatusOrder']);
+     Route::get('/wallet-merchant', ['uses' => 'WithdrawController@viewWallet','as' => 'viewWallet'])->middleware('merchant')->middleware('merchant');
+     Route::get('/wallet-merchant/withdraw/{amount}', ['uses' => 'WithdrawController@withdrawrequest','as' => 'withdrawrequest'])->middleware('merchant');
 
     // SUPER ADMIN 
 

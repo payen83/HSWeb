@@ -78,5 +78,18 @@ class APIUserController extends Controller
 
     }
 
-   
+    public function SavePalyerId(Request $request, $id) {
+        
+        if ($request->playerId != ''){
+            $user = User::find($id);
+            $user->playerId = Input::get('playerId');
+            $user->save();
+            return response()->json(['message' => 'Player Id has been saved', 'status' => true], 201);
+        }
+
+        else
+           return response()->json(['message' => 'Failed to saved Player Id', 'status' => false], 401); 
+       
+    }
+
 }

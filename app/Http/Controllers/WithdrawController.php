@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use Auth;
 use Carbon\Carbon;
 
 class WithdrawController extends Controller
@@ -26,6 +27,30 @@ class WithdrawController extends Controller
                   ->where('withdraws.status', '=', 1)
                   -> get();
         return view('withdraw.index', compact('withdraw'));
+    }
+
+      public function viewWallet()
+    {
+        $id = Auth::user()->id;
+        $wallet = DB:: table('transactions')
+                  -> join ('wallets', 'wallets.walletID', '=', 'transactions.walletID')
+                  -> join ('users', 'users.id', '=', 'transactions.user_id')
+                  -> select ('transactions.created_at','transactions.status','transactions.message','transactions.amount', 'users.name','users.email', 'users.u_address', 'users.u_phone', 'wallets.amount as jumlah')
+                  ->where('transactions.user_id', $id)
+                  -> get();
+
+        $wallet1 = DB:: table('transactions')
+                  -> join ('wallets', 'wallets.walletID', '=', 'transactions.walletID')
+                  -> join ('users', 'users.id', '=', 'transactions.user_id')
+                  -> select ('transactions.created_at','transactions.message','transactions.amount', 'users.name','users.email', 'users.u_address', 'users.u_phone', 'wallets.amount as jumlah')
+                  ->where('transactions.user_id', $id)
+                  ->groupby('transactions.walletID')
+                  -> get();
+
+        return view('wallet.index', [
+                    'wallet' => $wallet,
+                    'wallet1' => $wallet1
+                  ]);
     }
 
       public function viewWithdrawDetails($withdrawID)
@@ -132,6 +157,45 @@ class WithdrawController extends Controller
          return redirect()->route('viewWithdraw');
 
     }
+
+    public function withdrawrequest($amount)
+      {
+        
+         $user_id = Auth::user()->id;
+         $wallet_amount = DB::table('wallets')->where('user_id', '=', $user_id)->value('amount');
+         $wallet_amount = DB::table('wallets')->where('user_id', '=', $user_id)->value('amount');
+         $walletID = DB::table('wallets')->where('user_id', '=', $user_id)->value('walletID');
+         
+        
+        if($wallet_amount >= $amount){
+          if ($amount <= 5000){
+          $walletid = DB::table('wallets')->where('user_id', '=', $user_id)->value('walletID');
+            $withdraw = new Withdraw;
+            $withdraw->walletID= $walletid;
+            $withdraw->user_id= $user_id;
+            $withdraw->amount= $amount;
+            $withdraw->save();
+
+            $wallets = Wallet::find($walletid);
+            $wallets->amount = $wallet_amount - $amount;
+            $wallets->pending_approval = $amount;
+            $wallets->save();
+            
+
+            return redirect()->route('viewWallet');
+
+         }
+
+         else{
+          return response()->json(['message' => 'Cannot Withdraw more than $5000', 'status' => false], 401);
+         }
+
+        }
+
+        else
+          return response()->json(['message' => 'Not enough amount in your wallet to withdraw', 'status' => false], 401);
+         
+      }
 
 
 }
