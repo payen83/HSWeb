@@ -164,12 +164,13 @@ class WithdrawController extends Controller
          $user_id = Auth::user()->id;
          $wallet_amount = DB::table('wallets')->where('user_id', '=', $user_id)->value('amount');
          $wallet_amount = DB::table('wallets')->where('user_id', '=', $user_id)->value('amount');
+         $pending_approval = DB::table('wallets')->where('user_id', '=', $user_id)->value('pending_approval');
          $walletID = DB::table('wallets')->where('user_id', '=', $user_id)->value('walletID');
          
         
-        if($wallet_amount >= $amount){
-          if ($amount <= 5000){
-          $walletid = DB::table('wallets')->where('user_id', '=', $user_id)->value('walletID');
+        if($wallet_amount >= $amount && $wallet_amount != 0){
+          if ($amount <= 5000 && $pending_approval == 0){
+            $walletid = DB::table('wallets')->where('user_id', '=', $user_id)->value('walletID');
             $withdraw = new Withdraw;
             $withdraw->walletID= $walletid;
             $withdraw->user_id= $user_id;
@@ -182,19 +183,18 @@ class WithdrawController extends Controller
             $wallets->save();
             
 
-            return redirect()->route('viewWallet');
+            return redirect()->route('viewWallet')->with('flash_message_success', 'Your request withdraw has been send');
 
          }
 
          else{
-          return response()->json(['message' => 'Cannot Withdraw more than $5000', 'status' => false], 401);
+          return redirect()->route('viewWallet')->with('flash_message_error', 'Cannot proceed withdrawal process');
          }
 
         }
 
         else
-          return response()->json(['message' => 'Not enough amount in your wallet to withdraw', 'status' => false], 401);
-         
+          return redirect()->route('viewWallet')->with('flash_message_error', 'Not enough amount in your wallet to withdraw');
       }
 
 

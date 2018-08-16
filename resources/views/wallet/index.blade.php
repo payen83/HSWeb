@@ -25,6 +25,18 @@
                     <!-- My Block -->
                     <div class="block">
                         <div class="block-header">
+                            @if(Session::has('flash_message_success'))
+                                <div class="alert alert-success alert-block">
+                                    <button type="button" class="close" data-dismiss="alert">×</button> 
+                                        <strong>{!! session('flash_message_success') !!}</strong>
+                                </div>
+                            @endif
+                            @if(Session::has('flash_message_error'))
+                                <div class="alert alert-danger alert-block">
+                                    <button type="button" class="close" data-dismiss="alert">×</button> 
+                                        <strong>{!! session('flash_message_error') !!}</strong>
+                                </div>
+                            @endif
                             <ul class="block-options">
                             @foreach($wallet1 as $key=> $data)
                             <div class="block-header bg-gray-lighter">
@@ -73,8 +85,8 @@
                                        
                                     @endforeach
                                      <tr class="success">
-                                            <td colspan="5" class="text-right text-uppercase"><strong>Total Wallet Amount:</strong></td>
-                                            <td class="text-right">${{$totalamount}}</td>
+                                            <td colspan="5" class="text-right text-uppercase"><strong>Current Wallet Amount:</strong></td>
+                                            <td class="text-right">${{$data->jumlah}}</td>
                                     </tr>
                                     </tbody>
                                 </table>

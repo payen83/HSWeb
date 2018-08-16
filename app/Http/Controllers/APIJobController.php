@@ -440,6 +440,46 @@ class APIJobController extends Controller
               $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
               $joblists->save();
 
+              function sendMessage(){
+                $content = array(
+                  "en" => 'Job Completed: Your order has been marked as completed'
+                  );
+                
+                $fields = array(
+                  'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+                  'include_player_ids' => array("98753d65-2f8b-43cd-a0f5-871d33c1efb2"),
+                  // 'data' => array("JobID" => "2127"),
+                  'contents' => $content
+                );
+                
+                $fields = json_encode($fields);
+                  print("\nJSON sent:\n");
+                  print($fields);
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+                                       'Authorization: Basic NmU4MWZjZDEtNDc5YS00NWMzLTkxMTAtNDNjMjl5ODl3YzBi'));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+                $response = curl_exec($ch);
+                curl_close($ch);
+                
+                return $response;
+              }
+              
+              $response = sendMessage();
+              $return["allresponses"] = $response;
+              $return = json_encode( $return);
+              
+              print("\n\nJSON received:\n");
+              print($return);
+              print("\n");
+
               return response()->json(['JobID'=> $JobID,'message' => 'Job has been mark as completed', 'status' => true], 201);
 
               }

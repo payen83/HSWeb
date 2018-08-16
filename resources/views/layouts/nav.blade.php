@@ -221,7 +221,7 @@
         <script src="{{ asset('assets/js/plugins/chartjs/Chart.min.js') }}"></script>
 
         <!-- Page JS Code -->
-        <script src="{{ asset('assets/js/pages/base_pages_ecom_dashboard.js') }}"></script>
+        <script src="{{ asset('assets/js/pages/base_pages_ecom_orders.js') }}"></script>
         
         <script>
             jQuery(function () {
