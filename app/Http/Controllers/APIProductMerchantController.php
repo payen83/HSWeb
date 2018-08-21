@@ -22,7 +22,7 @@ class APIProductMerchantController extends Controller
 
         if( $role == 'Merchant'){
         	$products= DB:: table('products')
-                  -> select ('id','ImageURL','Name', 'Price','status')
+                  -> select ('id','ImageURL','Name','sku_number', 'Description', 'Discount', 'QuantityPerPackage','Price','status')
                   -> where('user_id', $user_id)
                   -> get();
         return response() -> json(['products' => $products],  200);

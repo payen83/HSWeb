@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use\App\User;
+use\App\StoreLocation;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -82,16 +83,19 @@ class AuthController extends Controller
     protected function respondWithToken($token,$email)
     {
       $userid=User::where('email', '=', $email)->value('id');
+      $storeid = DB::table('store_locations')->where('store_userid', '=', $userid)->value('id');
       $data = DB:: table('users')
               -> select ('id','name', 'role','email', 'icnumber', 'u_address', 'lat', 'lng','u_bankname', 'u_accnumber', 'u_phone', 'url_image')
               -> where('id',$userid)
               -> get();
+       $store_location = StoreLocation::getStoreData($storeid);
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60,
             'status' => true,
-            'users' => $data
+            'users' => $data,
+            'store_location' => $store_location
         ]);
     }
 

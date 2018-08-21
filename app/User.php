@@ -56,7 +56,7 @@ class User extends Authenticatable implements JWTSubject
                          ->get();     
     }
 
-     public static function getSingleData($id) {
+    public static function getSingleData($id) {
         return User::where('users.id',$id)->first();
     }
     

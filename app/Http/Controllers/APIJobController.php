@@ -48,6 +48,7 @@ class APIJobController extends Controller
                             -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                             -> select ('store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                             -> where('joblists.JobID', '=', $x)
+                            -> where('products.tagto','HQ')
                             ->where(function($q) {
                                 $q->where('joblists.status_job','Pending');
                               })

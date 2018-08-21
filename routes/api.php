@@ -68,6 +68,16 @@ Route::group([
 Route::group([
 
     'middleware' => 'api',
+    'prefix' => 'store-location'
+
+], function ($router) {
+
+    Route::get('view-list', 'APIUserController@ListStoreLocation'); 
+});
+
+Route::group([
+
+    'middleware' => 'api',
     'prefix' => 'purchase'
 
 ], function ($router) {
