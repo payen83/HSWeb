@@ -82,7 +82,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-price">Price (USD)</label>
+                                            <label class="col-md-4 control-label" for="val-price">Price (MYR)</label>
                                             <br>
                                             <div class="col-md-7">
                                                 {{Form ::text('Price',null,['class'=>'form-control','rows'=>'6', 'required'])}}

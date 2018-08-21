@@ -70,7 +70,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-price">Price</label>
+                                            <label class="col-md-4 control-label" for="val-price">Price (MYR)</label>
                                             <div class="col-md-7">
                                                 {{Form ::label('Price',$data->Price,['class'=>'form-control','rows'=>'6'])}}
                                             </div>

@@ -13,7 +13,12 @@
                         <div class="bg-image" style="background-image: url('{{ asset('assets/img/photos/photo3@2x.jpg') }}');">
                             <div class="block-content bg-primary-op text-center overflow-hidden">
                                 <div class="push-30-t push animated fadeInDown">
+                                     @if($data->url_image == '')
                                     <img class="img-avatar img-avatar96 img-avatar-thumb" src="{{ asset('assets/img/avatars/avatar10.jpg') }}" alt="">
+                                    @endif
+                                    @if($data->url_image != '')
+                                    <img class="img-avatar img-avatar96 img-avatar-thumb" src="{{ url('/') }}/upload/userpic/<?php echo $data->url_image; ?>" alt="">
+                                    @endif
                                 </div>
                                 <div class="push-30 animated fadeInUp">
                                     <h2 class="h4 font-w600 text-white push-5">{{$data->name}}</h2>
@@ -26,29 +31,46 @@
                         <!-- Stats -->
                         <div class="block-content text-center">
                             <div class="row items-push text-uppercase">
-                                <div class="col-xs-6 col-sm-3">
+                                @if($data->role == 'Merchant')
+                                <div class="col-xs-6">
                                     <div class="font-w700 text-gray-darker animated fadeIn">Sales</div>
-                                    <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">22000</a>
+                                    @foreach($trans as $key=>$input)
+                                    @if($input->jumlah == '')
+                                    <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">RM 0</a>
+                                    @endif
+                                    @if($input->jumlah != '')
+                                    <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">RM {{$input->jumlah}}</a>
+                                    @endif
+                                    @endforeach
                                 </div>
-                                <div class="col-xs-6 col-sm-3">
+                                <div class="col-xs-6">
                                     <div class="font-w700 text-gray-darker animated fadeIn">Products</div>
-                                    <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">16</a>
+                                    @foreach($product as $key=>$products)
+                                    <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">{{$products->numberofproduct}}</a>
+                                    @endforeach
                                 </div>
-                                <div class="col-xs-6 col-sm-3">
-                                    <div class="font-w700 text-gray-darker animated fadeIn">Followers</div>
-                                    <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">2600</a>
+                                @endif
+                                @if($data->role == 'Agent')
+                                <div class="col-xs-6">
+                                    <div class="font-w700 text-gray-darker animated fadeIn">Sales</div>
+                                    @foreach($trans as $key=>$input)
+                                    @if($input->jumlah == '')
+                                    <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">RM 0</a>
+                                    @endif
+                                    @if($input->jumlah != '')
+                                    <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">RM {{$input->jumlah}}</a>
+                                    @endif
+                                    @endforeach
                                 </div>
-                                <div class="col-xs-6 col-sm-3">
-                                    <div class="font-w700 text-gray-darker animated fadeIn">3603 Ratings</div>
-                                    <div class="text-warning push-10-t animated flipInX">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
+                                <div class="col-xs-6">
+                                    <div class="font-w700 text-gray-darker animated fadeIn">Products</div>
+                                    @foreach($inventory as $key=>$inventorys)
+                                    <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">{{$inventorys->numberofagentproduct}}</a>
+                                    @endforeach
                                 </div>
+                                @endif
                             </div>
+                           
                         </div>
                         <!-- END Stats -->
                     </div>

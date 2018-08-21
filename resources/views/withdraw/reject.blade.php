@@ -26,21 +26,7 @@
                     <div class="block">
                         <div class="block-header">
                             <ul class="block-options">
-                                <li>
-                                    <button type="button"><i class="si si-settings"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="close"><i class="si si-close"></i></button>
-                                </li>
+                               
                             </ul>
                             <h3 class="block-title">Reject Withdraw Transaction</h3>
                         </div>
@@ -66,7 +52,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-amt">Amount Withdraw</label>
+                                            <label class="col-md-4 control-label" for="val-amt">Amount Withdraw (MYR)</label>
                                             <div class="col-md-7">
                                                  {{Form ::text('amount',$data->amount,['class'=>'form-control','rows'=>'6','required'])}}
                                             </div>

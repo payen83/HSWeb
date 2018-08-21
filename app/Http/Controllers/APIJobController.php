@@ -33,6 +33,7 @@ class APIJobController extends Controller
                   -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                   -> where('joblists.status_job','Pending')
                   -> where('joblists.orderfrom','C')
+                  -> where('products.tagto','HQ')
                   ->groupby('joblists.OrderID')
                   ->get();
 
@@ -407,6 +408,10 @@ class APIJobController extends Controller
 
       public function AcceptJob(Request $request, $JobID){
         $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
+        $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID');
+        $customerid = DB::table('orders')->where('OrderID', '=', $orderid)->value('user_id');
+        $playerid = DB::table('users')->where('id', '=', $customerid)->value('playerId');
+
         if($jobstatus == 'Pending'){
           $jobstatuses = new Jobstatus;
           $jobstatuses->JobID= $JobID;
@@ -418,37 +423,14 @@ class APIJobController extends Controller
           $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
           $joblists->save();
 
-          return response()->json(['JobID'=> $JobID,'message' => 'Successful Accept Job', 'status' => true], 201);
-          
-        }
-
-        else{
-           return response()->json(['message' => 'Job has been accepted by other agent', 'status' => false], 401);
-        }
-      }
-
-        public function UpdateJob (Request $request, $JobID){
-          $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
-          $userid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');
-           if($jobstatus == 'Active' && $userid == $request->user_id ){
-              $jobstatuses = new Jobstatus;
-              $jobstatuses->JobID= $JobID;
-              $jobstatuses->job_status= 'Pending Completion';
-              $jobstatuses->save();
-              $joblists = Joblist::find($JobID);
-              $joblists->status_job='Pending Completion';
-              $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
-              $joblists->save();
-
-              function sendMessage(){
-                $content = array(
-                  "en" => 'Job Completed: Your order has been marked as completed'
+          $content = array(
+                  "en" => 'Your Order: '.$orderid.' has been accepted by agent for delivery'
                   );
                 
                 $fields = array(
                   'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
-                  'include_player_ids' => array("98753d65-2f8b-43cd-a0f5-871d33c1efb2"),
-                  // 'data' => array("JobID" => "2127"),
+                  'include_player_ids' => array($playerid),
+                  'data' => array("OrderID" => $orderid),
                   'contents' => $content
                 );
                 
@@ -470,9 +452,71 @@ class APIJobController extends Controller
                 curl_close($ch);
                 
                 return $response;
-              }
+            
+              $return["allresponses"] = $response;
+              $return = json_encode( $return);
               
-              $response = sendMessage();
+              print("\n\nJSON received:\n");
+              print($return);
+              print("\n");
+
+          return response()->json(['JobID'=> $JobID,'message' => 'Successful Accept Job', 'status' => true], 201);
+          
+        }
+
+        else{
+           return response()->json(['message' => 'Job has been accepted by other agent', 'status' => false], 401);
+        }
+      }
+
+        public function UpdateJob (Request $request, $JobID){
+          $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
+          $userid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');
+          $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID');
+          $customerid = DB::table('orders')->where('OrderID', '=', $orderid)->value('user_id');
+          $playerid = DB::table('users')->where('id', '=', $customerid)->value('playerId');
+
+           if($jobstatus == 'Active' && $userid == $request->user_id ){
+              $jobstatuses = new Jobstatus;
+              $jobstatuses->JobID= $JobID;
+              $jobstatuses->job_status= 'Pending Completion';
+              $jobstatuses->save();
+              $joblists = Joblist::find($JobID);
+              $joblists->status_job='Pending Completion';
+              $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
+              $joblists->save();
+
+              
+                $content = array(
+                  "en" => 'Job Completed: Your order has been marked as completed by agent'
+                  );
+                
+                $fields = array(
+                  'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+                  'include_player_ids' => array($playerid),
+                  'data' => array("JobID" => $JobID),
+                  'contents' => $content
+                );
+                
+                $fields = json_encode($fields);
+                  print("\nJSON sent:\n");
+                  print($fields);
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+                                       'Authorization: Basic NmU4MWZjZDEtNDc5YS00NWMzLTkxMTAtNDNjMjl5ODl3YzBi'));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+                $response = curl_exec($ch);
+                curl_close($ch);
+                
+                return $response;
+            
               $return["allresponses"] = $response;
               $return = json_encode( $return);
               

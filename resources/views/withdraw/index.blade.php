@@ -11,21 +11,7 @@
                     <div class="block">
                         <div class="block-header">
                             <ul class="block-options">
-                                <li>
-                                    <button type="button"><i class="si si-settings"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="close"><i class="si si-close"></i></button>
-                                </li>
+                                
                             </ul>
                             <h3 class="block-title">Withdraw Request List</h3>
                         </div>
@@ -49,7 +35,7 @@
                                         <td class="text-center">{{$i++}}</td>
                                         <td class="hidden-xs">{{$data->created_at}}</td>
                                         <td class="hidden-xs">{{$data->name}}({{$data->email}})</td>
-                                        <td class="hidden-xs">{{$data->amount}}</td>
+                                        <td class="hidden-xs">RM {{$data->amount}}</td>
                                       
                                         <td class="text-center">
                                             <div class="btn-group">

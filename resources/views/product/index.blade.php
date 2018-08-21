@@ -60,7 +60,7 @@
                                         <td class="hidden-xs"><img src="{{ url('/') }}/upload/images/<?php echo $data->ImageURL; ?>" width="70" height="100"></td>
                                         @endif
                                         <td class="hidden-xs">{{$data->Name}}</td>
-                                        <td class="hidden-xs">${{$data->Price}}</td>
+                                        <td class="hidden-xs">RM{{$data->Price}}</td>
                                          <td class="hidden-xs">{{$data->QuantityPerPackage}}</td>
                                           <td class="hidden-xs">{{$data->Discount*100}}</td>
                                         <td class="text-center">

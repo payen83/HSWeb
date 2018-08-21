@@ -28,21 +28,7 @@
                     <div class="block">
                         <div class="block-header">
                             <ul class="block-options">
-                                <li>
-                                    <button type="button"><i class="si si-settings"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="close"><i class="si si-close"></i></button>
-                                </li>
+                               
                             </ul>
                             <h3 class="block-title">Withdraw Request Details</h3>
                         </div>
@@ -70,7 +56,7 @@
                                                     {{$data->email}}
                                                 </td>
                                                 <td>{{$data->created_at}}</td>
-                                                <td>{{$data->amount}}</td>
+                                                <td>RM {{$data->amount}}</td>
                                                 <td>{{$data->u_bankname}} : {{$data->u_accnumber}}</td>
                                                 <td class="text-center">
                                                 <div class="btn-group">

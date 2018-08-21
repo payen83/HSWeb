@@ -57,23 +57,33 @@ class APIPurchaseController extends Controller
            }
             StoreOrders::insert($store_orders);
 
-            if($request->location_address == '' && $request->lat =='' && $request->lng ==''){
+            if($request->location_address == '' && $request->lat =='' && $request->lng =='' && $request->city == '' && $request->state == '' && $request->postcode == ''){
               $address = DB::table('users')->where('id', '=', $user_id)->value('u_address');
+              $state = DB::table('users')->where('id', '=', $user_id)->value('u_state');
+              $city = DB::table('users')->where('id', '=', $user_id)->value('u_city');
+              $postcode = DB::table('users')->where('id', '=', $user_id)->value('u_postcode'); 
               $lat = DB::table('users')->where('id', '=', $user_id)->value('lat');
               $lng = DB::table('users')->where('id', '=', $user_id)->value('lng');
             }
 
             else{
               $address = Input::get('location_address');
+              $state = Input::get('state');
+              $city = Input::get('city');
+              $postcode = Input::get('postcode');
               $lat = Input::get('lat');
               $lng = Input::get('lng');
             }
 
+           
            $joblist = new Joblist;
            $joblist->status_job = 'Pending';
            $joblist->OrderID = $order_no;
            $joblist->location_address = $address;
            $joblist->special_notes = Input::get('special_notes');
+           $joblist->city = $city;
+           $joblist->postcode = $postcode;
+           $joblist->state = $state;
            $joblist->Lat = $lat;
            $joblist->Lng = $lng;
            $joblist->orderfrom = 'C';
@@ -107,12 +117,55 @@ class APIPurchaseController extends Controller
                  'payment_date'   => Input::get('payment_date'),
                  'payment_method' => $paymentmethod,
                  'location_address' => $address,
+                 'city'             => $city,
+                 'state'            => $state,
+                 'postcode'         => $postcode,
                  'order'            => $order,
               ];
 
               Mail::send('emails.invoice', $data1, function($m) use ($data1){
                  $m->to($data1['email'], '')->subject('Invoice');
               });
+
+              $playerid = DB::table('users')->select('playerId')->where('u_state', '=', $state)->where('role', '=', 'Agent')->pluck('playerId');
+             
+              
+              $content = array(
+                  "en" => 'New Job Request, Please view to accept. Thank You'
+                  );
+                
+              $fields = array(
+                  'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+                  'include_player_ids' => $playerid,
+                  'data' => array("OrderID" => $order_no),
+                  'contents' => $content
+                );
+                
+                $fields = json_encode($fields);
+                  print("\nJSON sent:\n");
+                  print($fields);
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+                                       'Authorization: Basic NmU4MWZjZDEtNDc5YS00NWMzLTkxMTAtNDNjMjl5ODl3YzBi'));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+                $response = curl_exec($ch);
+                curl_close($ch);
+                
+                return $response;
+            
+              $return["allresponses"] = $response;
+              $return = json_encode( $return);
+              
+              print("\n\nJSON received:\n");
+              print($return);
+              print("\n");
            return response()->json(['OrderID'=> $order_no,'message' => 'Successful Order', 'status' => true], 201);
     	}
 
@@ -145,16 +198,22 @@ class APIPurchaseController extends Controller
            }
             StoreOrders::insert($store_orders);
 
-                if($request->location_address == '' && $request->lat =='' && $request->lng ==''){
-                $address = DB::table('users')->where('id', '=', $user_id)->value('u_address');
-                $lat = DB::table('users')->where('id', '=', $user_id)->value('lat');
-                $lng = DB::table('users')->where('id', '=', $user_id)->value('lng');
+              if($request->location_address == '' && $request->lat =='' && $request->lng =='' && $request->city == '' && $request->state == '' && $request->postcode == ''){
+                    $address = DB::table('users')->where('id', '=', $user_id)->value('u_address');
+                    $state = DB::table('users')->where('id', '=', $user_id)->value('u_state');
+                    $city = DB::table('users')->where('id', '=', $user_id)->value('u_city');
+                    $postcode = DB::table('users')->where('id', '=', $user_id)->value('u_postcode'); 
+                    $lat = DB::table('users')->where('id', '=', $user_id)->value('lat');
+                    $lng = DB::table('users')->where('id', '=', $user_id)->value('lng');
               }
 
               else{
-                $address = Input::get('location_address');
-                $lat = Input::get('lat');
-                $lng = Input::get('lng');
+                  $address = Input::get('location_address');
+                  $state = Input::get('state');
+                  $city = Input::get('city');
+                  $postcode = Input::get('postcode');
+                  $lat = Input::get('lat');
+                  $lng = Input::get('lng');
               }
 
               // $agent = new AgentOrder;
@@ -174,6 +233,9 @@ class APIPurchaseController extends Controller
               $joblist->OrderID = $order_no;
               $joblist->location_address = $address;
               $joblist->special_notes = Input::get('special_notes');
+              $joblist->city = $city;
+              $joblist->postcode = $postcode;
+              $joblist->state = $state;
               $joblist->Lat = $lat;
               $joblist->Lng = $lng;
               $joblist->orderfrom = 'A';
@@ -207,6 +269,9 @@ class APIPurchaseController extends Controller
                  'payment_date'   => Input::get('payment_date'),
                  'payment_method' => $paymentmethod,
                  'location_address' => $address,
+                 'city'             => $city,
+                 'state'            => $state,
+                 'postcode'         => $postcode,
                  'order'            => $order,
               ];
 
@@ -262,16 +327,22 @@ class APIPurchaseController extends Controller
                        }
                         StoreOrders::insert($store_orders);
 
-                        if($request->location_address == '' && $request->lat =='' && $request->lng ==''){
-                          $address = DB::table('users')->where('id', '=', $user_id)->value('u_address');
-                          $lat = DB::table('users')->where('id', '=', $user_id)->value('lat');
-                          $lng = DB::table('users')->where('id', '=', $user_id)->value('lng');
+                        if($request->location_address == '' && $request->lat =='' && $request->lng =='' && $request->city == '' && $request->state == '' && $request->postcode == ''){
+                              $address = DB::table('users')->where('id', '=', $user_id)->value('u_address');
+                              $state = DB::table('users')->where('id', '=', $user_id)->value('u_state');
+                              $city = DB::table('users')->where('id', '=', $user_id)->value('u_city');
+                              $postcode = DB::table('users')->where('id', '=', $user_id)->value('u_postcode'); 
+                              $lat = DB::table('users')->where('id', '=', $user_id)->value('lat');
+                              $lng = DB::table('users')->where('id', '=', $user_id)->value('lng');
                         }
 
                         else{
-                          $address = Input::get('location_address');
-                          $lat = Input::get('lat');
-                          $lng = Input::get('lng');
+                            $address = Input::get('location_address');
+                            $state = Input::get('state');
+                            $city = Input::get('city');
+                            $postcode = Input::get('postcode');
+                            $lat = Input::get('lat');
+                            $lng = Input::get('lng');
                         }
 
                             // $agent = new AgentOrder;
@@ -290,6 +361,9 @@ class APIPurchaseController extends Controller
                             $joblist->status_job = 'Pending';
                             $joblist->OrderID = $order_no;
                             $joblist->location_address = $address;
+                            $joblist->city = $city;
+                            $joblist->postcode = $postcode;
+                            $joblist->state = $state;
                             $joblist->special_notes = Input::get('special_notes');
                             $joblist->Lat = $lat;
                             $joblist->Lng = $lng;
@@ -323,6 +397,9 @@ class APIPurchaseController extends Controller
                                'payment_date'   => Input::get('payment_date'),
                                'payment_method' => $paymentmethod,
                                'location_address' => $address,
+                               'city'             => $city,
+                               'state'            => $state,
+                               'postcode'         => $postcode,
                                'order'            => $order,
                             ];
 

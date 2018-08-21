@@ -58,7 +58,7 @@
                                             </div>
                                         </div>
                                          <div class="form-group">
-                                            <label class="col-md-4 control-label" for="val-amt">Amount Withdraw (USD)</label>
+                                            <label class="col-md-4 control-label" for="val-amt">Amount Withdraw (MYR)</label>
                                             <div class="col-md-7">
                                                 {{Form ::text('amount',$data->amount,['class'=>'form-control','rows'=>'6', 'required'])}}
                                             </div>

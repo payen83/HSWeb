@@ -58,8 +58,8 @@
                                             <td class="text-center">{{$data->ProductID}}</td>
                                             <td>{{$data->Name}}</td>
                                             <td class="text-center">{{$data->ProductQuantity}}</td>
-                                            <td class="text-right">${{$data->Price}}</td>
-                                            <td class="text-right">${{$data->Total_Amount}}</td>
+                                            <td class="text-right">RM {{$data->Price}}</td>
+                                            <td class="text-right">RM {{$data->Total_Amount}}</td>
                                             <?php
                                             $totalprice += $data->Total_Amount;
                                             ?>
@@ -68,7 +68,7 @@
                                     @endforeach
                                      <tr class="success">
                                             <td colspan="5" class="text-right text-uppercase"><strong>Total Price:</strong></td>
-                                            <td class="text-right">${{$totalprice}}</td>
+                                            <td class="text-right">RM {{$totalprice}}</td>
                                     </tr>
                                     </tbody>
                                 </table>

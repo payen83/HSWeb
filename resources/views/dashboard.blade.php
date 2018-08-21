@@ -49,7 +49,7 @@
                                     ?>
                                     
                                     @endforeach
-                                    <div class="h1 font-w700">$<span data-toggle="countTo" data-to="{{$totalearn}}"></span></div>
+                                    <div class="h1 font-w700">RM<span data-toggle="countTo" data-to="{{$totalearn}}"></span></div>
                                 </div>
                                 <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">Earnings Today</div>
                             </a>

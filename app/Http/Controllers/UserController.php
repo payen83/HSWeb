@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -69,7 +70,29 @@ class UserController extends Controller
     {
         
         $data = User::getSingleData($id);
-        return view('user.edit', compact('data'));
+        //$role = DB::table('users')->where('id', '=', $id)->value('role');
+        $product= DB:: table('products')
+                  -> select (DB::raw('count(id) as numberofproduct'))
+                  -> where('user_id', $id)
+                  -> get();
+        $inventory= DB:: table('inventories')
+                  -> select (DB::raw('count(product_id) as numberofagentproduct'))
+                  -> where('user_id', $id)
+                  -> get();
+
+        $trans = DB:: table('transactions')
+                  -> select (DB::raw('sum(amount) as jumlah'))
+                  -> where('user_id', $id)
+                  -> where('status', '=', 'Credit')
+                  -> get();
+
+         return view('user.edit', [
+            'data' => $data,
+            'product' => $product,
+            'inventory' => $inventory,
+            'trans' => $trans,
+
+        ]);
         
         
     }
