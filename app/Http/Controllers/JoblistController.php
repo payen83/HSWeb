@@ -36,14 +36,29 @@ class JoblistController extends Controller
         return view('joblist.index', compact('joblists'));
     }
 
+      public function viewPendingJoblist()
+    {
+
+        $joblists = DB:: table('joblists')
+                  -> select ('joblists.JobID', 'joblists.OrderID', 'joblists.status_job' , 'joblists.update_at')
+                  -> where('joblists.orderfrom','C')
+                  -> where('joblists.status_job','Pending')
+                  -> orderBy('joblists.JobID','DESC')
+                  -> get();
+        return view('joblist.pendingjob', compact('joblists'));
+    }
+
     public function viewAgentOrder()
     {
 
         $agentorder = DB:: table('joblists')
                   -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
                    -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('joblists.JobID', 'users.name', 'joblists.OrderID', 'joblists.status_job' , 'joblists.update_at')
-                  -> where('joblists.orderfrom','A')
+                  -> select ('joblists.JobID', 'users.name', 'users.role', 'joblists.OrderID', 'joblists.status_job' , 'joblists.created_at')
+                  ->where(function($q) {
+                                    $q->where('joblists.orderfrom', '=', 'A')->where('joblists.status_job', 'Pending')
+                                      ->orWhere('joblists.status_job', 'HQ Delivery')->where('joblists.orderfrom', '=', 'C');
+                                    })
                   -> orderBy('joblists.JobID','DESC')
                   -> get();
         return view('joblist.viewagentorder', compact('agentorder'));
@@ -83,7 +98,7 @@ class JoblistController extends Controller
         $joblists = Joblist::find($JobID);
         $joblists->status_job= Input::get('status_job');
         $joblists->tracking_number = Input::get('tracking_number');
-        $joblist->save();
+        $joblists->save();
 
         $jobstatuses = new Jobstatus;
         $jobstatuses->JobID= $JobID;

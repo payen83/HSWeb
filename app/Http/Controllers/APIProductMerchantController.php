@@ -58,7 +58,10 @@ class APIProductMerchantController extends Controller
 		         $product->user_id = $user_id;
 		         $product->status = 'Unapproved';
 		         $product->save();
-		         return response()->json(['message' => 'Details Product has been update', 'status' => true], 201);
+
+                 $productid = Product::orderBy('created_at', 'desc')->value('id');
+                
+		         return response()->json(['message' => 'Details Product has been update','id' => $productid ,'status' => true], 201);
 
     	}
 
@@ -91,7 +94,9 @@ class APIProductMerchantController extends Controller
 
         $product->ImageURL = $filename;
         $product->save();
-        return response()->json(['message' => 'Image product has been update', 'status' => true], 201);
+
+        $url_image = DB::table('products')->where('id', '=', $product_id)->value('ImageURL');
+        return response()->json(['message' => 'Image product has been update', 'ImageURL' => $url_image , 'status' => true], 201);
         }
 
         else

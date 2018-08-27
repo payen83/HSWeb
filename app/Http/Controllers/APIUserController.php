@@ -67,26 +67,27 @@ class APIUserController extends Controller
     }
 
     public function UserProfile(Request $request, $id) {
-
-        $storeid = DB::table('store_locations')->where('store_userid', '=', $id)->value('id');
-        $role = DB::table('users')->where('id', '=', $id)->value('role');
         
-        if($request->u_phone=='')
-        {
-            $phone = DB::table('users')->where('id', '=', $id)->value('u_phone');
-        }
-
-        else{
-            $phone = Input::get('u_phone');
-        }
-
-        $input = $request->all();
-        
-        $user = User::find($id);
-        $user->update($input);
-        $user->save();
-        
+    $storeid = DB::table('store_locations')->where('store_userid', '=', $id)->value('id');
+    $role = DB::table('users')->where('id', '=', $id)->value('role');
+            
         if($role == 'Agent' or $role == 'Merchant'){
+            
+            if($request->u_phone=='')
+            {
+                $phone = DB::table('users')->where('id', '=', $id)->value('u_phone');
+            }
+
+            else{
+                $phone = Input::get('u_phone');
+            }
+
+            $input = $request->all();
+            
+            $user = User::find($id);
+            $user->update($input);
+            $user->save();
+
                 if($request->availability == 'true')
                 {
                     if (!$storeid == null){
@@ -125,13 +126,29 @@ class APIUserController extends Controller
                         return response()->json(['message' => 'Store location data not found', 'status' => false], 401);
                      }
                   } //end else if
+                  return response()->json(['message' => 'Your Profile has been updated', 'status' => true], 201);
         } //end if
 
-        else{
-            return response()->json(['message' => 'This application are for authorized person', 'status' => false], 401);
+        else if($role == 'Customer'){
+                if($request->u_phone=='')
+                    {
+                        $phone = DB::table('users')->where('id', '=', $id)->value('u_phone');
+                    }
+
+                else{
+                    $phone = Input::get('u_phone');
+                }
+
+                $input = $request->all();
+                
+                $user = User::find($id);
+                $user->update($input);
+                $user->save();
+
+                return response()->json(['message' => 'Your Profile has been updated', 'status' => true], 201);
         }
 
-        return response()->json(['message' => 'Your Profile has been updated', 'status' => true], 201);
+        
     }
 
     public function ChangePassword(Request $request, $id){
@@ -165,7 +182,10 @@ class APIUserController extends Controller
 
         $user->url_image = $filename;
         $user->save();
-        return response()->json(['message' => 'Image has been update', 'status' => true], 201);
+
+        $urlimage = DB::table('users')->where('id', '=', $id)->value('url_image');
+
+        return response()->json(['message' => 'Image has been update', 'url_image' => $urlimage, 'status' => true], 201);
         }
 
         else

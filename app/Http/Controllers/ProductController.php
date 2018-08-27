@@ -43,7 +43,50 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->status = 'Approved';
         $product->save();
-         return redirect()->route('viewProductApproval');
+
+        $userid = DB::table('products')->where('id', '=', $id)->value('user_id');
+        $playerid = DB::table('users')->where('id', '=', $userid)->value('playerId');
+
+            $content = array(
+                    "en" => 'Your Product has been approved by Admin'
+                    );
+            
+            $fields = array(
+              'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+              'include_player_ids' => array($playerid),
+              'data' => array("id" => $id),
+              'contents' => $content
+            );
+            
+            $fields = json_encode($fields);
+              // print("\nJSON sent:\n");
+              // print($fields);
+            
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+                                       'Authorization: Basic NmU4MWZjZDEtNDc5YS00NWMzLTkxMTAtNDNjMjl5ODl3YzBi'));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_HEADER, FALSE);
+            curl_setopt($ch, CURLOPT_POST, TRUE);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+            $response = curl_exec($ch);
+            curl_close($ch);
+            
+            // return $response;
+          
+          
+         
+          $return["allresponses"] = $response;
+          $return = json_encode( $return);
+          
+          // print("\n\nJSON received:\n");
+          // print($return);
+          // print("\n");
+
+          return redirect()->route('viewProductApproval');
     }
 
 

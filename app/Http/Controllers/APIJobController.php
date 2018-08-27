@@ -8,6 +8,7 @@ use App\Wallet;
 use App\Payment;
 use App\Transaction;
 use App\User;
+use App\Orders;
 use App\Mail\Wallet_Credit;
 use App\Mail\Reject_Delivery;
 use Mail;
@@ -604,7 +605,11 @@ class APIJobController extends Controller
 
       public function CancelJob (Request $request, $JobID){
         $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
-        if($jobstatus =='Active'){
+        $agentid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');
+        $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID');
+        $userid = DB::table('orders')->where('OrderID', '=', $orderid)->value('user_id');
+        
+        if($jobstatus =='Active' && $request->customer_id == $userid){
           $jobstatuses = new Jobstatus;
           $jobstatuses->JobID = $JobID;
           $jobstatuses->job_status = 'Cancel';
@@ -619,14 +624,152 @@ class APIJobController extends Controller
           $joblists->save();
 
           $ordernumber=Joblist::where('JobID', '=', $JobID)->value('OrderID');
+          $locationadd=Joblist::where('JobID', '=', $JobID)->value('location_address');
+          $city=Joblist::where('JobID', '=', $JobID)->value('city');
+          $postcode=Joblist::where('JobID', '=', $JobID)->value('postcode');
+          $state=Joblist::where('JobID', '=', $JobID)->value('state');
+          $cus_id = Orders::where('OrderID', '=', $ordernumber)->value('user_id');
+          if($locationadd == '' && $city == '' && $postcode == '' && $state == ''){
 
-          $joblist = new Joblist;
-          $joblist->status_job = 'Cancel';
-          $joblist->OrderID = $ordernumber;
-          $joblist->save();
-          Jobstatus::CreateStatusJobHQ();
+            $address =User::where('id', '=', $cus_id)->value('u_address');
+            $u_city =User::where('id', '=', $cus_id)->value('u_city');
+            $u_postcode =User::where('id', '=', $cus_id)->value('u_postcode');
+            $u_state =User::where('id', '=', $cus_id)->value('u_state');
 
-          return response()->json(['JobID'=> $JobID,'message' => 'Job has been Cancel and deliverd to HQ', 'status' => true], 201);
+            $joblist = new Joblist;
+            $joblist->status_job = 'HQ Delivery';
+            $joblist->OrderID = $ordernumber;
+            $joblists->location_address = $address;
+            $joblists->city = $u_city;
+            $joblists->postcode = $u_postcode;
+            $joblists->state = $u_state;
+            $joblists->orderfrom = 'C';
+            $joblist->save();
+          }
+
+          else{
+              $joblist = new Joblist;
+              $joblist->status_job = 'HQ Delivery';
+              $joblist->OrderID = $ordernumber;
+              $joblists->location_address = $locationadd;
+              $joblists->city = $city;
+              $joblists->postcode = $postcode;
+              $joblists->state = $state;
+              $joblists->orderfrom = 'C';
+              $joblist->save();
+          }
+         
+          
+
+         $agentemail = DB::table('users')->where('id', '=', $agentid)->value('email');
+         $name=User::where('users.id', '=', $agentid)->value('name');
+         $payment_date = DB::table('payments')->where('OrderID', '=', $ordernumber)->value('payment_date');
+         $paymentmethod = DB::table('payments')->where('OrderID', '=', $ordernumber)->value('payment_method');
+         $address = DB::table('joblists')->where('JobID', '=', $JobID)->value('location_address');
+         $city = DB::table('joblists')->where('JobID', '=', $JobID)->value('city');
+         $state = DB::table('joblists')->where('JobID', '=', $JobID)->value('state');
+         $postcode = DB::table('joblists')->where('JobID', '=', $JobID)->value('postcode');
+         $order = DB:: table('store_orders')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                  -> select ('products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as Total_Amount'))
+                  ->where('store_orders.OrderID', $ordernumber)
+                  ->where('products.tagto', '=', 'HQ')
+                  -> get();
+         
+             $data1 = [
+                 'email'          => $agentemail,
+                 'name'           => $name,
+                 'OrderID'        => $ordernumber,
+                 'payment_date'   => $payment_date,
+                 'payment_method' => $paymentmethod,
+                 'location_address' => $address,
+                 'city'             => $city,
+                 'state'            => $state,
+                 'postcode'         => $postcode,
+                 'order'            => $order,
+              ];
+
+           $adminemail = DB::table('users')->select('email')->where('role', '=', 'Admin')->get();
+
+               $data2 = [
+                 'email'          => $adminemail->pluck('email')->toArray(),
+                 'OrderID'        => $ordernumber,
+                 'payment_date'   => $payment_date,
+                 'payment_method' => $paymentmethod,
+                 'location_address' => $address,
+                 'city'             => $city,
+                 'state'            => $state,
+                 'postcode'         => $postcode,
+                 'order'            => $order,
+              ];
+
+              $superadminemail = DB::table('users')->select('email')->where('role', '=', 'SuperAdmin')->get();
+
+               $data3 = [
+                 'email'          => $superadminemail->pluck('email')->toArray(),
+                 'OrderID'        => $ordernumber,
+                 'payment_date'   => $payment_date,
+                 'payment_method' => $paymentmethod,
+                 'location_address' => $address,
+                 'city'             => $city,
+                 'state'            => $state,
+                 'postcode'         => $postcode,
+                 'order'            => $order,
+              ];
+
+              Mail::send('emails.cancel', $data1, function($m) use ($data1){
+                 $m->to($data1['email'], '')->subject('Alert Notifications');
+              });
+
+              Mail::send('emails.notifyorder', $data2, function($m) use ($data2){
+                 $m->to($data2['email'], '')->subject('Notifications Order');
+              });
+
+              Mail::send('emails.notifyorder', $data3, function($m) use ($data3){
+                 $m->to($data3['email'], '')->subject('Notifications Order');
+              });
+
+                $playerid = DB::table('users')->where('id', '=', $agentid)->value('playerId');
+
+                $content = array(
+                    "en" => 'JobID: '.$JobID.' has been Cancel by customer and deliverd to HQ'
+                    );
+                
+                $fields = array(
+                  'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+                  'include_player_ids' => array($playerid),
+                  'data' => array("JobID" => $JobID),
+                  'contents' => $content
+                );
+                
+                $fields = json_encode($fields);
+                  print("\nJSON sent:\n");
+                  print($fields);
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+                                       'Authorization: Basic NmU4MWZjZDEtNDc5YS00NWMzLTkxMTAtNDNjMjl5ODl3YzBi'));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+                $response = curl_exec($ch);
+                curl_close($ch);
+                
+                return $response;
+            
+              $return["allresponses"] = $response;
+              $return = json_encode( $return);
+              
+              print("\n\nJSON received:\n");
+              print($return);
+              print("\n");
+          
+
+           return response()->json(['JobID'=> $JobID,'message' => 'Job has been Cancel and deliverd to HQ', 'status' => true], 201);
         }
 
         else
@@ -639,6 +782,8 @@ class APIJobController extends Controller
         $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID'); 
         $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
         $custid_db = DB::table('orders')->where('OrderID', '=', $orderid)->value('user_id');
+        $agentid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');
+
         if($jobstatus == 'Pending Completion' && $customer_id == $custid_db)
         {
           $jobstatuses = new Jobstatus;
@@ -706,6 +851,45 @@ class APIJobController extends Controller
               Mail::send('emails.wallet', $data1, function($m) use ($data1){
                  $m->to($data1['email'], '')->subject('Wallet Credit');
               });
+
+               $playerid = DB::table('users')->where('id', '=', $agentid)->value('playerId');
+
+                $content = array(
+                    "en" => 'JobID: '.$JobID.' Customer has accept your delivery'
+                    );
+                
+                $fields = array(
+                  'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+                  'include_player_ids' => array($playerid),
+                  'data' => array("JobID" => $JobID),
+                  'contents' => $content
+                );
+                
+                $fields = json_encode($fields);
+                  print("\nJSON sent:\n");
+                  print($fields);
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+                                       'Authorization: Basic NmU4MWZjZDEtNDc5YS00NWMzLTkxMTAtNDNjMjl5ODl3YzBi'));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+                $response = curl_exec($ch);
+                curl_close($ch);
+                
+                return $response;
+            
+              $return["allresponses"] = $response;
+              $return = json_encode( $return);
+              
+              print("\n\nJSON received:\n");
+              print($return);
+              print("\n");
           
            return response()->json(['message' => 'You have accepted the delivery. Thank you.', 'status' => true], 201);
 

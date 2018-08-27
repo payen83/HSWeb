@@ -140,12 +140,17 @@
                                     <a class="nav-submenu" data-toggle="nav-submenu"><i class="si si-layers"></i><span class="sidebar-mini-hide">Orders Details</span></a>
                                     <ul>
                                         <li>
-                                           <a class="{!! classActivePath('/joblist/customer-order') !!}" href="{{route('viewJoblist')}}">Job List</a>
+                                           <a class="{!! classActivePath('/joblist/pending-order') !!}" href="{{route('viewPendingJoblist')}}">Pending Job List</a>
                                         </li>
                                     </ul>
                                     <ul>
                                         <li>
-                                           <a class="{!! classActivePath('/joblist/agent-order') !!}" href="{{route('viewAgentOrder')}}">Order from Agents</a>
+                                           <a class="{!! classActivePath('/joblist/customer-order') !!}" href="{{route('viewJoblist')}}">Job List for Agent</a>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <li>
+                                           <a class="{!! classActivePath('/joblist/agent-order') !!}" href="{{route('viewAgentOrder')}}">HQ Delivery List</a>
                                         </li>
                                     </ul>
 

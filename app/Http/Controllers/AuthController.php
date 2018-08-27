@@ -83,20 +83,42 @@ class AuthController extends Controller
     protected function respondWithToken($token,$email)
     {
       $userid=User::where('email', '=', $email)->value('id');
-      $storeid = DB::table('store_locations')->where('store_userid', '=', $userid)->value('id');
-      $data = DB:: table('users')
-              -> select ('id','name', 'role','email', 'icnumber', 'u_address', 'lat', 'lng','u_bankname', 'u_accnumber', 'u_phone', 'url_image')
-              -> where('id',$userid)
-              -> get();
-       $store_location = StoreLocation::getStoreData($storeid);
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
-            'status' => true,
-            'users' => $data,
-            'store_location' => $store_location
-        ]);
+      $role = DB::table('users')->where('id', '=', $userid)->value('role');
+      
+      if($role == 'Agent' or $role == 'Merchant')
+      {
+              $storeid = DB::table('store_locations')->where('store_userid', '=', $userid)->value('id');
+              $data = DB:: table('users')
+                      -> select ('id','name', 'role','email', 'icnumber', 'u_address', 'lat', 'lng','u_bankname', 'u_accnumber', 'u_phone', 'url_image')
+                      -> where('id',$userid)
+                      -> get();
+               $store_location = StoreLocation::getStoreData($storeid);
+                return response()->json([
+                    'access_token' => $token,
+                    'token_type' => 'bearer',
+                    'expires_in' => auth('api')->factory()->getTTL() * 60,
+                    'status' => true,
+                    'users' => $data,
+                    'store_location' => $store_location
+                ]);
+      }
+
+      else{
+               $data = DB:: table('users')
+                      -> select ('id','name', 'role','email', 'icnumber', 'u_address', 'lat', 'lng','u_bankname', 'u_accnumber', 'u_phone', 'url_image')
+                      -> where('id',$userid)
+                      -> get();
+               
+                return response()->json([
+                    'access_token' => $token,
+                    'token_type' => 'bearer',
+                    'expires_in' => auth('api')->factory()->getTTL() * 60,
+                    'status' => true,
+                    'users' => $data
+                    
+                ]);
+      }
+      
     }
 
    
