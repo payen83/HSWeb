@@ -54,7 +54,8 @@ class APIPurchaseController extends Controller
                     'Discount'=>$row['Discount']/100,
                     ];
 
-           }
+                    }
+
             StoreOrders::insert($store_orders);
 
             if($request->location_address == '' && $request->lat =='' && $request->lng =='' && $request->city == '' && $request->state == '' && $request->postcode == ''){
@@ -127,9 +128,26 @@ class APIPurchaseController extends Controller
                  $m->to($data1['email'], '')->subject('Invoice');
               });
 
-              $playerid = DB::table('users')->select('playerId')->where('u_state', '=', $state)->where('role', '=', 'Agent')->pluck('playerId');
-             
+              if($state == 'Selangor' or $state =='Kuala Lumpur' or $state == 'Putrajaya'){
+
+                $playerid = DB::table('users')
+                              ->select('playerId')
+                              ->where('role', '=', 'Agent')
+                              ->where(function($q) {
+                                    $q->where('u_state', '=', 'Selangor')
+                                      ->orWhere('u_state', '=', 'Kuala Lumpur')
+                                      ->orWhere('u_state', '=', 'Putrajaya');
+                                    })
+                              ->pluck('playerId');
+
+              }
+
+              else{
+                $playerid = DB::table('users')->select('playerId')->where('u_state', '=', $state)->where('role', '=', 'Agent')->pluck('playerId');
+              }
+
               
+            
               $content = array(
                   "en" => 'New Job Request, Please view to accept. Thank You'
                   );
