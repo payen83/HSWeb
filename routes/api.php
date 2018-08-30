@@ -78,6 +78,16 @@ Route::group([
 Route::group([
 
     'middleware' => 'api',
+    'prefix' => 'rating'
+
+], function ($router) {
+
+    Route::post('job-feedback/{JobID}', 'APIRatingController@submitrating'); 
+});
+
+Route::group([
+
+    'middleware' => 'api',
     'prefix' => 'purchase'
 
 ], function ($router) {

@@ -54,7 +54,33 @@ class APIPurchaseController extends Controller
                     'Discount'=>$row['Discount']/100,
                     ];
 
+                    $ProductID = $row['ProductID'];
+                    $tagto= DB::table('products')->where('id', '=', $ProductID)->value('tagto');
+                    
+                    if($tagto == 'MCN'){
+                      $merchantid= DB::table('products')->where('id', '=', $ProductID)->value('user_id');
+                      $player_id = DB::table('users')->where('id', '=', $merchantid)->value('playerId');
+
+                      $content = array(
+                      "en" => 'Yeayy, you have new orders from customer.Please check, thank you'
+                      );
+                
+                      $fields = array(
+                          'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+                          'include_player_ids' => array($player_id),
+                          'data' => array("ProductID" => $ProductID),
+                          'contents' => $content
+                        );
+                        
+                      $fields = json_encode($fields);
+                          print("\nJSON sent:\n");
+                          print($fields);
+                          
+                      self::sendMessage($content,$fields);
+                      }
+
                     }
+                      
 
             StoreOrders::insert($store_orders);
 
@@ -139,51 +165,46 @@ class APIPurchaseController extends Controller
                                       ->orWhere('u_state', '=', 'Putrajaya');
                                     })
                               ->pluck('playerId');
+                $content = array(
+                    "en" => 'New Job Request, Please view to accept. Thank You'
+                    );
+                
+                $fields = array(
+                      'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+                      'include_player_ids' => $playerid,
+                      'data' => array("OrderID" => $order_no),
+                      'contents' => $content
+                    );
+                    
+                $fields = json_encode($fields);
+                      print("\nJSON sent:\n");
+                      print($fields);
+
+               self::sendMessage($content,$fields);
 
               }
 
               else{
                 $playerid = DB::table('users')->select('playerId')->where('u_state', '=', $state)->where('role', '=', 'Agent')->pluck('playerId');
+
+                $content = array(
+                    "en" => 'New Job Request, Please view to accept. Thank You'
+                    );
+                
+                $fields = array(
+                      'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+                      'include_player_ids' => $playerid,
+                      'data' => array("OrderID" => $order_no),
+                      'contents' => $content
+                    );
+                    
+                $fields = json_encode($fields);
+                      print("\nJSON sent:\n");
+                      print($fields);
+
+               self::sendMessage($content,$fields);
               }
 
-              
-            
-              $content = array(
-                  "en" => 'New Job Request, Please view to accept. Thank You'
-                  );
-                
-              $fields = array(
-                  'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
-                  'include_player_ids' => $playerid,
-                  'data' => array("OrderID" => $order_no),
-                  'contents' => $content
-                );
-                
-                $fields = json_encode($fields);
-                  print("\nJSON sent:\n");
-                  print($fields);
-                
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
-                                       'Authorization: Basic NmU4MWZjZDEtNDc5YS00NWMzLTkxMTAtNDNjMjl5ODl3YzBi'));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                curl_setopt($ch, CURLOPT_HEADER, FALSE);
-                curl_setopt($ch, CURLOPT_POST, TRUE);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-
-                $response = curl_exec($ch);
-                curl_close($ch);
-                
-                return $response;
-            
-              $return["allresponses"] = $response;
-              $return = json_encode( $return);
-              
-              print("\n\nJSON received:\n");
-              print($return);
-              print("\n");
            return response()->json(['OrderID'=> $order_no,'message' => 'Successful Order', 'status' => true], 201);
     	}
 
@@ -439,4 +460,32 @@ class APIPurchaseController extends Controller
         
 
     }
+
+    function sendMessage($content,$fields){
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+                                       'Authorization: Basic NmU4MWZjZDEtNDc5YS00NWMzLTkxMTAtNDNjMjl5ODl3YzBi'));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+                $response = curl_exec($ch);
+                curl_close($ch);
+                
+                return $response;
+              
+
+              $return["allresponses"] = $response;
+              $return = json_encode( $return);
+              
+              print("\n\nJSON received:\n");
+              print($return);
+              print("\n");
+              
+              }
+
 }

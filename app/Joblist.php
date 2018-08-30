@@ -8,7 +8,7 @@ class Joblist extends Model
 {
 	protected $primaryKey = 'JobID';
     protected $fillable = [
-        'JobID',  'OrderID', 'agent_email', 'total_price', 'cancelcount', 'created_at', 'update_at', 'location_address', 'LatLang', 'currency', 'job_rating', 'status_job',
+        'JobID',  'OrderID', 'agent_email', 'total_price', 'cancelcount', 'created_at', 'update_at', 'location_address', 'LatLang', 'currency', 'job_rating', 'status_job', 'feedback',
     ];
 
     public $timestamps = false;

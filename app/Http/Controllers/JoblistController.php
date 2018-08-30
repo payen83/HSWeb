@@ -30,7 +30,12 @@ class JoblistController extends Controller
         $joblists = DB:: table('joblists')
                   -> join ('users', 'users.id', '=', 'joblists.user_id')
                   -> select ('joblists.JobID', 'users.name', 'joblists.OrderID', 'joblists.status_job' , 'joblists.update_at')
-                  -> where('joblists.orderfrom','C')
+                   ->where(function($q) {
+                                    $q->where('joblists.status_job', 'Active')->where('joblists.orderfrom', '=', 'C')
+                                      ->orWhere('joblists.status_job', 'Pending Completion')->where('joblists.orderfrom', '=', 'C')
+                                      ->orWhere('joblists.status_job', 'Reject')->where('joblists.orderfrom', '=', 'C')
+                                      ->orWhere('joblists.status_job', 'Cancel')->where('joblists.orderfrom', '=', 'C');
+                                    })
                   -> orderBy('joblists.JobID','DESC')
                   -> get();
         return view('joblist.index', compact('joblists'));

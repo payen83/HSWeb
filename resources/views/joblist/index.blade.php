@@ -13,7 +13,7 @@
                             <ul class="block-options">
       
                             </ul>
-                            <h3 class="block-title">All Job List</h3>
+                            <h3 class="block-title">Job List for Agent</h3>
                         </div>
                         <div class="block-content">
                             <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->

@@ -353,13 +353,13 @@ class APIJobController extends Controller
 
         public function StatusJob($user_id)
       {
-          
+
           $result =DB:: table('joblists')
                   -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'users.u_phone', 'users.url_image', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'users.u_phone', 'users.url_image', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'joblists.job_rating','joblists.feedback','orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                    -> where('joblists.user_id', '=', $user_id)
                    ->where(function($q) {
                                 $q->where('joblists.status_job','Active')
@@ -390,6 +390,8 @@ class APIJobController extends Controller
                     $array[] = [
                                   'JobID'=> $data->JobID,
                                   'current_status'=> $data->status_job,
+                                  'job_rating' => $data->job_rating,
+                                  'job_feedback' => $data->feedback,
                                   'c_name' => $data->name,
                                   'c_address' => $data->location_address,
                                   'u_phone' => $data->u_phone,
@@ -408,6 +410,7 @@ class APIJobController extends Controller
         
       }
 
+      
       public function AcceptJob(Request $request, $JobID){
         $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
         $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID');
@@ -571,7 +574,7 @@ class APIJobController extends Controller
 
                             $result2 = DB:: table('joblists')
                             -> join ('users', 'users.id', '=', 'joblists.user_id')
-                            -> select ('users.id','users.name','users.url_image', 'users.u_phone')
+                            -> select ('users.id','users.name','users.url_image', 'users.u_phone', 'users.u_rating')
                             -> where('joblists.JobID', '=', $x)
                             ->where(function($q) {
                                     $q->where('joblists.status_job','Active')
