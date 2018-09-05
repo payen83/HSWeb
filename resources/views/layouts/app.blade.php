@@ -140,7 +140,17 @@
                                     <a class="nav-submenu" data-toggle="nav-submenu"><i class="si si-layers"></i><span class="sidebar-mini-hide">Orders Details</span></a>
                                     <ul>
                                         <li>
-                                           <a class="{!! classActivePath('/joblist/pending-order') !!}" href="{{route('viewPendingJoblist')}}">Pending Job List</a>
+                                           <a class="{!! classActivePath('/joblist/pending-order') !!}" href="{{route('viewPendingJoblist')}}">Agent Pending Job</a>
+                                        </li>
+                                    </ul>
+                                     <ul>
+                                        <li>
+                                           <a class="{!! classActivePath('/joblist/pending-merchant') !!}" href="{{route('viewMerchantPending')}}">Merchant Pending Job</a>
+                                        </li>
+                                    </ul>
+                                     <ul>
+                                        <li>
+                                           <a class="{!! classActivePath('/joblist/complete-merchant') !!}" href="{{route('viewMerchantCompleted')}}">Merchant Complete Job</a>
                                         </li>
                                     </ul>
                                     <ul>

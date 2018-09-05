@@ -1,4 +1,4 @@
-@extends('layouts.nav')
+@extends('layouts.app')
 
 @section('content')
             <!-- Main Container -->
@@ -13,7 +13,7 @@
                             <ul class="block-options">
       
                             </ul>
-                            <h3 class="block-title">Pending Jobs</h3>
+                            <h3 class="block-title">Merchant Pending Jobs</h3>
                         </div>
                         <div class="block-content">
                             <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
@@ -42,10 +42,7 @@
                                         
                                          <td class="text-center">
                                             <div class="btn-group">
-                                                <a href="{{route('MerchantOrderDetails',['OrderID'=>$data->OrderID])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button"><i class="fa fa-eye"></i>View</button></a>
-                                                @if($data->status_job == 'Pending')
-                                                <a href="{{route('viewEditStatusJob',['JobID'=>$data->JobID])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Update</button></a>
-                                                @endif
+                                                <a href="{{route('MerchantOrder',['OrderID'=>$data->OrderID])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button">Order Details</a>
                                             </div>
                                         </td>
                                         

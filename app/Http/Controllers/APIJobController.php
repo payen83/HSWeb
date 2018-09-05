@@ -126,7 +126,7 @@ class APIJobController extends Controller
                                   
 
                                 ];
-                    
+                     
                     }
 
                     return response()->json($array);

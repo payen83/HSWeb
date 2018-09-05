@@ -13,7 +13,7 @@
                             <ul class="block-options">
       
                             </ul>
-                            <h3 class="block-title">Pending Job List</h3>
+                            <h3 class="block-title">Agent Pending Job</h3>
                         </div>
                         <div class="block-content">
                             <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
@@ -23,8 +23,8 @@
                                     <tr>
                                         <th class="text-center"></th>
                                         <th class="text-center" style="width: 15%;" >Job ID</th>
+                                        <th class="text-center">Customer Name</th>
                                         <th class="text-center">Order Number</th>
-                                        <th class="text-center">Current Status</th>
                                         <th class="hidden-xs text-center">Date/Time</th>
                                         <th class="hidden-xs text-center">Action</th>
                                        
@@ -36,13 +36,13 @@
                                     <tr>
                                         <td align="center">{{$i++}}</td>
                                         <td class="text-center">{{$data->JobID}}</td>
+                                        <td class="hidden-xs text-center">{{$data->name}}</td>
                                          <td class="hidden-xs text-center">{{$data->OrderID}}</td>
-                                        <td class="text-center">{{$data->status_job}}</td>
-                                        <td class="hidden-xs text-center">{{$data->update_at}}</td>
+                                        <td class="hidden-xs text-center">{{$data->created_at}}</td>
                                         
                                          <td class="text-center">
                                             <div class="btn-group">
-                                                <a href="{{route('ViewOrderDetails',['OrderID'=>$data->OrderID])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button">Order Details</button></a>
+                                                <a href="{{route('ViewAgentOrderDetails',['OrderID'=>$data->OrderID])}}"<button class="btn btn-xs btn-success push-5-r push-10" type="button">Order Details</button></a>
                                             </div>
                                         </td>
                                         

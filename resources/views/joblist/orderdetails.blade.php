@@ -56,7 +56,12 @@
                                         <tr>
                                             <td class="text-center">{{$data->OrderID}}</td>
                                             <td class="text-center">{{$data->ProductID}}</td>
+                                            @if($data->tagto == 'MCN')
+                                            <td>{{$data->Name}} <strong>(Product From: Merchant )</strong></td>
+                                            @endif
+                                            @if($data->tagto == 'HQ')
                                             <td>{{$data->Name}}</td>
+                                            @endif
                                             <td class="text-center">{{$data->ProductQuantity}}</td>
                                             <td class="text-right">RM {{$data->Price}}</td>
                                             <td class="text-right">RM {{$data->Total_Amount}}</td>

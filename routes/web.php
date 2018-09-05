@@ -45,8 +45,9 @@ Auth::routes();
     Route::get('/product/-mc-vw-edit/{id}', ['uses' => 'ProductMerchantController@viewEditProductMerchant','as' => 'viewEditProductMerchant'])->middleware('merchant');
     Route::post('/product/mc-edit/{id}', ['uses' => 'ProductMerchantController@editProductMerchant','as' => 'editProductMerchant'])->middleware('merchant');
     Route::delete('/product/merchant-delete-product/{id}', ['uses' => 'ProductMerchantController@deleteproductmerchant','as' => 'deleteproductmerchant'])->middleware('merchant');
-    Route::get('/joblist-merchant', ['as' => 'listpendingjob','uses' => 'JoblistController@listpendingjob'])->middleware('merchant')->middleware('merchant');
-    Route::get('/joblist-merchant/viewdetails/{OrderID}', ['as' => 'MerchantOrderDetails','uses' => 'JoblistController@MerchantOrderDetails'])->middleware('merchant')->middleware('merchant');
+    Route::get('/joblist-merchant', ['as' => 'listpendingjob','uses' => 'JoblistController@listpendingjob'])->middleware('merchant');
+    Route::get('/joblist-merchant-completed', ['as' => 'completedjob','uses' => 'JoblistController@completedjob'])->middleware('merchant');
+    Route::get('/joblist-orders/viewdetails/{OrderID}', ['as' => 'MerchantOrderDetails','uses' => 'JoblistController@MerchantOrderDetails'])->middleware('merchant')->middleware('merchant');
      Route::get('/joblist-merchant/update/{JobID}', ['uses' => 'JoblistController@viewEditStatusJob','as' => 'viewEditStatusJob'])->middleware('merchant')->middleware('merchant');
      Route::post('/joblist-merchant/update-status/{JobID}', ['uses' => 'JoblistController@editStatusOrder','as' => 'editStatusOrder']);
      Route::get('/wallet-merchant', ['uses' => 'WithdrawController@viewWallet','as' => 'viewWallet'])->middleware('merchant')->middleware('merchant');
@@ -101,12 +102,15 @@ Auth::routes();
     Route::get('/joblist/customer-order', ['as' => 'viewJoblist','uses' => 'JoblistController@viewJoblist']);
     Route::get('/joblist/agent-order', ['as' => 'viewAgentOrder','uses' => 'JoblistController@viewAgentOrder']);
     Route::get('/joblist/pending-order', ['as' => 'viewPendingJoblist','uses' => 'JoblistController@viewPendingJoblist']);
+    Route::get('/joblist/pending-merchant', ['as' => 'viewMerchantPending','uses' => 'JoblistController@viewMerchantPending']);
+    Route::get('/joblist/complete-merchant', ['as' => 'viewMerchantCompleted','uses' => 'JoblistController@viewMerchantCompleted']);
     Route::get('/joblist/view/{JobID}', ['uses' => 'JoblistController@viewJobDetails','as' => 'viewJobDetails']);
     Route::get('/joblist/vwedit-agent-order/{JobID}', ['uses' => 'JoblistController@viewEditAgentOrder','as' => 'viewEditAgentOrder']);
     Route::post('/joblist/edit-agent-order/{JobID}', ['uses' => 'JoblistController@editAgentOrder','as' => 'editAgentOrder']);
     Route::get('/joblist/viewOrder', ['uses' => 'OrderController@ViewOrderList','as' => 'ViewOrderList']);
     Route::get('/joblist/order/{OrderID}', ['uses' => 'OrderController@ViewOrderDetails','as' => 'ViewOrderDetails']);
     Route::get('/agent-order/{OrderID}', ['uses' => 'OrderController@ViewAgentOrderDetails','as' => 'ViewAgentOrderDetails']);
+    Route::get('/joblist-order-merchant/{OrderID}', ['as' => 'MerchantOrder','uses' => 'JoblistController@MerchantOrder']);
 
     
     //Sales Tracking

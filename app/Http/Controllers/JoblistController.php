@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Validator;
 
 class JoblistController extends Controller
 {
+
+  //JOBLIST FOR AGENT
     	public function viewJoblist()
     {
 
@@ -42,18 +44,73 @@ class JoblistController extends Controller
         return view('joblist.index', compact('joblists'));
     }
 
+    //AGENT PENDING JOB
+
       public function viewPendingJoblist()
     {
 
         $joblists = DB:: table('joblists')
-                  -> select ('joblists.JobID', 'joblists.OrderID', 'joblists.status_job' , 'joblists.update_at')
-                  -> where('joblists.orderfrom','C')
+                  -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
+                  -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                  -> join ('users', 'users.id', '=', 'orders.user_id')
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'joblists.created_at', 'store_orders.ProductQuantity', DB::raw('sum(store_orders.ProductQuantity*products.Price) as sumprice'))
                   -> where('joblists.status_job','Pending')
+                  -> where('products.tagto','HQ')
+                  ->groupby('joblists.OrderID')
                   -> orderBy('joblists.JobID','DESC')
-                  -> get();
+                  ->get();
+
         return view('joblist.pendingjob', compact('joblists'));
     }
 
+    //MERCHANT PENDING JOB
+
+    public function viewMerchantPending()
+    {
+      $result = DB:: table('joblists')
+                  -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
+                  -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                  -> join ('users', 'users.id', '=', 'orders.user_id')
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'joblists.created_at', 'store_orders.ProductQuantity', DB::raw('sum(store_orders.ProductQuantity*products.Price) as sumprice'))
+                  -> where('joblists.status_job','Pending')
+                  -> where('products.tagto','MCN')
+                  ->groupby('joblists.OrderID')
+                  -> orderBy('joblists.JobID','DESC')
+                  ->get();
+
+           
+                     return view('joblist.mcpendingjob', [
+                                  'result' => $result
+                                  
+                                ]);
+    }
+
+    //MERCHANT COMPLETED JOB
+
+    public function viewMerchantCompleted()
+    {
+      $result = DB:: table('joblists')
+                  -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
+                  -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                  -> join ('users', 'users.id', '=', 'orders.user_id')
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'joblists.created_at', 'store_orders.ProductQuantity', DB::raw('sum(store_orders.ProductQuantity*products.Price) as sumprice'))
+                  -> where('joblists.status_job','Completed')
+                  -> where('products.tagto','MCN')
+                  ->groupby('joblists.OrderID')
+                  -> orderBy('joblists.JobID','DESC')
+                  ->get();
+
+           
+                     return view('joblist.mcpendingjob', [
+                                  'result' => $result
+                                  
+                                ]);
+    }
+
+//HQ DELIVERY LIST
     public function viewAgentOrder()
     {
 
@@ -70,6 +127,41 @@ class JoblistController extends Controller
         return view('joblist.viewagentorder', compact('agentorder'));
     }
 
+    // ADMIN WEB - VIEW ORDER FOR MERCHANT
+    
+    public function MerchantOrder($OrderID)
+      {
+         
+         $orders = DB:: table('orders')
+                  -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                  -> join ('users', 'users.id', '=', 'products.user_id')
+                  -> select ('users.name','users.u_address','users.u_phone','users.email','orders.OrderID', 'store_orders.ProductID', 'products.tagto' ,'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('orders.*,(store_orders.ProductQuantity*products.Price) as Total_Amount'))
+                  -> where ('orders.OrderID', $OrderID)
+                  -> where('products.tagto','MCN')
+                  -> get();
+
+         $orders1 = DB:: table('orders')
+                  -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
+                  -> join ('joblists', 'joblists.OrderID', '=', 'orders.OrderID')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                  -> join ('users', 'users.id', '=', 'orders.user_id')
+                  -> select ('users.name','joblists.location_address','joblists.Lat','joblists.Lng', 'joblists.special_notes','joblists.job_rating', 'joblists.feedback', 'users.u_phone','users.email','orders.OrderID', 'store_orders.ProductID', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('orders.*,(store_orders.ProductQuantity*products.Price) as Total_Amount'))
+                  -> where ('orders.OrderID', $OrderID)
+                  -> where('products.tagto','MCN')
+                  ->groupby('orders.OrderID')
+                  -> get();
+          
+
+        return view('joblist.orderdetails', [
+                    'orders' => $orders,
+                    'orders1' => $orders1
+                  ]);
+    }
+
+
+// TRACK JOB STATUS
+
      public function viewJobDetails($JobID)
     {
         
@@ -83,6 +175,7 @@ class JoblistController extends Controller
         
     }
 
+// HQ UPDATE ORDERS (VIEW)
 
     public function viewEditAgentOrder($JobID)
     {
@@ -99,6 +192,8 @@ class JoblistController extends Controller
         
     }
 
+    // HQ UPDATE ORDERS (FUNCTION EDIT)
+
     public function editAgentOrder(Request $request, $JobID) {
 
         $joblists = Joblist::find($JobID);
@@ -113,6 +208,8 @@ class JoblistController extends Controller
         return redirect()->route('viewAgentOrder');
     }
 
+    // MERCHANT WEB - VIEW PENDING JOB BASED ON MERCHANT ID
+
     public function listpendingjob()
     {
           $user_id = Auth::user()->id;
@@ -126,6 +223,31 @@ class JoblistController extends Controller
                   -> where('products.tagto','MCN')
                   -> where('products.user_id', $user_id)
                   ->groupby('joblists.OrderID')
+                  -> orderBy('joblists.JobID','DESC')
+                  ->get();
+
+           
+                     return view('joblist.mcviewjob', [
+                                  'result' => $result
+                                  
+                                ]);
+    }
+    
+    //MERCHANT WEB - LIST OF COMPLETED JOB
+    public function completedjob()
+    {
+          $user_id = Auth::user()->id;
+          $result = DB:: table('joblists')
+                  -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
+                  -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                  -> join ('users', 'users.id', '=', 'orders.user_id')
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'joblists.created_at', 'store_orders.ProductQuantity', DB::raw('sum(store_orders.ProductQuantity*products.Price) as sumprice'))
+                  -> where('joblists.status_job','Completed')
+                  -> where('products.tagto','MCN')
+                  -> where('products.user_id', $user_id)
+                  ->groupby('joblists.OrderID')
+                  -> orderBy('joblists.JobID','DESC')
                   ->get();
 
            
@@ -135,16 +257,19 @@ class JoblistController extends Controller
                                 ]);
     }
 
+  // MERCHANT WEB - VIEW ORDERS DETAILS
 
     public function MerchantOrderDetails($OrderID)
       {
-
+         $user_id = Auth::user()->id;
          $orders = DB:: table('orders')
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
                   -> select ('users.name','users.u_address','users.u_phone','users.email','orders.OrderID', 'store_orders.ProductID', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('orders.*,(store_orders.ProductQuantity*products.Price) as Total_Amount'))
                   -> where ('orders.OrderID', $OrderID)
+                  -> where('products.tagto','MCN')
+                  -> where('products.user_id', $user_id)
                   -> get();
 
          $orders1 = DB:: table('orders')
@@ -154,6 +279,8 @@ class JoblistController extends Controller
                   -> join ('users', 'users.id', '=', 'orders.user_id')
                   -> select ('users.name','joblists.location_address','joblists.Lat','joblists.Lng', 'joblists.special_notes', 'users.u_phone','users.email','orders.OrderID', 'store_orders.ProductID', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('orders.*,(store_orders.ProductQuantity*products.Price) as Total_Amount'))
                   -> where ('orders.OrderID', $OrderID)
+                  -> where('products.tagto','MCN')
+                  -> where('products.user_id', $user_id)
                   ->groupby('orders.OrderID')
                   -> get();
           
@@ -164,6 +291,7 @@ class JoblistController extends Controller
                   ]);
     }
 
+// MERCHANT WEB - VIEW STATUS FOR EDIT
 
     public function viewEditStatusJob($JobID)
     {
@@ -178,6 +306,8 @@ class JoblistController extends Controller
         
         
     }
+
+  // MERCHANT WEB - EDIT STATUS FUNCTION
 
     public function editStatusOrder(Request $request, $JobID) {
 

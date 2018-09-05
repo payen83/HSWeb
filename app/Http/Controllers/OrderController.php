@@ -24,6 +24,7 @@ class OrderController extends Controller
         return view('joblist.orderlist', compact('orders'));
     }
 
+    //List order for agent
      public function ViewOrderDetails($OrderID)
     {
         
@@ -31,7 +32,7 @@ class OrderController extends Controller
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('users.name','users.u_address','users.u_phone','users.email','orders.OrderID', 'store_orders.ProductID', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('orders.*,(store_orders.ProductQuantity*products.Price) as Total_Amount'))
+                  -> select ('users.name','users.u_address','users.u_phone','users.email','orders.OrderID', 'store_orders.ProductID', 'products.tagto', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('orders.*,(store_orders.ProductQuantity*products.Price) as Total_Amount'))
                   -> where ('orders.OrderID', $OrderID)
                   -> get();
 
@@ -61,22 +62,25 @@ class OrderController extends Controller
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('users.name','users.u_address','users.u_phone','users.email','orders.OrderID', 'store_orders.ProductID', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('(store_orders.ProductQuantity*products.Price) as Total_Amount'))
+                  -> select ('users.name','users.u_address','users.u_phone','users.email','orders.OrderID', 'store_orders.ProductID', 'products.tagto', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('(store_orders.ProductQuantity*products.Price) as Total_Amount'))
                   -> where ('orders.OrderID', $OrderID)
+                  -> where('products.tagto','HQ')
                   -> get();
 
          $orders1 = DB:: table('orders')
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
-                  -> join ('agent_orders', 'agent_orders.order_id', '=', 'orders.OrderID')
+                  -> join ('joblists', 'joblists.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('users.name','agent_orders.location_address','agent_orders.lat','agent_orders.lng', 'agent_orders.special_notes', 'users.u_phone','users.email','orders.OrderID', 'store_orders.ProductID', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('(store_orders.ProductQuantity*products.Price) as Total_Amount'))
+                  -> select ('users.name','joblists.location_address','joblists.Lat','joblists.Lng', 'joblists.special_notes', 'joblists.job_rating', 'joblists.feedback','users.u_phone','users.email','orders.OrderID', 'store_orders.ProductID', 'products.Name' ,'store_orders.ProductQuantity', 'products.Price', DB::raw('orders.*,(store_orders.ProductQuantity*products.Price) as Total_Amount'))
                   -> where ('orders.OrderID', $OrderID)
                   ->groupby('orders.OrderID')
+                  -> where('products.tagto','HQ')
                   -> get();
+
           
 
-        return view('joblist.orderdetails-agent', [
+        return view('joblist.orderdetails', [
                     'orders' => $orders,
                     'orders1' => $orders1
                   ]);

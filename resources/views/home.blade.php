@@ -69,8 +69,8 @@
                                         <tbody>
                                             @foreach($result as $key=>$data)
                                             <tr>
-                                                <td class="text-center" style="width: 100px;"><a href="base_pages_ecom_order.html"><strong>{{$data->OrderID}}</strong></a></td>
-                                                <td class="hidden-xs"><a href="base_pages_ecom_customer.html">{{$data->name}}</a></td>
+                                                <td class="text-center" style="width: 100px;"><a href="{{route('MerchantOrderDetails',['OrderID'=>$data->OrderID])}}"><strong>{{$data->OrderID}}</strong></a></td>
+                                                <td class="hidden-xs">{{$data->name}}</td>
                                                 <td><span class="label label-success">{{$data->status_job}}</span></td>
                                                 <td class="text-right"><strong>{{$data->sumprice}}</strong></td>
                                             </tr>

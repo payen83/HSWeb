@@ -128,7 +128,10 @@
                                     <a class="{!! classActivePath('product-merchant') !!}" href="{{url('/product-merchant')}}"><i class="si si-handbag"></i><span class="sidebar-mini-hide">Product</span></a>
                                 </li>
                                 <li>
-                                    <a class="{!! classActivePath('joblist-merchant') !!}" href="{{url('/joblist-merchant')}}"><i class="fa fa-list-ol"></i><span class="sidebar-mini-hide">Jobs</span></a>
+                                    <a class="{!! classActivePath('joblist-merchant') !!}" href="{{url('/joblist-merchant')}}"><i class="fa fa-list-ol"></i><span class="sidebar-mini-hide">Pending Jobs</span></a>
+                                </li>
+                                <li>
+                                    <a class="{!! classActivePath('joblist-merchant-completed') !!}" href="{{url('/joblist-merchant-completed')}}"><i class="fa fa-check-square-o"></i><span class="sidebar-mini-hide">Complete Jobs</span></a>
                                 </li>
                                 <li>
                                     <a class="{!! classActivePath('wallet-merchant') !!}" href="{{url('/wallet-merchant')}}"><i class="fa fa-credit-card"></i><span class="sidebar-mini-hide">Transaction</span></a>
