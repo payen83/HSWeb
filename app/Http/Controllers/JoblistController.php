@@ -34,7 +34,8 @@ class JoblistController extends Controller
                                     $q->where('joblists.status_job', 'Active')->where('joblists.orderfrom', '=', 'C')
                                       ->orWhere('joblists.status_job', 'Pending Completion')->where('joblists.orderfrom', '=', 'C')
                                       ->orWhere('joblists.status_job', 'Reject')->where('joblists.orderfrom', '=', 'C')
-                                      ->orWhere('joblists.status_job', 'Cancel')->where('joblists.orderfrom', '=', 'C');
+                                      ->orWhere('joblists.status_job', 'Cancel')->where('joblists.orderfrom', '=', 'C')
+                                      ->orWhere('joblists.status_job', 'Completed')->where('joblists.orderfrom', '=', 'C')->where('users.role', '=', 'Agent');
                                     })
                   -> orderBy('joblists.JobID','DESC')
                   -> get();

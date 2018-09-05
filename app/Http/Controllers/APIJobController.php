@@ -370,7 +370,7 @@ class APIJobController extends Controller
                   ->get();
 
           $array = [];
-                    foreach($result as $data){
+                    foreach($result as $data){ 
                     $x = $data->JobID;
                     if($data->JobID == $x){
                            $result1 = DB:: table('store_orders')
@@ -544,7 +544,7 @@ class APIJobController extends Controller
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'joblists.job_rating', 'joblists.feedback', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                    -> where('orders.user_id', '=', $user_id)
                   ->where(function($q) {
                                     $q->where('joblists.status_job','Active')
@@ -562,7 +562,7 @@ class APIJobController extends Controller
                            $result1 = DB:: table('store_orders')
                             -> join ('joblists', 'joblists.OrderID', '=', 'store_orders.OrderID')
                             -> join ('products', 'products.id', '=', 'store_orders.ProductID')
-                            -> select ('store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'), 'products.ImageURL')
+                            -> select ('store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'), 'products.ImageURL', 'products.tagto')
                             -> where('joblists.JobID', '=', $x)
                             ->where(function($q) {
                                     $q->where('joblists.status_job','Active')
@@ -589,6 +589,8 @@ class APIJobController extends Controller
                     $array[] = [
                                   'JobID'=> $data->JobID,
                                   'current_status'=> $data->status_job,
+                                  'job_rating' => $data->job_rating,
+                                  'feedback' => $data->feedback,
                                   'c_name' => $data->name,
                                   'c_address' => $data->location_address,
                                   'latitude' => $data->Lat,

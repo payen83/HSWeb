@@ -86,11 +86,29 @@ class UserController extends Controller
                   -> where('status', '=', 'Credit')
                   -> get();
 
+        $rate= DB:: table('users')
+                  -> select ('u_rating')
+                  -> where('id', $id)
+                  -> get();
+
+        $numjob= DB:: table('users')
+                  -> select ('count_job')
+                  -> where('id', $id)
+                  -> get();
+
+        $canceljob= DB:: table('joblists')
+                  -> select (DB::raw('sum(cancelcount) as count'))
+                  -> where('user_id', $id)
+                  -> get();
+
          return view('user.edit', [
             'data' => $data,
             'product' => $product,
             'inventory' => $inventory,
             'trans' => $trans,
+            'rate' => $rate,
+            'numjob' => $numjob,
+            'canceljob' => $canceljob,
 
         ]);
         

@@ -61,8 +61,8 @@
                                         @endif
                                         <td class="hidden-xs">{{$data->Name}}</td>
                                         <td class="hidden-xs">RM{{$data->Price}}</td>
-                                         <td class="hidden-xs">{{$data->QuantityPerPackage}}</td>
-                                          <td class="hidden-xs">{{$data->Discount*100}}</td>
+                                         <td class="text-center">{{$data->QuantityPerPackage}}</td>
+                                          <td class="text-center">{{$data->Discount*100}}</td>
                                         <td class="text-center">
                                             <div class="btn-group">
                                                 <a href="{{route('viewEditProduct',['ProductID'=>$data->id])}}"<button class="btn btn-xs btn-primary push-5-r push-10" type="button"><i class="fa fa-pencil"></i> Edit</button></a>

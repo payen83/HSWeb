@@ -100,7 +100,7 @@
                             </div>
                             <!-- END Billing Address -->
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-3">
                             <!-- Shipping Address -->
                             <div class="block">
                                 <div class="block-header bg-gray-lighter">
@@ -109,6 +109,20 @@
                                 <div class="block-content block-content-full">
                                     
                                         {{$data->special_notes}}
+                                   
+                                </div>
+                            </div>
+                            <!-- END Shipping Address -->
+                        </div>
+                         <div class="col-lg-3">
+                            <!-- Shipping Address -->
+                            <div class="block">
+                                <div class="block-header bg-gray-lighter">
+                                    <h3 class="block-title"><i class="si si-badge"></i> Job Ratings</h3>
+                                </div>
+                                <div class="block-content block-content-full">
+                                     <div class="js-rating" data-score="{{$data->job_rating}}"></div>
+                                     <div>{{$data->feedback}}</div>
                                    
                                 </div>
                             </div>

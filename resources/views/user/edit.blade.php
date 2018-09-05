@@ -51,7 +51,7 @@
                                 </div>
                                 @endif
                                 @if($data->role == 'Agent')
-                                <div class="col-xs-6">
+                                <div class="col-xs-6 col-sm-3">
                                     <div class="font-w700 text-gray-darker animated fadeIn">Sales</div>
                                     @foreach($trans as $key=>$input)
                                     @if($input->jumlah == '')
@@ -62,10 +62,33 @@
                                     @endif
                                     @endforeach
                                 </div>
-                                <div class="col-xs-6">
+                                <div class="col-xs-6 col-sm-3">
                                     <div class="font-w700 text-gray-darker animated fadeIn">Products</div>
                                     @foreach($inventory as $key=>$inventorys)
                                     <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">{{$inventorys->numberofagentproduct}}</a>
+                                    @endforeach
+                                </div>
+                                <div class="col-xs-6 col-sm-3">
+                                    <div class="font-w700 text-gray-darker animated fadeIn">Agent Ratings</div>
+                                    @foreach($rate as $key=>$agentrate)
+                                    <div class="text-warning push-10-t animated flipInX">
+                                     <div class="js-rating" data-score="{{$agentrate->u_rating}}"></div>
+                                    </div>
+
+                                    @endforeach
+                                </div>
+                                <div class="col-xs-6 col-sm-3">
+                                    <div class="font-w700 text-gray-darker animated fadeIn">Completed Jobs</div>
+                                    @foreach($numjob as $key=>$job)
+                                     <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">{{$job->count_job}}</a>
+
+                                    @endforeach
+                                </div>
+                                 <div>
+                                    <div class="font-w700 text-gray-darker animated fadeIn">Cancel Jobs</div>
+                                    @foreach($canceljob as $key=>$cancel)
+                                     <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">{{$cancel->count}}</a>
+
                                     @endforeach
                                 </div>
                                 @endif

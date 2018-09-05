@@ -69,7 +69,7 @@ class RegisterController extends Controller
     protected function create(Request $request)
     {
 
-      if ($request->role =='agent' or $request->role =='customer')
+      if ($request->role =='agent' or $request->role =='customer' or $request->role == 'merchant')
       {
         User::create([
         'role' => $request->role,
