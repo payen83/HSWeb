@@ -96,7 +96,7 @@
                            
                         </div>
                         <!-- END Stats -->
-                    </div>
+                    </div> 
                     <!-- END User Header -->
 
                     <!-- Main Content -->

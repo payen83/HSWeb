@@ -112,7 +112,7 @@ Route::group([
     Route::post('reject-delivery/{JobID}', 'APIJobController@RejectDelivery');
     Route::get('view-order-status/{user_id}', 'APIJobController@ViewOrderStatus');
     Route::get('view-order-timeline/{JobID}', 'APIJobController@OrderTrack');
-    Route::get('merchant-pending-job/{user_id}', 'APIJobController@PendingJobMerchant');
+    Route::get('merchant-list-job/{user_id}', 'APIJobController@PendingJobMerchant');
     Route::post('merchant-pickdelivery-method/{JobID}', 'APIJobController@PickMethod');
     Route::post('merchant-mark-as-completed/{JobID}', 'APIJobController@MerchantCompleteJob');
 

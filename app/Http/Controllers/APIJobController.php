@@ -87,7 +87,11 @@ class APIJobController extends Controller
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
                   -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('sum(store_orders.ProductQuantity*products.Price) as sumprice'))
-                  -> where('joblists.status_job','Pending')
+                  ->where(function($q) {
+                                $q->where('joblists.status_job','Pending')
+                                  ->orWhere('joblists.status_job','Completed');
+
+                              })
                   -> where('products.tagto','MCN')
                   -> where('products.user_id', $user_id)
                   ->groupby('joblists.OrderID')
@@ -106,7 +110,8 @@ class APIJobController extends Controller
                             -> where('joblists.JobID', '=', $x)
                             -> where('products.user_id', $user_id)
                             ->where(function($q) {
-                                $q->where('joblists.status_job','Pending');
+                                $q->where('joblists.status_job','Pending')
+                                  ->orWhere('joblists.status_job','Completed');
 
                               })
                             ->get();
