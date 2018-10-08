@@ -23,15 +23,26 @@ Route::group([
     Route::post('register', 'Auth\RegisterController@create');
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
     Route::post('forgot/password', 'Auth\ForgotPasswordController');
 
 });
 
 Route::group([
 
-    'middleware' => 'api',
+    'middleware' => 'jwt.verify',
+  
+
+], function ($router) {
+    
+;
+    Route::post('logout', 'AuthController@logout');
+    Route::post('forgot/password', 'Auth\ForgotPasswordController');
+
+});
+
+Route::group([
+
+    'middleware' => 'jwt.verify',
     'prefix' => 'products'
 
 ], function ($router) {

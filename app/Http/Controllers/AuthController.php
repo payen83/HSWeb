@@ -7,36 +7,30 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login']]);
-
-    }
-
-    /**
-     * Get a JWT token via given credentials.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+    
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-        $email = $request->email;
+       
+            $credentials = $request->only('email', 'password');
+            $email = $request->email;
 
-        if ($token = $this->guard()->attempt($credentials)) {
-            return $this->respondWithToken($token,$email);
+            try {
+                if (! $token = JWTAuth::attempt($credentials)) {
+                    return response()->json(['error' => 'invalid_credentials'], 400);
+                }
+            } catch (JWTException $e) {
+                return response()->json(['error' => 'could_not_create_token'], 500);
+            }
 
-        }
+            if ($token = $this->guard()->attempt($credentials)) {
+                return $this->respondWithToken($token,$email);
+
+             }
 
         return response()->json(['error' => 'Invalid Username or Password','status' => false], 401);
     }

@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
         'super_admin' => \App\Http\Middleware\SuperAdmin::class,
         'admin' => \App\Http\Middleware\Admin::class,
         'merchant' => \App\Http\Middleware\Merchant::class,
+        'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
         
         
     ];
