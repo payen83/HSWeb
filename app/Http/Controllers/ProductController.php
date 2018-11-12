@@ -98,39 +98,58 @@ class ProductController extends Controller
 
     public function addProduct(Request $request)
     {
+         $skunumber = Input::get('sku_number');
+
+         $validator = Validator::make(
+        array(
+
+            'sku_number' => $skunumber
+        ),
+        array(
+            'sku_number' => 'required|unique:products'
+            )
+        );
+        if ($validator->fails())
+           {
+           // The given data did not pass validation
+             return redirect()->route('viewAddProduct')->with('flash_message_error', 'SKU Number already exists');
+            // we can also  return same page and then displaying in Bootstap Warning Well
+            }
+        else {
         
-         //upload new images
-        if ($request->hasFile('ImageURL'))
-        {
-        $file = $request->file('ImageURL');
-        $filename = $file->getClientOriginalName();
-        $path = 'upload/images';
-        $file->move($path, $filename);
-        }
+               //upload new images
+              if ($request->hasFile('ImageURL'))
+              {
+              $file = $request->file('ImageURL');
+              $filename = $file->getClientOriginalName();
+              $path = 'upload/images';
+              $file->move($path, $filename);
+              }
 
-        else{
-            $filename="NULL";
-        }
+              else{
+                  $filename="NULL";
+              }
 
-        if($request->sku_number ==''){
-            $sku_number = Product::getNextSKUNumber();
-        }
-        else{
-            $sku_number = Input::get('sku_number');
-        }
+              if($request->sku_number ==''){
+                  $sku_number = Product::getNextSKUNumber();
+              }
+              else{
+                  $sku_number = Input::get('sku_number');
+              }
 
-         $product = new Product;
-         $product->Name = Input::get('Name');
-         $product->sku_number = $sku_number;
-         $product->Price = Input::get('Price');
-         $product->Description = Input::get('Description');
-         $product->ImageURL = $filename;
-         $product->QuantityPerPackage = Input::get('QuantityPerPackage');
-         $product->Discount = Input::get('Discount')/100;
-         $product->tagto = 'HQ';
-         $product->save();
-         Session::put('msg_status', true);
-         return redirect()->route('viewProduct')->with('status', 'Product Uploaded');
+               $product = new Product;
+               $product->Name = Input::get('Name');
+               $product->sku_number = $sku_number;
+               $product->Price = Input::get('Price');
+               $product->Description = Input::get('Description');
+               $product->ImageURL = $filename;
+               $product->QuantityPerPackage = Input::get('QuantityPerPackage');
+               $product->Discount = Input::get('Discount')/100;
+               $product->tagto = 'HQ';
+               $product->save();
+               return redirect()->route('viewProduct')->with('status', 'Product Uploaded');
+
+             }
 
 
     

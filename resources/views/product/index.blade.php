@@ -15,6 +15,12 @@
                             <ol class="breadcrumb push-10-t">
                                 <li>Product</li>
                                 <li><a class="link-effect" href="{{route('viewProduct')}}">Inventory Product</a></li>
+                                @if(Session::has('flash_message_success'))
+                                <div class="alert alert-success alert-block">
+                                    <button type="button" class="close" data-dismiss="alert">×</button> 
+                                        <strong>{!! session('flash_message_success') !!}</strong>
+                                </div>
+                            @endif
                             </ol>
                         </div>
                     </div>

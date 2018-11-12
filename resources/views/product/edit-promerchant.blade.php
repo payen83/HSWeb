@@ -1,6 +1,6 @@
 @extends('layouts.nav')
 
-@section('content')
+@section('content') 
     <!-- Main Container -->
             <main id="main-container">
                 <!-- Page Header -->

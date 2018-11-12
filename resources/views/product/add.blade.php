@@ -2,7 +2,7 @@
 
 @section('content')
   <!-- Main Container -->
-            <main id="main-container">
+            <main id="main-container"> 
                 <!-- Page Header -->
                 <div class="content bg-gray-lighter">
                     <div class="row items-push">
@@ -25,21 +25,7 @@
                     <div class="block">
                         <div class="block-header">
                             <ul class="block-options">
-                                <li>
-                                    <button type="button"><i class="si si-settings"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i class="si si-refresh"></i></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                </li>
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="close"><i class="si si-close"></i></button>
-                                </li>
+                               
                             </ul>
                             <h3 class="block-title">Add Product Details</h3>
                         </div>
@@ -52,6 +38,12 @@
                             <div class="block">
                                 
                                 <div class="block-content block-content-narrow">
+                                    @if(Session::has('flash_message_error'))
+                                        <div class="alert alert-danger alert-block">
+                                            <button type="button" class="close" data-dismiss="alert">×</button> 
+                                                <strong>{!! session('flash_message_error') !!}</strong>
+                                        </div>
+                                  @endif
                                     <!-- jQuery Validation (.js-validation-bootstrap class is initialized in js/pages/base_forms_validation.js) -->
                                     <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
                                     {{Form::open(array('route' => 'addProduct','method'=>'POST' , 'enctype' => 'multipart/form-data'))}}

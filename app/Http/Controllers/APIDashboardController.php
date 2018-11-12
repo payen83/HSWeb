@@ -14,7 +14,7 @@ class APIDashboardController extends Controller
 
     public function viewdashboard($user_id) {
     	$carbon = Carbon::today();
-        $currentMonth = $carbon->format('m');
+      $currentMonth = $carbon->format('m');
 
     	$completed_job = DB:: table('joblists')
                   -> select (DB::raw('count(JobID) as numberofcompletedjob'))

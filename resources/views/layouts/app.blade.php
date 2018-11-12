@@ -49,7 +49,8 @@
         <link rel="stylesheet" href="{{ asset('assets/js/plugins/jquery-tags-input/jquery.tagsinput.min.css') }}">
 
 
-        
+        <!-- Page JS Plugins CSS -->
+        <link rel="stylesheet" href="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.css') }}">
 
         <!-- Bootstrap and OneUI CSS framework -->
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
@@ -140,22 +141,22 @@
                                     <a class="nav-submenu" data-toggle="nav-submenu"><i class="si si-layers"></i><span class="sidebar-mini-hide">Orders Details</span></a>
                                     <ul>
                                         <li>
-                                           <a class="{!! classActivePath('/joblist/pending-order') !!}" href="{{route('viewPendingJoblist')}}">Agent Pending Job</a>
+                                           <a class="{!! classActivePath('joblist-pending-order') !!}" href="{{route('viewPendingJoblist')}}">Agent Pending Job</a>
                                         </li>
                                     </ul>
                                      <ul>
                                         <li>
-                                           <a class="{!! classActivePath('/joblist/pending-merchant') !!}" href="{{route('viewMerchantPending')}}">Merchant Pending Job</a>
+                                           <a class="{!! classActivePath('joblist-pending-merchant') !!}" href="{{route('viewMerchantPending')}}">Merchant Pending Job</a>
                                         </li>
                                     </ul>
                                      <ul>
                                         <li>
-                                           <a class="{!! classActivePath('/joblist/complete-merchant') !!}" href="{{route('viewMerchantCompleted')}}">Merchant Complete Job</a>
+                                           <a class="{!! classActivePath('joblist-complete-merchant') !!}" href="{{route('viewMerchantCompleted')}}">Merchant Complete Job</a>
                                         </li>
                                     </ul>
                                     <ul>
                                         <li>
-                                           <a class="{!! classActivePath('/joblist/customer-order') !!}" href="{{route('viewJoblist')}}">Job List for Agent</a>
+                                           <a class="{!! classActivePath('joblist-customer-order') !!}" href="{{route('viewJoblist')}}">Job List for Agent</a>
                                         </li>
                                     </ul>
                                     <ul>

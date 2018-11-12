@@ -27,14 +27,15 @@ class SalesController extends Controller
 	}
 
   public function filterSales(){
-     $from_date = Input::post("from_date");
-     $to_date = Input::post("to_date");
+     $from_date = Input::get("from_date");
+     $to_date = Input::get("to_date");
      $orders = DB:: table('orders')
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> select ('store_orders.ProductID' ,'products.Name' , 'store_orders.ProductQuantity', 'products.Price', DB::raw('orders.*,(store_orders.ProductQuantity*products.Price) as Total_Amount'))
                   ->whereBetween(DB::raw("date(orders.created_at)"), [$from_date, $to_date])
                   -> get();
+      
     return view('sales.filter', compact('orders'));
     
   }

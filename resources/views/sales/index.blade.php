@@ -19,22 +19,22 @@
                               <br>
                               <br>
                             <div class="col-sm-3 form-group">
-                                    <div class="input-daterange input-group" data-date-format="dd/mm/yyyy">
+                                    <div class="input-daterange input-group" data-date-format="yyyy-mm-dd">
                                             <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                             </span>
-                                                <input class="form-control datepicker" type='text' class="form-control" name="form_date" id="from_date" placeholder="From Date" value="{{date('d-M-Y',strtotime('now'))}}"/>
+                                                <input class="form-control datepicker" type='text' class="form-control" name="form_date" id="from_date" placeholder="From Date"/>
                                     </div>
                             </div>
                             <div class="col-sm-3 form-group">
-                                    <div class="input-daterange input-group" data-date-format="dd/mm/yyyy">
+                                    <div class="input-daterange input-group" data-date-format="yyyy-mm-dd">
                                             <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-calendar"></i>
                                             </span>
-                                                <input class="form-control datepicker" type='text' class="form-control" name="to_date" id="to_date" placeholder="To Date" value="{{date('d-M-Y',strtotime('now'))}}"/> 
+                                                <input class="form-control datepicker" type='text' class="form-control" name="to_date" id="to_date" placeholder="To Date"/> 
                                      </div>
                             </div>
-                            <button class="btn btn-primary push-5-r push-10" type="submit" name="filter" id="filter"><i class="si si-magnifier"></i>Submit</button></a>
+                            <a class="btn btn-primary push-5-r push-10" type="button" name="filter" id="filter"><i class="si si-magnifier"></i>Submit</a>
 
 
                             <script type="text/javascript">  
@@ -50,8 +50,8 @@
                                         if(from_date != '' && to_date != '')  
                                         {  
                                              $.ajax({  
-                                                  url:"{!! url('/sales-filter/{from_date,to_date}') !!}",  
-                                                  method:"POST",  
+                                                  url:"{!! url('/sales-filter') !!}",  
+                                                  method:"GET",  
                                                   data:{from_date:from_date, to_date:to_date},  
                                                   success:function(data)  
                                                   {  

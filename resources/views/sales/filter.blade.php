@@ -1,4 +1,9 @@
-                        
+     <!-- Page JS Plugins -->
+        <script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+
+    <!-- Page JS Code -->
+        <script src="{{ asset('assets/js/pages/base_tables_datatables.js') }}"></script>
+                            
                         <div class="block-content">
                             <!-- Select Date To View Sales Tracking -->
                             <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->

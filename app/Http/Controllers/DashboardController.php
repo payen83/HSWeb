@@ -87,7 +87,7 @@ class DashboardController extends Controller
                   -> get();
 
 
-        return view('dashboard', [
+        return view('dashboard', [ 
           'chart' => $chart,
         	'latestorder' => $latestorder,
         	'topproduct' => $topproduct,

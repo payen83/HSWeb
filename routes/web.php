@@ -99,11 +99,11 @@ Auth::routes();
     Route::delete('/Inventory/delete/{id}', ['uses' => 'ProductController@deleteInventory','as' => 'deleteInventory']);
 
     //Joblists
-    Route::get('/joblist/customer-order', ['as' => 'viewJoblist','uses' => 'JoblistController@viewJoblist']);
+    Route::get('/joblist-customer-order', ['as' => 'viewJoblist','uses' => 'JoblistController@viewJoblist']);
     Route::get('/joblist/agent-order', ['as' => 'viewAgentOrder','uses' => 'JoblistController@viewAgentOrder']);
-    Route::get('/joblist/pending-order', ['as' => 'viewPendingJoblist','uses' => 'JoblistController@viewPendingJoblist']);
-    Route::get('/joblist/pending-merchant', ['as' => 'viewMerchantPending','uses' => 'JoblistController@viewMerchantPending']);
-    Route::get('/joblist/complete-merchant', ['as' => 'viewMerchantCompleted','uses' => 'JoblistController@viewMerchantCompleted']);
+    Route::get('/joblist-pending-order', ['as' => 'viewPendingJoblist','uses' => 'JoblistController@viewPendingJoblist']);
+    Route::get('/joblist-pending-merchant', ['as' => 'viewMerchantPending','uses' => 'JoblistController@viewMerchantPending']);
+    Route::get('/joblist-complete-merchant', ['as' => 'viewMerchantCompleted','uses' => 'JoblistController@viewMerchantCompleted']);
     Route::get('/joblist/view/{JobID}', ['uses' => 'JoblistController@viewJobDetails','as' => 'viewJobDetails']);
     Route::get('/joblist/vwedit-agent-order/{JobID}', ['uses' => 'JoblistController@viewEditAgentOrder','as' => 'viewEditAgentOrder']);
     Route::post('/joblist/edit-agent-order/{JobID}', ['uses' => 'JoblistController@editAgentOrder','as' => 'editAgentOrder']);
@@ -115,7 +115,7 @@ Auth::routes();
     
     //Sales Tracking
     Route::get('/sales', ['as' => 'viewSales','uses' => 'SalesController@viewSales']);
-    Route::post('/sales-filter/{from_date,to_date}', ['as' => 'filterSales','uses' => 'SalesController@filterSales']);
+    Route::get('/sales-filter', ['as' => 'filterSales','uses' => 'SalesController@filterSales']);
     
     //Withdraw
     Route::get('/withdraw', ['as' => 'viewWithdraw','uses' => 'WithdrawController@viewWithdraw']);
