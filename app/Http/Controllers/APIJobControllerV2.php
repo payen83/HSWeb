@@ -8,6 +8,7 @@ use App\Wallet;
 use App\Payment;
 use App\Transaction;
 use App\User;
+use App\Orders;
 use App\Mail\Wallet_Credit;
 use App\Mail\Reject_Delivery;
 use Mail;
@@ -20,17 +21,17 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class APIJobController extends Controller
+class APIJobControllerV2 extends Controller
 {
         public function PendingJob()
-      {
+    	{
          //list pending job
           $result = DB:: table('joblists')
                   -> join ('orders', 'orders.OrderID', '=', 'joblists.OrderID')
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.city' , 'joblists.postcode', 'joblists.state', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                   -> where('joblists.status_job','Pending')
                   -> where('joblists.orderfrom','C')
                   -> where('products.tagto','HQ')
@@ -61,6 +62,9 @@ class APIJobController extends Controller
                                   'current_status'=> $data->status_job,
                                   'c_name' => $data->name,
                                   'c_address' => $data->location_address,
+                                  'c_city' => $data->city,
+                                  'c_postcode' => $data->postcode,
+                                  'c_state' => $data->state,
                                   'latitude' => $data->Lat,
                                   'longitude' => $data->Lng,
                                   'note' => $data->special_notes,
@@ -77,7 +81,7 @@ class APIJobController extends Controller
 
     }
 
-      public function PendingJobMerchant($user_id)
+     public function PendingJobMerchant($user_id)
       {
          //list pending job
           $result = DB:: table('joblists')
@@ -85,7 +89,7 @@ class APIJobController extends Controller
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('sum(store_orders.ProductQuantity*products.Price) as sumprice'))
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.city', 'joblists.postcode', 'joblists.state', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('sum(store_orders.ProductQuantity*products.Price) as sumprice'))
                   ->where(function($q) {
                                 $q->where('joblists.status_job','Pending')
                                   ->orWhere('joblists.status_job','Completed');
@@ -122,6 +126,9 @@ class APIJobController extends Controller
                                   'current_status'=> $data->status_job,
                                   'c_name' => $data->name,
                                   'c_address' => $data->location_address,
+                                  'c_city' => $data->city,
+                                  'c_postcode' => $data->postcode,
+                                  'c_state' => $data->state,
                                   'latitude' => $data->Lat,
                                   'longitude' => $data->Lng,
                                   'note' => $data->special_notes,
@@ -137,7 +144,7 @@ class APIJobController extends Controller
 
 
     }
-    
+
      public function PickMethod(Request $request, $JobID){
 
         if ($request->delivery_method == 'POS'){
@@ -355,7 +362,7 @@ class APIJobController extends Controller
 
         }//end public
 
-       public function StatusJob($user_id)
+        public function StatusJob($user_id)
       {
 
           $result =DB:: table('joblists')
@@ -363,7 +370,7 @@ class APIJobController extends Controller
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'users.u_phone', 'users.url_image', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'joblists.job_rating','joblists.feedback','orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'users.u_phone', 'users.url_image', 'joblists.location_address', 'joblists.city', 'joblists.postcode', 'joblists.state','joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'joblists.job_rating','joblists.feedback','orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                    -> where('joblists.user_id', '=', $user_id)
                    ->where(function($q) {
                                 $q->where('joblists.status_job','Active')
@@ -374,7 +381,7 @@ class APIJobController extends Controller
                   ->get();
 
           $array = [];
-                    foreach($result as $data){
+                    foreach($result as $data){ 
                     $x = $data->JobID;
                     if($data->JobID == $x){
                            $result1 = DB:: table('store_orders')
@@ -398,6 +405,9 @@ class APIJobController extends Controller
                                   'job_feedback' => $data->feedback,
                                   'c_name' => $data->name,
                                   'c_address' => $data->location_address,
+                                  'c_city' => $data->city,
+                                  'c_postcode' => $data->postcode,
+                                  'c_state' => $data->state,
                                   'u_phone' => $data->u_phone,
                                   'url_image' => $data->url_image,
                                   'latitude' => $data->Lat,
@@ -414,8 +424,13 @@ class APIJobController extends Controller
         
       }
 
+      
       public function AcceptJob(Request $request, $JobID){
         $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
+        $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID');
+        $customerid = DB::table('orders')->where('OrderID', '=', $orderid)->value('user_id');
+        $playerid = DB::table('users')->where('id', '=', $customerid)->value('playerId');
+
         if($jobstatus == 'Pending'){
           $jobstatuses = new Jobstatus;
           $jobstatuses->JobID= $JobID;
@@ -426,6 +441,43 @@ class APIJobController extends Controller
           $joblists->status_job='Active';
           $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
           $joblists->save();
+
+          $content = array(
+                  "en" => 'Your Order: '.$orderid.' has been accepted by agent for delivery'
+                  );
+                
+                $fields = array(
+                  'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+                  'include_player_ids' => array($playerid),
+                  'data' => array("OrderID" => $orderid),
+                  'contents' => $content
+                );
+                
+                $fields = json_encode($fields);
+                  print("\nJSON sent:\n");
+                  print($fields);
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+                                       'Authorization: Basic NmU4MWZjZDEtNDc5YS00NWMzLTkxMTAtNDNjMjl5ODl3YzBi'));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+                $response = curl_exec($ch);
+                curl_close($ch);
+                
+                return $response;
+            
+              $return["allresponses"] = $response;
+              $return = json_encode( $return);
+              
+              print("\n\nJSON received:\n");
+              print($return);
+              print("\n");
 
           return response()->json(['JobID'=> $JobID,'message' => 'Successful Accept Job', 'status' => true], 201);
           
@@ -439,6 +491,10 @@ class APIJobController extends Controller
         public function UpdateJob (Request $request, $JobID){
           $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
           $userid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');
+          $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID');
+          $customerid = DB::table('orders')->where('OrderID', '=', $orderid)->value('user_id');
+          $playerid = DB::table('users')->where('id', '=', $customerid)->value('playerId');
+
            if($jobstatus == 'Active' && $userid == $request->user_id ){
               $jobstatuses = new Jobstatus;
               $jobstatuses->JobID= $JobID;
@@ -448,6 +504,44 @@ class APIJobController extends Controller
               $joblists->status_job='Pending Completion';
               $joblists->update_at =Carbon::now('Asia/Kuala_Lumpur');
               $joblists->save();
+
+              
+                $content = array(
+                  "en" => 'Job Completed: Your order has been marked as completed by agent'
+                  );
+                
+                $fields = array(
+                  'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+                  'include_player_ids' => array($playerid),
+                  'data' => array("JobID" => $JobID),
+                  'contents' => $content
+                );
+                
+                $fields = json_encode($fields);
+                  print("\nJSON sent:\n");
+                  print($fields);
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+                                       'Authorization: Basic NmU4MWZjZDEtNDc5YS00NWMzLTkxMTAtNDNjMjl5ODl3YzBi'));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+                $response = curl_exec($ch);
+                curl_close($ch);
+                
+                return $response;
+            
+              $return["allresponses"] = $response;
+              $return = json_encode( $return);
+              
+              print("\n\nJSON received:\n");
+              print($return);
+              print("\n");
 
               return response()->json(['JobID'=> $JobID,'message' => 'Job has been mark as completed', 'status' => true], 201);
 
@@ -464,7 +558,7 @@ class APIJobController extends Controller
                   -> join ('store_orders', 'store_orders.OrderID', '=', 'orders.OrderID')
                   -> join ('products', 'products.id', '=', 'store_orders.ProductID')
                   -> join ('users', 'users.id', '=', 'orders.user_id')
-                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'joblists.job_rating', 'joblists.feedback', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
+                  -> select ('joblists.JobID','joblists.status_job', 'users.name', 'joblists.location_address', 'joblists.city','joblists.postcode','joblists.state', 'joblists.Lat', 'joblists.Lng', 'joblists.special_notes', 'joblists.job_rating', 'joblists.feedback', 'orders.total_price','joblists.OrderID','store_orders.ProductID','products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as price'))
                    -> where('orders.user_id', '=', $user_id)
                   ->where(function($q) {
                                     $q->where('joblists.status_job','Active')
@@ -513,6 +607,9 @@ class APIJobController extends Controller
                                   'feedback' => $data->feedback,
                                   'c_name' => $data->name,
                                   'c_address' => $data->location_address,
+                                  'c_city' => $data->city,
+                                  'c_postcode' => $data->postcode,
+                                  'c_state' => $data->state,
                                   'latitude' => $data->Lat,
                                   'longitude' => $data->Lng,
                                   'note' => $data->special_notes,
@@ -530,7 +627,11 @@ class APIJobController extends Controller
 
       public function CancelJob (Request $request, $JobID){
         $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
-        if($jobstatus =='Active'){
+        $agentid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');
+        $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID');
+        $userid = DB::table('orders')->where('OrderID', '=', $orderid)->value('user_id');
+        
+        if($jobstatus =='Active' && $request->customer_id == $userid){
           $jobstatuses = new Jobstatus;
           $jobstatuses->JobID = $JobID;
           $jobstatuses->job_status = 'Cancel';
@@ -545,14 +646,152 @@ class APIJobController extends Controller
           $joblists->save();
 
           $ordernumber=Joblist::where('JobID', '=', $JobID)->value('OrderID');
+          $locationadd=Joblist::where('JobID', '=', $JobID)->value('location_address');
+          $city=Joblist::where('JobID', '=', $JobID)->value('city');
+          $postcode=Joblist::where('JobID', '=', $JobID)->value('postcode');
+          $state=Joblist::where('JobID', '=', $JobID)->value('state');
+          $cus_id = Orders::where('OrderID', '=', $ordernumber)->value('user_id');
+          if($locationadd == '' && $city == '' && $postcode == '' && $state == ''){
 
-          $joblist = new Joblist;
-          $joblist->status_job = 'Cancel';
-          $joblist->OrderID = $ordernumber;
-          $joblist->save();
-          Jobstatus::CreateStatusJobHQ();
+            $address =User::where('id', '=', $cus_id)->value('u_address');
+            $u_city =User::where('id', '=', $cus_id)->value('u_city');
+            $u_postcode =User::where('id', '=', $cus_id)->value('u_postcode');
+            $u_state =User::where('id', '=', $cus_id)->value('u_state');
 
-          return response()->json(['JobID'=> $JobID,'message' => 'Job has been Cancel and deliverd to HQ', 'status' => true], 201);
+            $joblist = new Joblist;
+            $joblist->status_job = 'HQ Delivery';
+            $joblist->OrderID = $ordernumber;
+            $joblists->location_address = $address;
+            $joblists->city = $u_city;
+            $joblists->postcode = $u_postcode;
+            $joblists->state = $u_state;
+            $joblists->orderfrom = 'C';
+            $joblist->save();
+          }
+
+          else{
+              $joblist = new Joblist;
+              $joblist->status_job = 'HQ Delivery';
+              $joblist->OrderID = $ordernumber;
+              $joblists->location_address = $locationadd;
+              $joblists->city = $city;
+              $joblists->postcode = $postcode;
+              $joblists->state = $state;
+              $joblists->orderfrom = 'C';
+              $joblist->save();
+          }
+         
+          
+
+         $agentemail = DB::table('users')->where('id', '=', $agentid)->value('email');
+         $name=User::where('users.id', '=', $agentid)->value('name');
+         $payment_date = DB::table('payments')->where('OrderID', '=', $ordernumber)->value('payment_date');
+         $paymentmethod = DB::table('payments')->where('OrderID', '=', $ordernumber)->value('payment_method');
+         $address = DB::table('joblists')->where('JobID', '=', $JobID)->value('location_address');
+         $city = DB::table('joblists')->where('JobID', '=', $JobID)->value('city');
+         $state = DB::table('joblists')->where('JobID', '=', $JobID)->value('state');
+         $postcode = DB::table('joblists')->where('JobID', '=', $JobID)->value('postcode');
+         $order = DB:: table('store_orders')
+                  -> join ('products', 'products.id', '=', 'store_orders.ProductID')
+                  -> select ('products.Name', 'store_orders.ProductQuantity', DB::raw('(store_orders.ProductQuantity*products.Price) as Total_Amount'))
+                  ->where('store_orders.OrderID', $ordernumber)
+                  ->where('products.tagto', '=', 'HQ')
+                  -> get();
+         
+             $data1 = [
+                 'email'          => $agentemail,
+                 'name'           => $name,
+                 'OrderID'        => $ordernumber,
+                 'payment_date'   => $payment_date,
+                 'payment_method' => $paymentmethod,
+                 'location_address' => $address,
+                 'city'             => $city,
+                 'state'            => $state,
+                 'postcode'         => $postcode,
+                 'order'            => $order,
+              ];
+
+           $adminemail = DB::table('users')->select('email')->where('role', '=', 'Admin')->get();
+
+               $data2 = [
+                 'email'          => $adminemail->pluck('email')->toArray(),
+                 'OrderID'        => $ordernumber,
+                 'payment_date'   => $payment_date,
+                 'payment_method' => $paymentmethod,
+                 'location_address' => $address,
+                 'city'             => $city,
+                 'state'            => $state,
+                 'postcode'         => $postcode,
+                 'order'            => $order,
+              ];
+
+              $superadminemail = DB::table('users')->select('email')->where('role', '=', 'SuperAdmin')->get();
+
+               $data3 = [
+                 'email'          => $superadminemail->pluck('email')->toArray(),
+                 'OrderID'        => $ordernumber,
+                 'payment_date'   => $payment_date,
+                 'payment_method' => $paymentmethod,
+                 'location_address' => $address,
+                 'city'             => $city,
+                 'state'            => $state,
+                 'postcode'         => $postcode,
+                 'order'            => $order,
+              ];
+
+              Mail::send('emails.cancel', $data1, function($m) use ($data1){
+                 $m->to($data1['email'], '')->subject('Alert Notifications');
+              });
+
+              Mail::send('emails.notifyorder', $data2, function($m) use ($data2){
+                 $m->to($data2['email'], '')->subject('Notifications Order');
+              });
+
+              Mail::send('emails.notifyorder', $data3, function($m) use ($data3){
+                 $m->to($data3['email'], '')->subject('Notifications Order');
+              });
+
+                $playerid = DB::table('users')->where('id', '=', $agentid)->value('playerId');
+
+                $content = array(
+                    "en" => 'JobID: '.$JobID.' has been Cancel by customer and deliverd to HQ'
+                    );
+                
+                $fields = array(
+                  'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+                  'include_player_ids' => array($playerid),
+                  'data' => array("JobID" => $JobID),
+                  'contents' => $content
+                );
+                
+                $fields = json_encode($fields);
+                  print("\nJSON sent:\n");
+                  print($fields);
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+                                       'Authorization: Basic NmU4MWZjZDEtNDc5YS00NWMzLTkxMTAtNDNjMjl5ODl3YzBi'));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+                $response = curl_exec($ch);
+                curl_close($ch);
+                
+                return $response;
+            
+              $return["allresponses"] = $response;
+              $return = json_encode( $return);
+              
+              print("\n\nJSON received:\n");
+              print($return);
+              print("\n");
+          
+
+           return response()->json(['JobID'=> $JobID,'message' => 'Job has been Cancel and deliverd to HQ', 'status' => true], 201);
         }
 
         else
@@ -565,6 +804,8 @@ class APIJobController extends Controller
         $orderid = DB::table('joblists')->where('JobID', '=', $JobID)->value('OrderID'); 
         $jobstatus = DB::table('joblists')->where('JobID', '=', $JobID)->value('status_job');
         $custid_db = DB::table('orders')->where('OrderID', '=', $orderid)->value('user_id');
+        $agentid = DB::table('joblists')->where('JobID', '=', $JobID)->value('user_id');
+
         if($jobstatus == 'Pending Completion' && $customer_id == $custid_db)
         {
           $jobstatuses = new Jobstatus;
@@ -632,6 +873,45 @@ class APIJobController extends Controller
               Mail::send('emails.wallet', $data1, function($m) use ($data1){
                  $m->to($data1['email'], '')->subject('Wallet Credit');
               });
+
+               $playerid = DB::table('users')->where('id', '=', $agentid)->value('playerId');
+
+                $content = array(
+                    "en" => 'JobID: '.$JobID.' Customer has accept your delivery'
+                    );
+                
+                $fields = array(
+                  'app_id' => "1d01174b-ba24-429a-87a0-2f1169f1bc84",
+                  'include_player_ids' => array($playerid),
+                  'data' => array("JobID" => $JobID),
+                  'contents' => $content
+                );
+                
+                $fields = json_encode($fields);
+                  print("\nJSON sent:\n");
+                  print($fields);
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+                                       'Authorization: Basic NmU4MWZjZDEtNDc5YS00NWMzLTkxMTAtNDNjMjl5ODl3YzBi'));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+                $response = curl_exec($ch);
+                curl_close($ch);
+                
+                return $response;
+            
+              $return["allresponses"] = $response;
+              $return = json_encode( $return);
+              
+              print("\n\nJSON received:\n");
+              print($return);
+              print("\n");
           
            return response()->json(['message' => 'You have accepted the delivery. Thank you.', 'status' => true], 201);
 

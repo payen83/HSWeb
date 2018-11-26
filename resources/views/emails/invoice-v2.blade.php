@@ -375,7 +375,7 @@ Sizes: [
                                           <td>{{$datepayment}}</td>
                                           <tr>
                                           <td>Delivery Address:</td>
-                                          <td>{{$location_address}} </td>
+                                          <td>{{$location_address}},{{$city}} {{$postcode}}, {{$state}} </td>
                                           <tr>
                                           <td>Payment Method:</td>
                                           <td>{{$payment_method}}</td>
