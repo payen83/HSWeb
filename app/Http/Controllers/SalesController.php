@@ -37,7 +37,7 @@ class SalesController extends Controller
                   -> get();
       
     return view('sales.filter', compact('orders'));
-    
+     
   }
     
        

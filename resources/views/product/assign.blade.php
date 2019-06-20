@@ -64,7 +64,7 @@
                                                {{Form ::hidden('product_id',$data->id,['class'=>'form-control','rows'=>'6'])}}
                                        
                                         <div class="form-group">
-                                            <label class="col-md-4 control-label" for="productname">Product Name</label>
+                                             <label class="col-md-4 control-label" for="productname">Product Name</label>
                                             <div class="col-md-7">
                                                 {{Form ::label('Name',$data->Name,['class'=>'form-control','rows'=>'6'])}}
                                             </div>
@@ -92,7 +92,7 @@
                                                 <button class="btn btn-sm btn-primary" type="submit">Submit</button>
                                             </div>
                                         </div>
-                                    {{Form::close()}}
+                                    {{Form::close()}} 
                                 </div>
                             </div>
                             <!-- Bootstrap Forms Validation -->
